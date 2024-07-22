@@ -31,7 +31,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'eu-west-1'
         run: |
-          aws s3 sync build/ s3://charbt-web --debug
+          aws s3 sync build/ s3://charbt-web
 
       - name: Invalidate CloudFront Cache
         env:
@@ -40,4 +40,4 @@ jobs:
           DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
           AWS_DEFAULT_REGION: 'eu-west-1'
         run: |
-          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*" --debug
+          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
