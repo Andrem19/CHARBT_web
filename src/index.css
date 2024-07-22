@@ -1,0 +1,192 @@
+:root {
+  --bg-color: rgb(237, 236, 236);
+  --text-color: black;
+  --navbar-bg-color: #343a40;
+  --navbar-text-color: white;
+  --button-bg-color: #198754;
+}
+
+body.dark {
+  --bg-color: rgb(37, 36, 36);
+  --text-color: white;
+  --navbar-bg-color: #343a40;
+  --navbar-text-color: white;
+  --button-bg-color: #6c757d;
+  --button-text-color: #ffffff;
+}
+/* .navbar a {
+  color: var(--navbar-text-color);
+}
+.navbar a:hover {
+  font-weight: bold;
+} */
+.navbar a {
+  color: var(--navbar-text-color);
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+
+/* .Nav-Link {
+  position: relative;
+  color: var(--navbar-text-color);
+}
+
+.Nav-Link::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: transparent;
+  font-weight: bold;
+  visibility: hidden;
+}
+
+.Nav-Link:hover::after {
+  visibility: visible;
+} */
+
+.navbar .dropdown-menu a:hover {
+  font-weight: normal;
+  text-decoration: none;
+}
+.navbar .dropdown-menu {
+  background-color: var(--navbar-bg-color);
+}
+.navbar .dropdown-menu .dropdown-item:hover {
+  background-color: #6c757d; /* Замените "ваш_цвет" на желаемый цвет при наведении */
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.dropdown.light .dropdown-menu {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+.dropdown.dark .dropdown-menu {
+  background-color: #222;
+  color: #DDD;
+}
+
+.dropdown.dark .dropdown-item {
+  color: #DDD;
+}
+.dropdown-menu {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.dropdown-item:active {
+  color: #fbfafa;
+  background-color: #504e4e;
+}
+
+.image-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.image-title {
+  text-align: left;
+  margin-top: 5px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.image-container:hover .delete-icon {
+  opacity: 1;
+}
+.delete-icon:hover {
+  opacity: 1;
+}
+
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #ccc;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #ccc;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.label-text {
+  margin-left: 10px;
+}
+.light-theme {
+  background-color: rgb(237, 236, 236);
+  color: black;
+}
+
+.dark-theme {
+  background-color: rgb(37, 36, 36);
+  color: white;
+}

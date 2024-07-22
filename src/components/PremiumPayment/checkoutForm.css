@@ -1,0 +1,133 @@
+.checkout-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .content-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .checkout-form, .checkout-details {
+    width: 45%;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .checkout-form h2,
+  .checkout-details h2 {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  .checkout-form label,
+  .checkout-details label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .checkout-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .checkout-form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .checkout-form .error {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .StripeElement {
+    display: block;
+    margin: 10px 0 20px 0;
+    padding: 10px 14px;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+  }
+  
+  .StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+  }
+  
+  .StripeElement--invalid {
+    border-color: #fa755a;
+  }
+  
+  .StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+  
+  .card-details-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .wide-field .StripeElement {
+    width: 200px;
+  }
+  
+  .subscription-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .subscription-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+  .expiry-and-cvc {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  
+  .expiry-field .StripeElement,
+  .cvc-field .StripeElement {
+    width: 100px;
+  }
+  .terms-row {
+    display: flex;
+    align-items: flex-start;
+  }
+  input[type="checkbox"] {
+    margin-top: 10px; /* отступ сверху */
+    margin-right: 10px; /* отступ справа */
+  }
+  
+  
