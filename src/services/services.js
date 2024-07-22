@@ -1,4 +1,4 @@
-import { API_URL, secret_key } from "../config";
+import { API_URL } from "../config";
 import axios from 'axios';
 
 export function filterFiles(files, searchString) {
