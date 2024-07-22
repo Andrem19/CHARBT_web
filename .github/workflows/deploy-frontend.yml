@@ -31,7 +31,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'eu-west-1'
         run: |
-          aws s3 sync build/ s3://charbt-web --acl public-read --debug
+          aws s3 sync build/ s3://charbt-web --debug
 
       - name: Invalidate CloudFront Cache
         env:
