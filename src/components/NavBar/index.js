@@ -2,7 +2,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { Badge } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +15,7 @@ import { reloadUser, setGlobalSettings } from '../../redux/userActions';
 import { Spinner } from 'react-bootstrap';
 import { getGSettings } from '../../api/data';
 import AvatarWithBadge from './Avatar';
+import { showNewPost } from '../../services/services';
 
 function NavB() {
   const location = useLocation();
@@ -154,9 +154,16 @@ function NavB() {
                 { user && <Nav.Link onClick={handleTradingClick} style={{ color: 'var(--navbar-text-color)'}}>Trading</Nav.Link> }
                 { user && <Nav.Link onClick={handleScreenshotsPage} style={{ color: 'var(--navbar-text-color)'}}>Screenshots</Nav.Link> }
                 <Nav.Link onClick={handlePricing} style={{ color: 'var(--navbar-text-color)'}}>Pricing</Nav.Link>
-                <Nav.Link onClick={blog} style={{ color: 'var(--navbar-text-color)'}}>
+                <Nav.Link onClick={blog} style={{ color: 'var(--navbar-text-color)', position: 'relative' }}>
                   Blog/Voting
-                  {false && (<FontAwesomeIcon style={{ color: 'red' }} icon={faBolt} />)}
+                  {user && showNewPost(user.blogLastVisit, globalSettings.blogLastPost) && 
+                    <span style={{ 
+                      color: 'red', 
+                      position: 'absolute', 
+                      top: 3, 
+                      right: -3 
+                    }}>➊</span>
+                  }
                 </Nav.Link>
 
 

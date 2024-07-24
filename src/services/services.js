@@ -276,3 +276,16 @@ export const biutyfyTOS = (tos) => {
             break;
     }
 }
+
+export const showNewPost = (blogLastVisit, blogLastPost) => {
+    console.log('blogLastVisit', typeof blogLastVisit, blogLastVisit)
+    console.log('blogLastPost', typeof blogLastPost, blogLastPost)
+    const dateLastVisit = new Date(blogLastVisit);
+    const dateLastPost = new Date(blogLastPost);
+    const result = dateLastPost > dateLastVisit
+    console.log('blogLastVisit', typeof dateLastVisit, dateLastVisit)
+    console.log('blogLastPost', typeof dateLastPost, dateLastPost)
+    console.log('result', result)
+    return result;
+}
+

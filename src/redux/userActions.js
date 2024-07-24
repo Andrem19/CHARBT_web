@@ -86,7 +86,11 @@ async function loginUserApi(email, password) {
     }
 }
 
-
+  export const updateBlogLastVisit = () => {
+    return {
+        type: 'UPDATE_BLOG_LAST_VISIT'
+    };
+  };
   
   export const loginStart = () => {
     return {

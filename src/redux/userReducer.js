@@ -15,6 +15,14 @@ const initialState = {
           ...state,
           loading: true
         };
+      case 'UPDATE_BLOG_LAST_VISIT':
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            blogLastVisit: new Date().toUTCString()
+          }
+        };
       case 'RESET_USER':
         return {
           ...state,
