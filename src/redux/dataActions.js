@@ -26,6 +26,7 @@ async function loadListApi(coin, timeframe, finish_date) {
 
 
             if ('add_data' in response.data) {
+              console.log('add_data in responce', response.data)
               result['add_data'] = response.data['add_data'].map(candle => ({
                   time: new Date(new Date(candle[0]).toISOString()).valueOf() / 1000,
                   open: candle[1],
