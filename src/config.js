@@ -1,6 +1,9 @@
-export const API_URL = process.env.NODE_ENV === 'production' ? 'https://serv.charbt.com/api' : 'http://localhost:5000/api';
-export const PUB_URL = process.env.NODE_ENV === 'production' ? 'https://serv.charbt.com/pub' : 'http://localhost:5000/pub';
-export const WEB_URL = process.env.NODE_ENV === 'production' ? 'https://charbt.com' : 'http://localhost:3000';
+// export const API_URL = process.env.NODE_ENV === 'production' ? 'https://serv.charbt.com/api' : 'http://localhost:5000/api';
+// export const PUB_URL = process.env.NODE_ENV === 'production' ? 'https://serv.charbt.com/pub' : 'http://localhost:5000/pub';
+// export const WEB_URL = process.env.NODE_ENV === 'production' ? 'https://charbt.com' : 'http://localhost:3000';
+export const API_URL = 'https://serv.charbt.com/api';
+export const PUB_URL = 'https://serv.charbt.com/pub';
+export const WEB_URL = 'https://charbt.com';
 
 export const SCREENSHOT_COLLECTION = 'https://charbtmarketdata.s3.amazonaws.com/SCREENSHOT_COLLECTION'
 

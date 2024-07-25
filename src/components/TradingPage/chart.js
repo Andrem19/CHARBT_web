@@ -514,7 +514,6 @@ const [showTooltip, setShowTooltip] = useState(false);
         }
       )
 
-      
       const dataSlice = list.slice(0, cursor).map((candle) => ({ ...candle }));
       lineSeriesRef.current.setData(dataSlice);
       for (let i = 1; i <= 10; i++) {
