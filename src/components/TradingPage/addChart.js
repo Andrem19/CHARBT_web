@@ -103,8 +103,6 @@ const AddChart = () => {
         }
         
         let dataSlice = add_list.slice(index_start, index_fin);
-        console.log('addData', add_list.length, new Date(add_list[0].time*1000), new Date(add_list[add_list.length-1].time*1000))
-        console.log('list cursor', list[cursor].time)
         const last_cand = createCandle(list, cursor-1, currentSession.additional_timaframe)
 
         dataSlice.push(last_cand)

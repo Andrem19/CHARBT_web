@@ -140,7 +140,6 @@ function ToolsPanel({
           time: t,
           value: price,
         };
-        console.log("newValue", newValue);
         if (lineData.length === 0) {
           lineStartRef.current = true;
           temporaryStartTimeRef.current = newValue;
@@ -220,7 +219,6 @@ function ToolsPanel({
         JSON.parse(JSON.stringify(temporaryFinishTimeRef.current)),
       ];
       data.sort((a, b) => a.time - b.time);
-      console.log("data", data);
       if (data[0].time !== data[1].time) {
         try {
           temporaryLineRef.current.setData(data);

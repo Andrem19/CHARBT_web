@@ -73,7 +73,6 @@ function SessionInfo() {
   const handleSessionChange = async (selectedOption) => {
     const result = await getSession(navigate, selectedOption.value);
     if (result) {
-      console.log(result);
       dispatch(setCurrentSession(result));
 
       dispatch(clearMarkers());

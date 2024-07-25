@@ -57,7 +57,6 @@ function PaymentForm() {
       const cardNumberElement = elements.getElement(CardNumberElement);
       const result = await stripe.createToken(cardNumberElement);
       
-      console.log('result', result)
       if (result.error) {
         dispatch(setError(result.error.message));
       } else {

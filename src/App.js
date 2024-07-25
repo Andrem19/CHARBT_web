@@ -48,7 +48,7 @@ const MainApp = () => {
     <Router>
       <NavB />
         {show && (
-          <Toast style={{ position: 'fixed', top: 0, left: '50%', transform: 'translate(-50%, 0)' }} onClose={() => setShow(false)} show={show} delay={7000} autohide>
+          <Toast style={{ zIndex: 9999, position: 'fixed', top: 0, left: '50%', transform: 'translate(-50%, 0)' }} onClose={() => setShow(false)} show={show} delay={7000} autohide>
             <Toast.Header>
               <strong className="mr-auto">Info:</strong>
             </Toast.Header>

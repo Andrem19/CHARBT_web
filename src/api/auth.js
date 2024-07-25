@@ -189,7 +189,6 @@ export const createTicket = async (navigate, subject, message) => {
   try {
     const data = { subject: subject, message: message }
     const response = await apiRequest(navigate, 'POST', '/create_ticket', data);
-    console.log(response.data)
     return response.data.message;
   } catch (error) {
     if (error.response) {

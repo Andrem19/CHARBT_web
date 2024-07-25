@@ -26,10 +26,6 @@ function PositionsList() {
     setPositionShow(position);
   };
 
-  //   useEffect(() => {
-  //     console.log('POSITION COMPONENT', currentSession)
-  // }, [currentSession]);
-
   return currentSession ? (
     <div style={positionListStyle}>
       <ul

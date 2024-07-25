@@ -16,7 +16,6 @@ export async function apiRequest(navigate, method, url, data = {}, headers = {},
     const jwt = localStorage.getItem('jwt');
     
     if (!jwt || jwtExpired(jwt)) {
-        console.log('jwt:', jwt);
         navigate('/login');
         return;
     }
@@ -101,8 +100,6 @@ export function jwtExpired(jwt) {
 
     let period;
 
-    console.log('timeframe', timeframe)
-
     if (timeframe === 1440) {
         period = ONE_DAY;
     } else if (timeframe === 60) {
@@ -113,12 +110,9 @@ export function jwtExpired(jwt) {
 
     const endTime = data[index].time;
     let nd = new Date(endTime*1000)
-    console.log('endTime', nd.toString())
     const startTime = endTime - (endTime % period);
     let sd = new Date(startTime*1000)
-    console.log('startTime', sd.toString())
     const candles = data.filter(candle => candle.time >= startTime && candle.time <= endTime);
-    console.log('candles.length', candles.length)
     const open = candles[0].open;
     const close = candles[candles.length - 1].close;
 
@@ -232,7 +226,6 @@ export const countSessionStatistic = (positions) => {
 };
 
 export function convertTimestamp(timestamp, timeframe) {
-    console.log('convertTimestamp', timestamp, timeframe)
     let date = new Date(timestamp * 1000);
     let day = ("0" + date.getUTCDate()).slice(-2);
     let month = ("0" + (date.getUTCMonth() + 1)).slice(-2);
@@ -278,14 +271,9 @@ export const biutyfyTOS = (tos) => {
 }
 
 export const showNewPost = (blogLastVisit, blogLastPost) => {
-    console.log('blogLastVisit', typeof blogLastVisit, blogLastVisit)
-    console.log('blogLastPost', typeof blogLastPost, blogLastPost)
     const dateLastVisit = new Date(blogLastVisit);
     const dateLastPost = new Date(blogLastPost);
     const result = dateLastPost > dateLastVisit
-    console.log('blogLastVisit', typeof dateLastVisit, dateLastVisit)
-    console.log('blogLastPost', typeof dateLastPost, dateLastPost)
-    console.log('result', result)
     return result;
 }
 

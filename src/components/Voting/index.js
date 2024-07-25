@@ -16,7 +16,6 @@ function VotingBlogPage() {
         const getData = async () => {
             const type = user ? 'api' : 'pub';
             const blog = await getBlog(navigate, type);
-            console.log('BLOG', blog)
             setBlogPosts(blog);
         }
         getData();
@@ -28,7 +27,6 @@ function VotingBlogPage() {
     const handleVote = async (postId, optionId) => {
         if (user) {
             const updatedBlog = await voteOnPoll(navigate, postId, optionId);
-            console.log(updatedBlog)
             setBlogPosts(updatedBlog);
         }
     }

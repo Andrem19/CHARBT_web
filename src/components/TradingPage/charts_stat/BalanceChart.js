@@ -8,7 +8,6 @@ Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryS
 const BalanceChart = ({ positions }) => {
     let balance = 0;
     const data = positions.map(position => {
-        console.log(position.profit)
         balance += position.profit;
         return balance;
     });

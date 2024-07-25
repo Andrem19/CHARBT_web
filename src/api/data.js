@@ -16,7 +16,6 @@ export async function uploadScreenshot(navigate, screenshot, name) {
         const uploadResponse = await apiRequest(navigate, 'POST', '/upload_screenshot', formData, headers);
         
         if (uploadResponse) {
-            console.log(uploadResponse.data.message);
             return uploadResponse.data.file_url;
         } else {
             console.error('Error uploading screenshot');
@@ -101,7 +100,6 @@ export async function deleteScreenshot(navigate, fileUrl) {
         const response = await apiRequest(navigate, 'DELETE', '/delete_screenshot', data);
         
         if (response) {
-            console.log(response.data.message);
             return true;
         } else {
             console.error('Error deleting screenshot');
@@ -119,10 +117,8 @@ export async function createSession(navigate, sessionName, coin_pair, timeframe)
         const response = await apiRequest(navigate, 'POST', '/add_session', data);
         
         if (response && response.status === 201) {
-            console.log('Session successfully created:', response.data);
             return {result: true, session: response.data.session};
         } else {
-            console.log('An error occurred while creating the session:', response.data);
             return { result: false };
         }
     } catch (error) {
@@ -137,7 +133,6 @@ export async function getSession(navigate, sessionId) {
         const response = await apiRequest(navigate, 'GET', `/session/${sessionId}`);
         
         if (response) {
-            console.log('Session data:', response.data);
             return response.data;
         } else {
             console.error('Error getting the session');

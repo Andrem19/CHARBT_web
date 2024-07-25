@@ -181,7 +181,6 @@ function ControlPanel() {
       }
       let sl = 0
       if (stopLoss && addTpsl) {
-        console.log('stopLoss', stopLoss, addTpsl)
         const value = stopLoss;
         const numbersAfterDot = tradingPairs[current_pair];
         const regex = new RegExp(`^\\d+(\\.\\d{1,${numbersAfterDot}})?$`);
@@ -217,7 +216,6 @@ function ControlPanel() {
     }
     let tp = 0
     if (takeProfit && addTpsl) {
-      console.log('takeProfit', takeProfit, addTpsl)
       const value = takeProfit;
       const numbersAfterDot = tradingPairs[current_pair];
       const regex = new RegExp(`^\\d+(\\.\\d{1,${numbersAfterDot}})?$`);
@@ -287,17 +285,14 @@ function ControlPanel() {
             }
             if (takeProfit && addTpsl){
               let price = position.buy_sell === 'Buy' ? list[i].high : list[i].low;
-              console.log(position.take_profit, price)
               const tapr = checkTakeProfit(position.take_profit, price, position.buy_sell);
               
               if (tapr) {
                 toBorder = i+1
-                console.log('break')
                 break
               }
             }
         }
-        console.log('toBorder', toBorder)
         setInCicle(true)
         for (let i = cursor+1; i <= toBorder; i++) {
           await new Promise(resolve => setTimeout(resolve, 500));
@@ -335,21 +330,14 @@ function ControlPanel() {
       dispatch(resetStopLossLine())
       dispatch(resetTakeProfitLine())
       if (list.length-21 < cursor) {
-        console.log('list.length before', list.length)
         dispatch(loadList(current_pair, TIME_CONVERT_REVERSED[current_timeframe], list[list.length-1].time *1000))
-        console.log('list.length after', list.length)
       }
   };
-
-  useEffect(() => {
-    console.log('Effect cur session', curent_session.positions)
-  }, [curent_session])
 
     useEffect(() => {
       
       let result_vars = {...resultVars};
       if (current_position !== null) {
-        console.log('current_position.stop_loss', current_position.stop_loss)
         let pnl = calculateProfit(current_position.amount, current_position.open_price, list[cursor-1].close, current_position.buy_sell);
 
         if (current_position.stop_loss && !positionToClose && addTpsl) {
@@ -415,7 +403,6 @@ function ControlPanel() {
 
   useEffect(() => {
     if (positionToClose) {
-      console.log(cursor, cursorAutoClose, positionToClose)
       updatePositionAndDispatch(current_position, resultVars);
     }
   }, [positionToClose]);
@@ -442,7 +429,6 @@ function ControlPanel() {
     if (autoClose && current_position) {
       let toBorder = cursor+autoCloseSteps
       setCursorAutoClose(cursor+autoCloseSteps)
-        console.log(current_position.stop_loss, current_position.take_profit)
         if (current_position.stop_loss !== 0 || current_position.take_profit !== 0){
           for (let i = cursor; i < cursor+autoCloseSteps; i++) {
             let pnl = calculateProfit(current_position.amount, current_position.open_price, current_position.buy_sell == 'Buy' ? list[cursor-1].low : list[cursor-1].high, current_position.buy_sell);
@@ -462,22 +448,18 @@ function ControlPanel() {
               }
               if (takeProfit && addTpsl){
                 let price = current_position.buy_sell === 'Buy' ? list[i].high : list[i].low;
-                console.log(current_position.take_profit, price)
                 const tapr = checkTakeProfit(current_position.take_profit, price, current_position.buy_sell);
                 
                 if (tapr) {
                   toBorder = i+1
-                  console.log('break')
                   break
                 }
               }
             }
         }
-        console.log('toBorder', toBorder)
         setInCicle(true)
         for (let i = cursor+1; i <= toBorder; i++) {
           await new Promise(resolve => setTimeout(resolve, 500));
-          console.log('i1:', i)
           dispatch(setCursor(i));
         } 
         setInCicle(false)

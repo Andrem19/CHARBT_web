@@ -22,17 +22,13 @@ function StatisticModal({ showModal, setShowModal }) {
 
   useEffect(() => {
     setPos([]);
-    console.log("positions", positions);
     let NewPositions = [];
     for (let i = 0; i < positions.length; i++) {
       let position = { ...positions[i] };
-      console.log("fee", fee);
       let inFee = (position.amount / 100) * fee;
-      console.log("inFee", inFee);
       position.profit -= inFee;
       NewPositions.push(position);
     }
-    console.log("NewPositions", NewPositions);
     setPos(NewPositions);
   }, [fee, showModal]);
 

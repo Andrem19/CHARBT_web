@@ -7,10 +7,6 @@ Chart.register(DoughnutController, ArcElement, CategoryScale, LinearScale, Title
 
 const CloseTypePieChart = ({ positions }) => {
 
-    useEffect(() => {
-        console.log('POSITIONS', positions)
-    }, []);
-
     const closeTypes = positions.reduce((acc, position) => {
         acc[position.type_of_close] = (acc[position.type_of_close] || 0) + 1;
         return acc;

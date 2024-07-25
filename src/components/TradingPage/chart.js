@@ -279,7 +279,6 @@ const [showTooltip, setShowTooltip] = useState(false);
     }
     if (selectedIndicators.RSI) {
       const rsiData = calculateRSI(dataSlice, 14);
-      console.log("rsi:", rsiData);
       rsiSeriesRef.current.setData(
         rsiData
           .map((value, index) => ({ time: list[index].time, value }))
@@ -330,11 +329,9 @@ const [showTooltip, setShowTooltip] = useState(false);
       let dataSlice = list
         .slice(0, prevCursor)
         .map((candle) => ({ ...candle }));
-        console.log('dataSlice', dataSlice)
       const newCandles = list
         .slice(prevCursor, cursor)
         .map((candle) => ({ ...candle }));
-        console.log('newCandles', newCandles)
 
       newCandles.forEach((item) => {
         lineSeriesRef.current.update(item);
@@ -367,7 +364,6 @@ const [showTooltip, setShowTooltip] = useState(false);
       volumeSeriesRef.current.setData(volumeData);
       rewriteIndicators();
     }
-    console.log('CURSOR', cursor)
     setPrevCursor(cursor);
   }, [cursor]);
 
@@ -418,14 +414,11 @@ const [showTooltip, setShowTooltip] = useState(false);
     
     if (list.length === 0) {
       dispatch(clearMarkers())
-      console.log('LOAD LIST')
       window.localStorage.removeItem("draw_lines")
       const coin = user.current_session.coin_pair//localStorage.getItem("coin") || "BTCUSDT";
       const timeframe = user.current_session.timeframe//localStorage.getItem("timeframe") || "1440";
-      console.log('init req', coin, timeframe)
       const start_date = 0;
       dispatch(setPair(coin));
-      console.log(timeframe)
       dispatch(setTimeframe(TIME_CONVERT[timeframe]));
       dispatch(loadList(coin, timeframe, start_date));
     }

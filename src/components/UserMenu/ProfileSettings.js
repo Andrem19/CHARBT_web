@@ -146,7 +146,6 @@ function ProfileSettings() {
     } else {
       setShowModal3(true)
     }
-    console.log(showModal3)
   }
   const handleCancelSubscription = async () => {
     const response = await cancelSubscription(navigate)

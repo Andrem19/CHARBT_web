@@ -134,9 +134,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
   };
   const showAddData = useSelector(state => state.data.showAddData);
   const setAddDataShow = () => {
-    console.log('dispatch(setShowAddData())', showAddData)
     dispatch(setShowAddData())
-    console.log('dispatch(setShowAddData())', showAddData)
   }
   //==================End Top Menu==========================
 

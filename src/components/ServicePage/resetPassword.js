@@ -28,7 +28,6 @@ function ResetPasswordPage() {
 
   async function handleResetPasswordClick() {
     if (!validatePassword(newPassword)) {
-      console.log(newPassword)
       setError('Password must contain at least 8 characters, including uppercase and lowercase letters and numbers');
       setNewPassword('');
       setConfirmPassword('')

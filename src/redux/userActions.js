@@ -43,7 +43,6 @@ async function loginUserApi(email, password) {
       const jwt = localStorage.getItem('jwt');
       
       if (!jwt || jwtExpired(jwt)) {
-        console.log('jwt:',jwt)
         navigate('/login');
         return;
       }
@@ -59,7 +58,6 @@ async function loginUserApi(email, password) {
             return true;
         },
         });
-        console.log('RESPONSE', response.data)
         if (response.status === 200) {
           dispatch(loginSuccess(response.data));
           // dispatch(setCursor(response.data.current_session.cursor));
@@ -72,10 +70,12 @@ async function loginUserApi(email, password) {
           dispatch(showPatterns(response.data.settings.showPatterns))
           dispatch(setTimeframe(TIME_CONVERT[response.data.current_session.timeframe]))
           dispatch(setPair(response.data.current_session.coin_pair))
+          dispatch(setGlobalSettings(response.data.global_settings))
         } else {
           console.warn(`No user: ${response.status}`);
           localStorage.removeItem('jwt')
           dispatch(loginFailure(response.data.data));
+          dispatch(setMsg('The authorization attempt failed. Your token is invalid or the user is not found. Log in to the resource again. In case of further problems, try deleting your browser cache or contact technical support.'))
         }
       } catch (error) {
         if (error.response && error.response.status === 401) {

@@ -52,7 +52,6 @@ export const setNewPair = (coin, timeframe, finish_date) => {
     if (response.result) {
       dispatch(loadListSuccess(response.data));
       if ('add_data' in response) {
-        console.log('add_data', response.add_data)
         dispatch(setAddList(response.add_data))
       }
     } else {
@@ -68,23 +67,18 @@ export const setNewPair = (coin, timeframe, finish_date) => {
       const response = await loadListApi(coin, timeframe, finish_date);
       if (response.result) {
         const currentList = getState().data.list;
-        console.log('data lenth:', response.data.length)
         if (currentList.length === 0) {
           dispatch(loadListSuccess(response.data));
           if ('add_data' in response) {
-            console.log('add_data', response.add_data)
             dispatch(setAddList(response.add_data))
           }
         } else {
           const firstCandleTime = response.data[0].time;
           const isAllCandlesEarlier = currentList.every(candle => candle.time < firstCandleTime);
-          console.log('isAllCandlesEarlier', isAllCandlesEarlier)
           if (isAllCandlesEarlier) {
             dispatch(setDataWasAdded(true));
-            console.log(response.data)
             dispatch(addToList(response.data));
             if ('add_data' in response) {
-              console.log('add_data', response.add_data)
               dispatch(setAddList(response.add_data))
             }
           }

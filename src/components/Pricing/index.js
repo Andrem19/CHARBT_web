@@ -33,7 +33,6 @@ function Pricing() {
   useEffect(() => {
     const getPlans = async () => {
       const payment_plans = await getPaymentPlans()
-      console.log(payment_plans)
       await dispatch(setPaymentPlans(payment_plans));
     };
     if (!payment_plans_state) {

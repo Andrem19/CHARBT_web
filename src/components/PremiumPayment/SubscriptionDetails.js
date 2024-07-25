@@ -21,7 +21,6 @@ function SubscriptionDetails() {
   const navigate = useNavigate()
 
   const handleCheckboxChange = (event) => {
-    console.log(event.target.checked)
     setIsChecked(event.target.checked);
   };
 
@@ -67,7 +66,7 @@ function SubscriptionDetails() {
       <div className="terms-row">
         <input type="checkbox" id="terms" name="terms" value="terms" onChange={handleCheckboxChange} />
         <label for="terms">
-          I authorize CharBt to charge me automatically until I cancel my subscription. I have read and agree to CharBt <span style={{textDecoration: 'underline', fontWeight: 'bold', color: 'blue', cursor: 'pointer'}} onMouseDown={(e) => { e.stopPropagation(); handleLinkClick('terms_of_service'); }}>Terms of Service</span> and <span style={{textDecoration: 'underline', fontWeight: 'bold', color: 'blue', cursor: 'pointer'}} onMouseDown={(e) => { e.stopPropagation(); handleLinkClick('privacy_policy'); }}>Privacy Policy</span>.
+          I authorize CharBt to charge me automatically until I cancel my subscription. I have read and agree to CharBt <span style={{textDecoration: 'underline', fontWeight: 'bold', color: theme === 'dark' ? 'white' : 'blue', cursor: 'pointer'}} onMouseDown={(e) => { e.stopPropagation(); handleLinkClick('terms_of_service'); }}>Terms of Service</span> and <span style={{textDecoration: 'underline', fontWeight: 'bold', color: theme === 'dark' ? 'white' : 'blue', cursor: 'pointer'}} onMouseDown={(e) => { e.stopPropagation(); handleLinkClick('privacy_policy'); }}>Privacy Policy</span>.
         </label>
       </div>
       <button className="subscription-button" onClick={isChecked ? onSubmit : null} disabled={!isChecked || token_id == null}>

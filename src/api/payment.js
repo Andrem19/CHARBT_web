@@ -5,7 +5,6 @@ import { apiRequest } from '../services/services'
 export async function getPaymentPlans() {
     try {
         const response = await axios.get(`${PUB_URL}/payment_plans`);
-        console.log(1, response.data)
         return response.data;
     } catch (error) {
         console.error(`Error fetching payment plans: ${error}`);
