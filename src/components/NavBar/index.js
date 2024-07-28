@@ -131,15 +131,21 @@ function NavB() {
     </div> :
     <Navbar expand="lg" style={{ backgroundColor: 'var(--navbar-bg-color)', color: 'var(--navbar-text-color)', paddingTop: '0.0rem', paddingBottom: '0.0rem' }}>
       <Container fluid>
-      <Navbar.Brand href="/" style={{ color: 'var(--navbar-text-color)'}}>
+      <Navbar.Brand href="/" style={{ display: 'flex', alignItems: 'baseline', textDecoration: 'none'}}>
+        <span style={{ color: 'green', fontWeight: 'bold' }}>Char</span>
         <img
-          src="smaller-logo_2.png"
-          width="105"
-          height="35"
+          src="logo.png"
+          width="25"
+          height="25"
           className="d-inline-block align-top"
-          alt="CharBt"
+          alt="logo"
+          style={{ marginBottom: '-10px', marginLeft: 3, marginRight: 3 }}
         />
+        <span style={{ color: 'green', fontWeight: 'bold' }}>BT</span>
       </Navbar.Brand>
+
+
+
 
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -154,7 +160,7 @@ function NavB() {
                 { user && <Nav.Link onClick={handleTradingClick} style={{ color: 'var(--navbar-text-color)'}}>Trading</Nav.Link> }
                 { user && <Nav.Link onClick={handleScreenshotsPage} style={{ color: 'var(--navbar-text-color)'}}>Screenshots</Nav.Link> }
                 <Nav.Link onClick={handlePricing} style={{ color: 'var(--navbar-text-color)'}}>Pricing</Nav.Link>
-                <Nav.Link onClick={blog} style={{ color: 'var(--navbar-text-color)', position: 'relative' }}>
+                {globalSettings && globalSettings.blogOn && <Nav.Link onClick={blog} style={{ color: 'var(--navbar-text-color)', position: 'relative' }}>
                   Blog/Voting
                   {user && showNewPost(user.blogLastVisit, globalSettings.blogLastPost) && 
                     <span style={{ 
@@ -164,7 +170,7 @@ function NavB() {
                       right: -3 
                     }}>➊</span>
                   }
-                </Nav.Link>
+                </Nav.Link>}
 
 
               </>

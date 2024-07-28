@@ -588,13 +588,6 @@ const [showTooltip, setShowTooltip] = useState(false);
 
   return (
     <Col
-      style={{
-        width: "75%",
-        height: "100%",
-        margin: "10px",
-        display: "flex",
-        flexDirection: "column",
-      }}
     >
       <ImageModal
         show={show}

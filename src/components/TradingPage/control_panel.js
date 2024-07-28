@@ -335,7 +335,6 @@ function ControlPanel() {
   };
 
     useEffect(() => {
-      
       let result_vars = {...resultVars};
       if (current_position !== null) {
         let pnl = calculateProfit(current_position.amount, current_position.open_price, list[cursor-1].close, current_position.buy_sell);
@@ -345,12 +344,13 @@ function ControlPanel() {
           const stls = checkStopLoss(current_position.stop_loss, price, current_position.buy_sell);
           if (stls) {
             setPositionToClose(true)
-            pnl = calculateProfit(current_position.amount, current_position.open_price, price, current_position.buy_sell);
+            pnl = calculateProfit(current_position.amount, current_position.open_price, current_position.stop_loss, current_position.buy_sell);
             result_vars['close_price'] = current_position.stop_loss;
             result_vars['profit'] = pnl;
             result_vars['close_time'] = list[cursor-1].time;
             result_vars['type_of_close'] = 'stop_loss';
             setResultVars(result_vars);
+            return
           }
         }
 
@@ -365,6 +365,7 @@ function ControlPanel() {
             result_vars['close_time'] = list[cursor-1].time;
             result_vars['type_of_close'] = 'liquidation';
             setResultVars(result_vars);
+            return
           }
 
         }
@@ -374,12 +375,13 @@ function ControlPanel() {
           const tapr = checkTakeProfit(current_position.take_profit, price, current_position.buy_sell);
           if (tapr) {
             setPositionToClose(true)
-            pnl = calculateProfit(current_position.amount, current_position.open_price, price, current_position.buy_sell);
+            pnl = calculateProfit(current_position.amount, current_position.open_price, current_position.take_profit, current_position.buy_sell);
             result_vars['close_price'] = current_position.take_profit;
             result_vars['profit'] = pnl;
             result_vars['close_time'] = list[cursor-1].time;
             result_vars['type_of_close'] = 'take_profit';
             setResultVars(result_vars);
+            return
           }
         }
 
@@ -474,8 +476,8 @@ function ControlPanel() {
 
 
     return (
-        <Container fluid style={{ width: '25%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 30 }}>
-            <Form style={{ width: '80%' }}>
+        <Container fluid >
+            <Form >
                 <Form.Group controlId="quantity">
                     <Form.Label>Quantity (USDT)</Form.Label>
                     <Form.Control value={amount} onChange={handleQuantity} type="number" placeholder="Enter quantity" style={{ WebkitAppearance: "none", margin: "0" }} />

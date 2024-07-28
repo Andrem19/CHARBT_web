@@ -145,16 +145,7 @@ function SessionInfo() {
   };
 
   return currentSession && sessions ? (
-    <Container
-      fluid
-      style={{
-        width: "25%",
-        height: "25%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <Container fluid>
       <SessionModal
         show={show}
         handleClose={handleClose}
@@ -178,7 +169,7 @@ function SessionInfo() {
 
       <StatisticModal showModal={showModal} setShowModal={setShowModal} />
 
-      <Form style={{ width: "80%" }}>
+      <Form >
         <Form.Group controlId="sessionSelect">
           <Form.Label>Choose/Create Session</Form.Label>
           <div style={{ display: "flex", justifyContent: "space-between" }}>

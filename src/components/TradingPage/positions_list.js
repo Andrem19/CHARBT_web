@@ -6,14 +6,7 @@ import ChartModal from "./modals/chartModal";
 import "./css/position_list.css";
 
 function PositionsList() {
-  const positionListStyle = {
-    width: "75%",
-    height: "25%",
-    marginTop: 30,
-    marginLeft: 10,
-    // marginRight: 10,
-    paddingRight: 20,
-  };
+  
 
   const currentSession = useSelector((state) => state.session.curent_session);
   const timeframe = useSelector((state) => state.data.timeframe);
@@ -27,7 +20,7 @@ function PositionsList() {
   };
 
   return currentSession ? (
-    <div style={positionListStyle}>
+    <div>
       <ul
         className="list-group"
         style={{ overflowY: "auto", maxHeight: "300px" }}

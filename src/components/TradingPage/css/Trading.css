@@ -1,0 +1,70 @@
+/* Trading.css */
+
+.containerchart {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 150vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .rowchart {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    padding-top: 10px;
+    padding-left: 5px;
+  }
+  
+  .positionList {
+    width: 75%;
+    height: 25vh; /* Изменено с % на vh */
+    margin-top: 30px;
+    margin-left: 10px;
+    padding-right: 20px;
+    overflow: auto; /* Добавлено для прокрутки */
+  }
+  
+  .sessionInfo {
+    width: 25%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .controlPanel {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .chartst {
+    width: 75%;
+    height: 100%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (max-width: 768px) {
+    .rowchart {
+      flex-direction: column;
+    }
+  
+    .positionList,
+    .sessionInfo,
+    .controlPanel,
+    .chart {
+      width: 100%;
+      height: auto;
+    }
+  }
+  

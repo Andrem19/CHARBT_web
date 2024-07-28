@@ -8,10 +8,6 @@ function Footer() {
   return (
     <MDBFooter style={{position: 'sticky', backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black' }} >
       <section  className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
-        {/* <div className='me-5 d-none d-lg-block'>
-          <span>Get connected with us on social networks:</span>
-        </div> */}
-
         <div>
           <a href='' className='me-4 text-reset'>
             <MDBIcon color='secondary' fab icon='facebook-f' />
@@ -36,23 +32,22 @@ function Footer() {
 
       <section className=''>
         <MDBContainer className='text-center text-md-start mt-5'>
-          <MDBRow className='mt-3'>
+          <MDBRow className='mt-3 flex-column-reverse flex-md-row'>
             <MDBCol md='3' lg='4' xl='3' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4' style={{fontSize: '0.8rem'}}>
                 <MDBIcon color='secondary' icon='gem' className='me-3' />
                 CHARBT
               </h6>
-
             </MDBCol>
 
             <MDBCol md='2' lg='2' xl='2' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
-              <p>
+              <h6 className='text-uppercase fw-bold mb-4' style={{fontSize: '0.8rem'}}>Products</h6>
+              <p style={{fontSize: '0.7rem'}}>
                 <a href='/referal_program' className='text-reset'>
                   Referal Program
                 </a>
               </p>
-              <p>
+              <p style={{fontSize: '0.7rem'}}>
                 <a href='/' className='text-reset'>
                   Android
                 </a>
@@ -60,23 +55,23 @@ function Footer() {
             </MDBCol>
 
             <MDBCol md='3' lg='2' xl='2' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
-              <p>
+              <h6 className='text-uppercase fw-bold mb-4' style={{fontSize: '0.8rem'}}>Useful links</h6>
+              <p style={{fontSize: '0.7rem'}}>
                 <a href='/pricing' className='text-reset'>
                   Pricing
                 </a>
               </p>
-              <p>
+              <p style={{fontSize: '0.7rem'}}>
                 <a href='/terms_of_service' className='text-reset'>
                   Terms Of Service
                 </a>
               </p>
-              <p>
+              <p style={{fontSize: '0.7rem'}}>
                 <a href='/privacy_policy' className='text-reset'>
                 Privacy Policy
                 </a>
               </p>
-              <p>
+              <p style={{fontSize: '0.7rem'}}>
                 <a href='/support' className='text-reset'>
                   Help
                 </a>
@@ -84,8 +79,8 @@ function Footer() {
             </MDBCol>
 
             <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
-              <a href="mailto:andremdev@outlook.com" className='text-reset'>Let's collaborate</a>
+              <h6 className='text-uppercase fw-bold mb-4' style={{fontSize: '0.8rem'}}>Contact</h6>
+              <a href="mailto:andremdev@outlook.com" className='text-reset' style={{fontSize: '0.7rem'}}>Let's collaborate</a>
             </MDBCol>
           </MDBRow>
         </MDBContainer>

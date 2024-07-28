@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Chart from './chart';
 import ControlPanel from './control_panel';
 import SessionInfo from './session_info';
@@ -6,7 +6,8 @@ import PositionsList from './positions_list';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { reloadUser } from '../../redux/userActions'
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Container } from 'react-bootstrap';
+import './css/Trading.css';
 
 function Trading() {
 
@@ -16,6 +17,19 @@ function Trading() {
   const loading = useSelector(state => state.user.loading);
   const isLoggedIn = useSelector(state => state.user.isLoggedIn);
   const [isLoading, setIsLoading] = useState('init');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     
@@ -36,18 +50,12 @@ function Trading() {
     }
   }, [isLoading]);
 
-  const style = {
+  const containerchart = {
     backgroundColor: 'var(--bg-color)',
     color: 'var(--text-color)',
-    height: '100vh',
+    height: isMobile ? '150vh' : '100vh',
     display: 'flex',
     flexDirection: 'column',
-  };
-
-  const rowStyle = {
-    display: 'flex',
-    flexDirection: 'row',
-    flex: 1,
   };
 
   return (
@@ -58,14 +66,20 @@ function Trading() {
       </Spinner>
     </div> :
     isLoading === 'finish' && user ?
-    <div style={style}>
-      <div style={rowStyle}>
-        <Chart></Chart>
-        <ControlPanel></ControlPanel>
+    <div style={containerchart}>
+      <div className='rowchart'>
+          <Chart></Chart>
+        <div className='controlPanel'>
+          <ControlPanel></ControlPanel>
+        </div>
       </div>
-      <div style={rowStyle}>
-        <PositionsList></PositionsList>
-        <SessionInfo></SessionInfo>
+      <div className='rowchart'>
+        <div className='positionList'>
+          <PositionsList></PositionsList>
+        </div>
+        <div className='sessionInfo'>
+          <SessionInfo></SessionInfo>
+        </div>
       </div>
     </div> : 
     null
