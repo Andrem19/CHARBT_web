@@ -8,51 +8,25 @@ import {
 import {
   createChart, CrosshairMode, PriceScaleMode, LineStyle
 } from "lightweight-charts";
-import { v4 as uuidv4 } from 'uuid';
-import { Button, Col, OverlayTrigger, Spinner, Image } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPencil,
-  faP,
-  faTrash,
-  faMinus,
-  faPenNib,
-  faInfoCircle,
-  faFloppyDisk,
-  faGear,
-} from "@fortawesome/free-solid-svg-icons";
+import { Col, Spinner } from "react-bootstrap";
 import {
   loadList,
   setCursor,
   setPair,
   setTimeframe,
   addScreenshot,
-  setNewPair,
-  setShowTime,
-  setPercPrice,
   clearMarkers,
-  setTpSl,
-  setMarkersShow,
   setDataWasAdded,
-  setShowAddData,
-  showPatterns,
 } from "../../redux/dataActions";
-import { setUuidCode } from "../../redux/sessionActions";
-import { COIN_CRYPTO_SET, STOCK, FOREX, TIMEFRAMES, tradingPairs, TIME_CONVERT, TIME_CONVERT_REVERSED } from "../../config";
-import { getAvaliblePairs, getAvalibleTimeframes } from "../../services/access";
-import { Dropdown } from "react-bootstrap";
+import { tradingPairs, TIME_CONVERT, TIME_CONVERT_REVERSED } from "../../config";
 import { convertTimeframe } from "../../services/services";
 import ImageModal from "./modals/imageModal";
 import { uploadScreenshot } from "../../api/data";
-import { changeSettings } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
-import SettingsModal from "./modals/settingsModal";
-import AddChart from "./addChart";
-import { ErrorBoundary } from "../errors/ErrorBoundary";
 import TopMenu from "./topMenu";
 import ToolsPanel from "./toolsPanel";
 
-function Chart() {
+function Chart({ isMobile }) {
   // Refs
 const isUpdatingRef = useRef(false);
 const lineSeriesRef = useRef(null);
@@ -601,7 +575,7 @@ const [showTooltip, setShowTooltip] = useState(false);
           width: "100%",
           height: "100%",
         }}>
-        <ToolsPanel 
+        {!isMobile && <ToolsPanel 
         chartContainerRef={chartContainerRef} 
         chartGlobal={chartGlobal} 
         lineSeriesRef={lineSeriesRef} 
@@ -621,7 +595,7 @@ const [showTooltip, setShowTooltip] = useState(false);
         linesRef={linesRef}
         subscribeClickRef={subscribeClickRef}
         setRemoveLines={setRemoveLines}
-        />
+        />}
       <div
         style={{
           display: "flex",

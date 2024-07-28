@@ -68,22 +68,36 @@ function Trading() {
     isLoading === 'finish' && user ?
     <div style={containerchart}>
       <div className='rowchart'>
-          <Chart></Chart>
+          <Chart isMobile={isMobile}></Chart>
         <div className='controlPanel'>
           <ControlPanel></ControlPanel>
         </div>
       </div>
       <div className='rowchart'>
-        <div className='positionList'>
-          <PositionsList></PositionsList>
-        </div>
-        <div className='sessionInfo'>
-          <SessionInfo></SessionInfo>
-        </div>
+        {isMobile ? (
+          <>
+            <div className='sessionInfo'>
+              <SessionInfo></SessionInfo>
+            </div>
+            <div className='positionList'>
+              <PositionsList></PositionsList>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className='positionList'>
+              <PositionsList></PositionsList>
+            </div>
+            <div className='sessionInfo'>
+              <SessionInfo></SessionInfo>
+            </div>
+          </>
+        )}
       </div>
     </div> : 
     null
   );
+  
 }
 
 export default Trading;
