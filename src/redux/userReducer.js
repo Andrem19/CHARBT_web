@@ -6,6 +6,7 @@ const initialState = {
     errorCount: 0,
     msg: null,
     globalSettings: null,
+    isMobile: false,
   };
   
   const userReducer = (state = initialState, action) => {
@@ -14,6 +15,11 @@ const initialState = {
         return {
           ...state,
           loading: true
+        };
+      case 'SET_IS_MOBILE':
+        return {
+          ...state,
+          isMobile: action.payload
         };
       case 'UPDATE_BLOG_LAST_VISIT':
         return {

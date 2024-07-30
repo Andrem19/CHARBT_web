@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Dropdown, Image, OverlayTrigger } from 'react-bootstrap';
+import { Dropdown, Image, OverlayTrigger, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faP, faGear, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { TIME_CONVERT, COIN_CRYPTO_SET, TIMEFRAMES, FOREX, STOCK } from '../../config';
@@ -36,6 +36,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const isMobile = useSelector(state => state.user.isMobile);
     const showTime = useSelector((state) => state.data.showTime);
     const percPrice = useSelector((state) => state.data.percPrice);
     const showTpsl = useSelector((state) => state.data.showTpsl);
@@ -151,17 +152,17 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
           onClick={clickChouseCoin}
           onSelect={handleSelectPair}
           className={theme}
-          style={{ width: "140px", marginRight: "10px", zIndex: 99999, }}
+          style={{ width: isMobile? "110px" : "140px", marginRight: "10px", zIndex: 99999, }}
           
         >
-          <Dropdown.Toggle
+          <Button
             disabled={true}
             variant="outline-success"
             id="dropdown-basic"
             className="w-100"
           >
-            {currentPair ? currentPair : "BTCUSDT"}
-          </Dropdown.Toggle>
+            <span style={{fontSize: isMobile? '14px' : '20px'}}>{currentPair ? currentPair : "BTCUSDT"}</span>
+          </Button>
 
           <Dropdown.Menu>
             {COIN_CRYPTO_SET.map((pair, index) => (
@@ -207,11 +208,11 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
         <Dropdown
           onSelect={handleSelectTimeframe}
           className={theme}
-          style={{ width: "50px", marginRight: 5 }}
+          style={{ width: isMobile? "35px" : "50px", marginRight: 5 }}
         >
-          <Dropdown.Toggle disabled={true} variant="outline-success" id="dropdown-basic">
-            {currentTimeframe ? currentTimeframe : "1d"}
-          </Dropdown.Toggle>
+          <Button disabled={true} variant="outline-success" id="dropdown-basic">
+            <span style={{fontSize: isMobile? '15px' : '20px'}}>{currentTimeframe ? currentTimeframe : "1d"}</span>
+          </Button>
 
           <Dropdown.Menu>
             {TIMEFRAMES.map((t, index) => (
@@ -295,11 +296,11 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
                   <Image src="cheetsheat.png" alt="Patterns" style={{ width: '500px', height: 'auto', zIndex: 9999, border: '2px solid black', borderRadius: '10px' }} />
               }
             >
-              <FontAwesomeIcon style={{ marginRight: 5, color: '#14A44D' }} icon={faP} />
+              <FontAwesomeIcon style={{fontSize: isMobile ? 15 : 20, marginRight: 5, color: '#14A44D' }} icon={faP} />
             </OverlayTrigger>
           </div>}
 
-      <FontAwesomeIcon style={{fontSize: 20, marginLeft: 'auto', marginTop: 5, cursor: 'pointer'}} icon={faGear} onClick={() => setHandleShowSettings(true)} />
+      <FontAwesomeIcon style={{fontSize: isMobile ? 15 : 20, marginLeft: 'auto', marginTop: 5, marginRight: 5, cursor: 'pointer'}} icon={faGear} onClick={() => setHandleShowSettings(true)} />
         <SettingsModal showSettings={handleShowSettings} setShowChart={setHandleShowSettings} setPriceMode={setPriceScale} setTimeLine={setTimeScale} setTpsl={setShowTpsl} setMarkers={setShowMarkers} setPatterns={setShowPatterns} />
       </div>
     )

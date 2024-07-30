@@ -105,6 +105,13 @@ async function loginUserApi(email, password) {
     };
   };
 
+  export const setIsMobile = (isMobile) => {
+    return {
+      type: 'SET_IS_MOBILE',
+      payload: isMobile
+    };
+  };
+
   export const setGlobalSettings = (settings) => {
     return {
       type: 'SET_GLOBAL_SETTINGS',

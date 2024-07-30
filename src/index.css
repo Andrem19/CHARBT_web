@@ -190,3 +190,13 @@ input:checked + .slider:before {
   background-color: rgb(37, 36, 36);
   color: white;
 }
+
+@font-face {
+  font-family: 'LogoFont_1';
+  src: url('./fonts/Dhurjati-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'TextFont_1';
+  src: url('./fonts/Electrolize-Regular.ttf') format('truetype');
+}

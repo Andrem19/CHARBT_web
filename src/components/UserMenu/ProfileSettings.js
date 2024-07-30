@@ -15,6 +15,7 @@ function ProfileSettings() {
   const [activeKey, setActiveKey] = useState('');
   const jwt = localStorage.getItem('jwt');
   const navigate = useNavigate()
+  const isMobile = useSelector(state => state.user.isMobile);
 
   useEffect(() => {
     if (!jwt) {
@@ -196,7 +197,7 @@ function ProfileSettings() {
               </Form.Group>
             </Col>
             <Col md={4}>
-              <Button variant="outline-primary" onClick={handleChangeName} style={{ marginTop: '37px' }}>Change</Button>
+              <Button variant="outline-primary" onClick={handleChangeName} style={{ marginTop: isMobile ? '10px' : '37px' }}>Change</Button>
             </Col>
           </Row>
           <br/>
@@ -260,7 +261,7 @@ function ProfileSettings() {
               </Form.Group>
             </Col>
             <Col md={4}>
-              <Button variant="outline-primary" onClick={() => setShowModal2(true)} style={{ width: '200px' }} >Change Email</Button>
+              <Button variant="outline-primary" onClick={() => setShowModal2(true)} style={{ width: '200px', marginTop: isMobile ? 5 : 0 }} >Change Email</Button>
             </Col>
           </Row>
           <br/>
@@ -279,7 +280,7 @@ function ProfileSettings() {
               </Form.Group>
             </Col>
             <Col md={4}>
-              <Button variant="outline-primary" onClick={handleChangePassword} style={{ width: '200px' }}>Change Password</Button>
+              <Button variant="outline-primary" onClick={handleChangePassword} style={{ width: '200px', marginTop: isMobile ? 5 : 0 }}>Change Password</Button>
             </Col>
           </Row>
 

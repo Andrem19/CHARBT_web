@@ -324,9 +324,24 @@ const [showTooltip, setShowTooltip] = useState(false);
         });
       }
 
-      chartGlobal.timeScale().setVisibleRange({
-        from: new Date(dataSlice[0].time * 1000).getTime() / 1000,
-        to: new Date((list[cursor-1].time + TIME_CONVERT_REVERSED[currentTimeframe]*1000) * 1000).getTime() / 1000,
+      // chartGlobal.timeScale().setVisibleRange({
+      //   from: new Date(dataSlice[0].time * 1000).getTime() / 1000,
+      //   to: new Date((list[cursor-1].time + TIME_CONVERT_REVERSED[currentTimeframe]*1000) * 1000).getTime() / 1000,
+      // });
+      let lastBarIndex = cursor - 1; // индекс последней свечи
+      let rangeStartIndex = cursor > 100 ? cursor-100 : 0; // индекс начала диапазона
+
+      if (isMobile) {
+          rangeStartIndex = Math.max(0, lastBarIndex - 30 + 1); // для мобильного режима показываем последние 30 свечей
+      } else {
+          rangeStartIndex = Math.max(0, lastBarIndex - 100 + 1); // для обычного режима показываем последние 100 свечей
+      }
+
+      chartGlobal.timeScale().setVisibleLogicalRange({ from: rangeStartIndex, to: lastBarIndex });
+      chartGlobal.applyOptions({
+        timeScale: {
+          rightOffset: isMobile ? 3 : 10,
+        },
       });
 
       const volumeData = dataSlice.map((item) => ({
@@ -500,13 +515,25 @@ const [showTooltip, setShowTooltip] = useState(false);
           close: null,
         });
       }
-      chart.timeScale().setVisibleRange({
-        from: new Date(dataSlice[0].time * 1000).getTime() / 1000,
-        to: new Date((list[cursor-1].time + TIME_CONVERT_REVERSED[currentTimeframe]*1000) * 1000).getTime() / 1000,
-      });
+      // chart.timeScale().setVisibleRange({
+      //   from: new Date(dataSlice[0].time * 1000).getTime() / 1000,
+      //   to: new Date((list[cursor-1].time + TIME_CONVERT_REVERSED[currentTimeframe]*1000) * 1000).getTime() / 1000,
+      // });
+      
+
+      let lastBarIndex = cursor - 1; // индекс последней свечи
+      let rangeStartIndex = cursor > 100 ? cursor-100 : 0; // индекс начала диапазона
+
+      if (isMobile) {
+          rangeStartIndex = Math.max(0, lastBarIndex - 30 + 1); // для мобильного режима показываем последние 30 свечей
+      } else {
+          rangeStartIndex = Math.max(0, lastBarIndex - 100 + 1); // для обычного режима показываем последние 100 свечей
+      }
+
+      chart.timeScale().setVisibleLogicalRange({ from: rangeStartIndex, to: lastBarIndex });
       chart.applyOptions({
         timeScale: {
-          rightOffset: 10,
+          rightOffset: isMobile ? 3 : 10,
         },
       });
 

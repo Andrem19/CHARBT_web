@@ -15,21 +15,9 @@ function Trading() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector(state => state.user.loading);
+  const isMobile = useSelector(state => state.user.isMobile);
   const isLoggedIn = useSelector(state => state.user.isLoggedIn);
   const [isLoading, setIsLoading] = useState('init');
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     

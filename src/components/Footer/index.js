@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import { useLocation } from 'react-router-dom';
 
 function Footer() {
     const theme = useSelector(state => state.data.theme);
+    const location = useLocation();
+    const isHomePage = location.pathname === '/home' || location.pathname === '/';
+
 
   return (
-    <MDBFooter style={{position: 'sticky', backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black' }} >
+    <MDBFooter style={{position: 'sticky', fontFamily: isHomePage ? 'TextFont_1' : 'defaultFont', backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black' }} >
       <section  className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
         <div>
           <a href='' className='me-4 text-reset'>
@@ -41,7 +45,7 @@ function Footer() {
             </MDBCol>
 
             <MDBCol md='2' lg='2' xl='2' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4' style={{fontSize: '0.8rem'}}>Products</h6>
+              <h6 className='text-uppercase fw-bold mb-4' style={{fontSize: '0.8rem', fontFamily: isHomePage ? 'TextFont_1' : 'defaultFont' }}>Products</h6>
               <p style={{fontSize: '0.7rem'}}>
                 <a href='/referal_program' className='text-reset'>
                   Referal Program

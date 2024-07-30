@@ -16,6 +16,7 @@ const ReferralPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const jwt = localStorage.getItem('jwt');
+  const isMobile = useSelector(state => state.user.isMobile);
   
 
   useEffect(() => {
@@ -133,7 +134,7 @@ const ReferralPage = () => {
         <Tab eventKey="send" title="Send">
         <p style={{fontSize: 30, marginLeft: 25, marginRight: 25}} >You can send your tokens to another user.</p>
         <Row style={{marginLeft: 15}}>
-          <Col md={3}>
+          <Col style={{marginBottom: isMobile? 5 : 0}} md={3}>
             <Form.Control
               type="text"
               placeholder="Receiver (Referal Code)"

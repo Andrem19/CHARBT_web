@@ -24,6 +24,7 @@ function PaymentForm() {
 
   const theme = useSelector((state) => state.data.theme);
   const error = useSelector(state => state.payment.error);
+  const isMobile = useSelector(state => state.user.isMobile);
   const plan = useSelector(state => state.payment.plan);
   const monthly = useSelector(state => state.payment.monthly);
   const dispatch = useDispatch();
@@ -66,12 +67,12 @@ function PaymentForm() {
   };
 
   return (
-    <div className="checkout-form">
+    <div className={isMobile ? "mobile-checkout-form" : "checkout-form"}>
       <h2 className="left-align">Subscription {plan} (pay {monthly ? 'monthly' : 'annually'})</h2>
       <p className="left-align">Details</p>
       <p className="left-align">The bank may hold and release $1 US to verify the card.</p>
       <form>
-        <label className="left-align">
+        <label className="left-align card-number" style={{ flex: 1 }}>
           <span style={{ fontSize: 10 }}>CARD NUMBER</span>:
           <CardNumberElement options={CARD_ELEMENT_OPTIONS} onChange={handleCardChange} onBlur={handleBlur} />
         </label>

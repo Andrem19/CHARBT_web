@@ -15,6 +15,7 @@ function SubscriptionDetails() {
   const dispatch = useDispatch();
   const plan = useSelector(state => state.payment.plan);
   const theme = useSelector((state) => state.data.theme);
+  const isMobile = useSelector(state => state.user.isMobile);
   const token_id = useSelector(state => state.payment.token_id);
   const monthly = useSelector(state => state.payment.monthly);
   const payment_plans_state = useSelector(state => state.data.payment_plans);
@@ -47,7 +48,7 @@ function SubscriptionDetails() {
   const period = monthly ? 'month' : 'year';
 
   return (
-    <div className="checkout-details">
+    <div className={ isMobile? "mobile-checkout-details" : "checkout-details"}>
       <h2>Subscription Details</h2>
       <p>
         <b>Upcoming Payment: </b> An amount of ${amount} will be charged now and every {period} until the subscription is cancelled.

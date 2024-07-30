@@ -39,6 +39,7 @@ function ToolsPanel({
 
     const list = useSelector((state) => state.data.list);
     const cursor = useSelector((state) => state.data.cursor);
+    const theme = useSelector((state) => state.data.theme);
 
 
     const [drawsSetedUp, setDrawsSetedUp] = useState(false);
@@ -285,7 +286,7 @@ function ToolsPanel({
           >
             <FontAwesomeIcon
               icon={faFloppyDisk}
-              style={{ color: "var(--navbar-text-color)" }}
+              style={{ color: theme === 'dark' ? 'white' : 'black' }}
             />
           </Button>
           <Button
@@ -295,7 +296,7 @@ function ToolsPanel({
           >
             <FontAwesomeIcon
               icon={faPenNib}
-              style={{ color: "var(--navbar-text-color)" }}
+              style={{ color: theme === 'dark' ? 'white' : 'black' }}
             />
           </Button>
           <Button
@@ -309,7 +310,7 @@ function ToolsPanel({
           >
             <FontAwesomeIcon
               icon={faPencil}
-              style={{ color: "var(--navbar-text-color)" }}
+              style={{ color: theme === 'dark' ? 'white' : 'black' }}
             />
           </Button>
 
@@ -385,7 +386,7 @@ function ToolsPanel({
           >
             <FontAwesomeIcon
               icon={faTrash}
-              style={{ color: "var(--navbar-text-color)" }}
+              style={{ color: theme === 'dark' ? 'white' : 'black' }}
             />
           </Button>
         </Col>

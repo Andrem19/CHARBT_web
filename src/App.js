@@ -31,6 +31,7 @@ const MainApp = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.data.theme);
   const msg = useSelector((state) => state.user.msg);
+  const isMobile = useSelector(state => state.user.isMobile);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -76,7 +77,7 @@ const MainApp = () => {
           <Route path="/" element={<HomePage />} />
         </Routes>
       </div>
-      <Footer />
+      {!isMobile && <Footer />}
     </Router>
   );
 };

@@ -13,6 +13,7 @@ function Pricing() {
   const dispatch = useDispatch();
   const [isMonthly, setIsMonthly] = useState(false);
   const theme = useSelector((state) => state.data.theme);
+  const isMobile = useSelector(state => state.user.isMobile);
   const payment_plans_state = useSelector(state => state.data.payment_plans);
 
   const timeframes = ['1 Day Timeframe', '1 Hour Timeframe', '30 Minute Timeframe', '5 Minute Timeframe', '1 Minute Timeframe', 'Auxiliary Timeframe', 'Detailed statistics', 'Saving session data in csv', 'Voting in polls'];
@@ -58,17 +59,52 @@ function Pricing() {
       <h1 className="text-center mb-4">Join us with one of our plans</h1>
 
       <div className="d-flex justify-content-center mb-5 align-items-center">
-      <div style={{ marginRight: '10px', padding: '10px', backgroundColor: theme === 'light' ? '#dee2e6' : '#343a40', borderRadius: '5px' }}>
-          -20%, which is like 72 days for free.
-        </div>
-        <span className="ml-3">Annually</span>
-        <label className="switch" style={{ margin: 10 }}>
-          <input type="checkbox" checked={isMonthly} onChange={() => setIsMonthly(!isMonthly)} />
-          <span className="slider round"></span>
-        </label>
-        <span className="ml-3">Monthly</span>
+      <div style={{ marginRight: '10px', padding: '10px', backgroundColor: theme === 'light' ? '#dee2e6' : '#343a40', borderRadius: '5px', fontSize: isMobile ? '0.8em' : '1em' }}>
+        -20%, which is like 72 days for free.
+      </div>
+      <span className="ml-3" style={{ fontSize: isMobile ? '0.8em' : '1em' }}>Annually</span>
+      <label className="switch" style={{ margin: 10 }}>
+        <input type="checkbox" checked={isMonthly} onChange={() => setIsMonthly(!isMonthly)} />
+        <span className="slider round"></span>
+      </label>
+      <span className="ml-3" style={{ fontSize: isMobile ? '0.8em' : '1em' }}>Monthly</span>
       </div>
 
+
+      { isMobile ? 
+      <Col>
+        {Object.values(payment_plans_state).map((plan, index) => (
+          <div key={index} >
+            <Card className="text-center" style={{ marginBottom: 50, borderRadius: '25px', boxShadow: '0px 0px 10px rgba(0,0,0,0.5)' }}>
+            <Card.Header style={getHeaderStyle(plan.name)}>{plan.name}</Card.Header>
+              <Card.Body>
+                <Card.Title style={{ fontSize: '1.5em' }}>${isMonthly ? plan.price_subscription_month_1 : plan.price_subscription_month_2} {'/month'}</Card.Title>
+                <Card.Title style={{ fontSize: '1em' }}>${isMonthly ? plan.price_subscription_year_1 : plan.price_subscription_year_2} {'/year'}</Card.Title>
+                <PayButton theme={theme} plan={plan.name} monthly={isMonthly}/>
+                <ListGroup className="list-group-flush">
+                  {plan.access.map((access, index) => (
+                    <ListGroupItem key={index} className="d-flex justify-content-between align-items-center">
+                      <div style={{ width: '50%', textAlign: 'left' }}>
+                        <OverlayTrigger
+                          placement="right"
+                          delay={{ show: 250, hide: 400 }}
+                          overlay={renderTooltip(access.description)}
+                        >
+                          <span style={{ textDecoration: 'underline' }}>{access.name}</span>
+                        </OverlayTrigger>
+                      </div>
+                      <div style={{ width: '40%', textAlign: 'right' }}>
+                        {timeframes.includes(access.name) ? (access.on ? <CheckCircleFill color="green"/> : <XCircleFill color="red"/>) : <ProgressBar now={access.number/access.all*100} />}
+                      </div>
+                    </ListGroupItem>
+                  ))}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          </div>
+        ))}
+      </Col>
+        :
       <Row>
         {Object.values(payment_plans_state).map((plan, index) => (
           <Col key={index} >
@@ -102,6 +138,7 @@ function Pricing() {
           </Col>
         ))}
       </Row>
+      }
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <p style={{ marginRight: 10 }}>
           *If you subscribe to any of the annual packages before September 30, 2024, you will receive a permanent star on your account that will be displayed next to your avatar.

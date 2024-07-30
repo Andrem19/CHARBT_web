@@ -11,7 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { faMoon, faLightbulb, faRightFromBracket, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { toggleTheme, clearMarkers, resetStopLossLine, resetTakeProfitLine } from '../../redux/dataActions';
-import { reloadUser, setGlobalSettings } from '../../redux/userActions';
+import { reloadUser, setGlobalSettings, setIsMobile } from '../../redux/userActions';
 import { Spinner } from 'react-bootstrap';
 import { getGSettings } from '../../api/data';
 import AvatarWithBadge from './Avatar';
@@ -21,6 +21,7 @@ function NavB() {
   const location = useLocation();
   const navigate = useNavigate()
   const user = useSelector(state => state.user.user);
+  const isMobile = useSelector(state => state.user.isMobile);
   const globalSettings = useSelector(state => state.user.globalSettings);
   const loading = useSelector(state => state.user.loading);
   const dispatch = useDispatch();
@@ -75,6 +76,18 @@ function NavB() {
       getGS()
     }
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      dispatch(setIsMobile(window.innerWidth <= 1200));
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [location.pathname]);
 
   const changeTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -132,16 +145,16 @@ function NavB() {
     <Navbar expand="lg" style={{ backgroundColor: 'var(--navbar-bg-color)', color: 'var(--navbar-text-color)', paddingTop: '0.0rem', paddingBottom: '0.0rem' }}>
       <Container fluid>
       <Navbar.Brand href="/" style={{ display: 'flex', alignItems: 'baseline', textDecoration: 'none'}}>
-        <span style={{ color: 'green', fontWeight: 'bold' }}>Char</span>
+        <span style={{ color: '#00d8b2', fontWeight: 'bold', fontFamily: 'LogoFont_1', fontSize: 25 }}>Char</span>
         <img
           src="logo.png"
-          width="25"
-          height="25"
+          width="20"
+          height="20"
           className="d-inline-block align-top"
           alt="logo"
           style={{ marginBottom: '-10px', marginLeft: 3, marginRight: 3 }}
         />
-        <span style={{ color: 'green', fontWeight: 'bold' }}>BT</span>
+        <span style={{ color: '#ff7f6c', fontWeight: 'bold', fontFamily: 'LogoFont_1', fontSize: 30 }}>BT</span>
       </Navbar.Brand>
 
 
@@ -149,19 +162,20 @@ function NavB() {
 
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
           <Nav
-            className="me-auto my-2 my-lg-0"
+            className="my-2 my-lg-0"
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
             {location.pathname !== '/login' && (
               <>
-                <Nav.Link onClick={handleHomeClick} style={{ color: 'var(--navbar-text-color)'}}>Home</Nav.Link>
-                { user && <Nav.Link onClick={handleTradingClick} style={{ color: 'var(--navbar-text-color)'}}>Trading</Nav.Link> }
-                { user && <Nav.Link onClick={handleScreenshotsPage} style={{ color: 'var(--navbar-text-color)'}}>Screenshots</Nav.Link> }
-                <Nav.Link onClick={handlePricing} style={{ color: 'var(--navbar-text-color)'}}>Pricing</Nav.Link>
+                <Nav.Link onClick={handleHomeClick} style={{ color: 'var(--navbar-text-color)'}}><span style={{ fontFamily: 'TextFont_1' }}>Home</span></Nav.Link>
+                { user && <Nav.Link onClick={handleTradingClick} style={{ color: 'var(--navbar-text-color)'}}><span style={{ fontFamily: 'TextFont_1' }}>Trading</span></Nav.Link> }
+                { user && <Nav.Link onClick={handleScreenshotsPage} style={{ color: 'var(--navbar-text-color)'}}><span style={{ fontFamily: 'TextFont_1' }}>Screenshots</span></Nav.Link> }
+                <Nav.Link onClick={handlePricing} style={{ color: 'var(--navbar-text-color)'}}><span style={{ fontFamily: 'TextFont_1' }}>Pricing</span></Nav.Link>
                 {globalSettings && globalSettings.blogOn && <Nav.Link onClick={blog} style={{ color: 'var(--navbar-text-color)', position: 'relative' }}>
-                  Blog/Voting
+                <span style={{ fontFamily: 'TextFont_1' }}>Blog/Voting</span>
                   {user && showNewPost(user.blogLastVisit, globalSettings.blogLastPost) && 
                     <span style={{ 
                       color: 'red', 
@@ -176,6 +190,7 @@ function NavB() {
               </>
             )}
           </Nav>
+          </div>
 
           
 
@@ -202,8 +217,9 @@ function NavB() {
           ) : (
             location.pathname !== '/login' && (
               <Link to="/login" className="ml-auto me-3" >
-                <Button variant="outline-success" className='fw-bold'>Log in / Sign Up</Button>
+                <Button variant="outline-success" className='fw-bold' style={{ minWidth: '180px' }}><span style={{ fontFamily: 'TextFont_1' }}>Log in / Sign Up</span></Button>
               </Link>
+
             )
           )}
           <>
