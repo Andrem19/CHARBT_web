@@ -12,7 +12,7 @@ import { faMoon, faLightbulb, faRightFromBracket, faBolt } from '@fortawesome/fr
 import { useEffect, useState } from 'react';
 import { toggleTheme, clearMarkers, resetStopLossLine, resetTakeProfitLine } from '../../redux/dataActions';
 import { reloadUser, setGlobalSettings, setIsMobile } from '../../redux/userActions';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Form } from 'react-bootstrap';
 import { getGSettings } from '../../api/data';
 import AvatarWithBadge from './Avatar';
 import { showNewPost } from '../../services/services';
@@ -82,6 +82,9 @@ function NavB() {
       dispatch(setIsMobile(window.innerWidth <= 1200));
     };
 
+    // Вызовите handleResize при загрузке страницы, чтобы установить начальное состояние
+    handleResize();
+
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -144,38 +147,66 @@ function NavB() {
     </div> :
     <Navbar expand="lg" style={{ backgroundColor: 'var(--navbar-bg-color)', color: 'var(--navbar-text-color)', paddingTop: '0.0rem', paddingBottom: '0.0rem' }}>
       <Container fluid>
-      <Navbar.Brand href="/" style={{ display: 'flex', alignItems: 'baseline', textDecoration: 'none'}}>
-        <span style={{ color: '#00d8b2', fontWeight: 'bold', fontFamily: 'LogoFont_1', fontSize: 25 }}>Char</span>
-        <img
-          src="logo.png"
-          width="20"
-          height="20"
-          className="d-inline-block align-top"
-          alt="logo"
-          style={{ marginBottom: '-10px', marginLeft: 3, marginRight: 3 }}
-        />
-        <span style={{ color: '#ff7f6c', fontWeight: 'bold', fontFamily: 'LogoFont_1', fontSize: 30 }}>BT</span>
-      </Navbar.Brand>
-
-
-
-
-        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Brand href="/" style={{ display: 'flex', alignItems: 'baseline', textDecoration: 'none'}}>
+          <span style={{ color: '#00d8b2', fontWeight: 'bold', fontFamily: 'LogoFont_1', fontSize: isMobile ? 20 : 25 }}>Char</span>
+          <img
+            src="logo.png"
+            width={isMobile ? 15 : 20}
+            height={isMobile ? 15 : 20}
+            className="d-inline-block align-top"
+            alt="logo"
+            style={{ marginBottom: isMobile ? '-8px' : '-10px', marginLeft: 3, marginRight: 3 }}
+          />
+          <span style={{ color: '#ff7f6c', fontWeight: 'bold', fontFamily: 'LogoFont_1', fontSize: isMobile ? 25 : 30 }}>BT</span>
+        </Navbar.Brand>
+  
+        <div style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
+          {user && isMobile && (
+            <>
+              <div style={{marginRight: 10}}>
+                <AvatarWithBadge src={user.avatarLink || "placeholder_avatar.jpg"} badgeColor={user.badge} width={isMobile ? 30 : 40} height={isMobile ? 30 : 40} />
+              </div>
+              <Navbar.Text style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? '1em' : '1.5em' }}>
+                {user.username}
+                <ProgressBar variant={getPaymentStatus().color} onClick={handleProgressBarClick} now={getPaymentStatus().status} label={<span style={{ fontSize: isMobile ? 8 : 10, color: 'white', textShadow: '2px 2px 4px #000000', fontWeight: 'bold'}}>{`${user.payment_status.toUpperCase()}`}</span>} style={{ width: isMobile ? '80px' : '100px', marginRight: '1em', cursor: 'pointer' }}/>
+              </Navbar.Text>
+              <NavDropdown align="end" title="" id="navbarScrollingDropdown" className="ml-auto" style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? '1em' : '1.5em', marginRight: '1em', backgroundColor: 'var(--navbar-bg-color)' }}>
+                <NavDropdown.Item onClick={profile} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Profile</NavDropdown.Item>
+                <NavDropdown.Item onClick={billing} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Account and Billing</NavDropdown.Item>
+                <NavDropdown.Item onClick={referal} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Referal Program</NavDropdown.Item>
+                <Dropdown.Divider />
+                {isMobile && <>
+                  <div onClick={changeTheme} style={{marginLeft: 15, cursor: 'pointer', fontSize: 15, color: 'white'}}>
+                    <Form.Check 
+                      type="switch"
+                      id="themeSwitch"
+                      label={`Theme ${theme === 'light' ? 'Light' : 'Dark'}`}
+                    />
+                  </div>
+                </>}
+                <Dropdown.Divider />
+                <NavDropdown.Item onClick={handleLogOut} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}><div style={{width: '100%', textAlign: 'justify'}}>Log Out <FontAwesomeIcon style={{marginLeft: 10}} icon={faRightFromBracket}></FontAwesomeIcon></div></NavDropdown.Item>
+              </NavDropdown>
+            </>
+          )}
+          <Navbar.Toggle aria-controls="navbarScroll" />
+        </div>
+  
         <Navbar.Collapse id="navbarScroll">
-          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
           <Nav
             className="my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
+            style={{ maxHeight: isMobile ? 'none' : '100px' }}
             navbarScroll
           >
             {location.pathname !== '/login' && (
               <>
-                <Nav.Link onClick={handleHomeClick} style={{ color: 'var(--navbar-text-color)'}}><span style={{ fontFamily: 'TextFont_1' }}>Home</span></Nav.Link>
-                { user && <Nav.Link onClick={handleTradingClick} style={{ color: 'var(--navbar-text-color)'}}><span style={{ fontFamily: 'TextFont_1' }}>Trading</span></Nav.Link> }
-                { user && <Nav.Link onClick={handleScreenshotsPage} style={{ color: 'var(--navbar-text-color)'}}><span style={{ fontFamily: 'TextFont_1' }}>Screenshots</span></Nav.Link> }
-                <Nav.Link onClick={handlePricing} style={{ color: 'var(--navbar-text-color)'}}><span style={{ fontFamily: 'TextFont_1' }}>Pricing</span></Nav.Link>
-                {globalSettings && globalSettings.blogOn && <Nav.Link onClick={blog} style={{ color: 'var(--navbar-text-color)', position: 'relative' }}>
-                <span style={{ fontFamily: 'TextFont_1' }}>Blog/Voting</span>
+                <Nav.Link onClick={handleHomeClick} style={{ color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Home</span></Nav.Link>
+                { user && <Nav.Link onClick={handleTradingClick} style={{ color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Trading</span></Nav.Link> }
+                { user && <Nav.Link onClick={handleScreenshotsPage} style={{ color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Screenshots</span></Nav.Link> }
+                <Nav.Link onClick={handlePricing} style={{ color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Pricing</span></Nav.Link>
+                {globalSettings && globalSettings.blogOn && <Nav.Link onClick={blog} style={{ color: 'var(--navbar-text-color)', position: 'relative', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}>
+                  <span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '0.6em' : '1em' }}>Blog/Voting</span>
                   {user && showNewPost(user.blogLastVisit, globalSettings.blogLastPost) && 
                     <span style={{ 
                       color: 'red', 
@@ -185,16 +216,12 @@ function NavB() {
                     }}>➊</span>
                   }
                 </Nav.Link>}
-
-
               </>
             )}
           </Nav>
-          </div>
+        </div>
 
-          
-
-          {user ? (
+          {user && !isMobile ? (
             <>
               {/* <Image src={user.avatarLink || "placeholder_avatar.jpg"} roundedCircle style={{ width: 40, height: 40, marginRight: 15 }} /> */}
               <div style={{marginRight: 10}}>
@@ -214,22 +241,36 @@ function NavB() {
               </NavDropdown>
 
             </>
-          ) : (
+          ) : !user && !isMobile && (
             location.pathname !== '/login' && (
               <Link to="/login" className="ml-auto me-3" >
                 <Button variant="outline-success" className='fw-bold' style={{ minWidth: '180px' }}><span style={{ fontFamily: 'TextFont_1' }}>Log in / Sign Up</span></Button>
               </Link>
-
+            
             )
           )}
-          <>
+  
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10, marginLeft: 15 }}>
+          {!user && isMobile && location.pathname !== '/login' && (
+            <Link to="/login" className="ml-auto me-3" >
+              <Button variant="outline-success" className='fw-bold' style={{ minWidth: isMobile ? '120px' : '180px' }}>
+                <span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? 12 : 16 }}>Log in / Sign Up</span>
+              </Button>
+            </Link>
+          )}
+        </div>
+          {!isMobile && <>
             <FontAwesomeIcon onClick={changeTheme} style={{marginRight: 15, cursor: 'pointer', fontSize: 25}} icon={theme === 'light' ? faMoon : faLightbulb} />
-          </>
+          </>}
           
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
+  
+  
+  
+  
 }
 
 export default NavB;

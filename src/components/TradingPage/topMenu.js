@@ -152,7 +152,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
           onClick={clickChouseCoin}
           onSelect={handleSelectPair}
           className={theme}
-          style={{ width: isMobile? "110px" : "140px", marginRight: "10px", zIndex: 99999, }}
+          style={{ width: isMobile? "110px" : "140px", marginRight: "10px", }}
           
         >
           <Button
@@ -160,8 +160,9 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
             variant="outline-success"
             id="dropdown-basic"
             className="w-100"
+            style={{height: isMobile? "35px" : ""}}
           >
-            <span style={{fontSize: isMobile? '14px' : '20px'}}>{currentPair ? currentPair : "BTCUSDT"}</span>
+            <span style={{fontSize: isMobile? '13px' : '20px'}}>{currentPair ? currentPair : "BTCUSDT"}</span>
           </Button>
 
           <Dropdown.Menu>
@@ -210,8 +211,8 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
           className={theme}
           style={{ width: isMobile? "35px" : "50px", marginRight: 5 }}
         >
-          <Button disabled={true} variant="outline-success" id="dropdown-basic">
-            <span style={{fontSize: isMobile? '15px' : '20px'}}>{currentTimeframe ? currentTimeframe : "1d"}</span>
+          <Button style={{height: isMobile? "35px" : ""}} disabled={true} variant="outline-success" id="dropdown-basic">
+            <span style={{fontSize: isMobile? '13px' : '20px'}}>{currentTimeframe ? currentTimeframe : "1d"}</span>
           </Button>
 
           <Dropdown.Menu>
@@ -251,6 +252,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
             }}
             variant="outline-success"
             id="dropdown-basic"
+            style={{height: isMobile? "35px" : ""}}
           >
             Indicators
           </Dropdown.Toggle>
@@ -288,15 +290,15 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
           )}
         </div>
 
-          {patterns && <div style={{ marginLeft: 10, marginTop: 7, color: '#14A44D' }}>
+          {patterns && !isMobile && <div style={{ marginLeft: 10, marginTop: 7, color: '#14A44D' }}>
             <OverlayTrigger
             
-              placement="right"
+              placement={isMobile? "left" : "right"}
               overlay={
                   <Image src="cheetsheat.png" alt="Patterns" style={{ width: '500px', height: 'auto', zIndex: 9999, border: '2px solid black', borderRadius: '10px' }} />
               }
             >
-              <FontAwesomeIcon style={{fontSize: isMobile ? 15 : 20, marginRight: 5, color: '#14A44D' }} icon={faP} />
+              <FontAwesomeIcon style={{fontSize: isMobile ? 12 : 16, marginRight: 5, color: '#14A44D' }} icon={faP} />
             </OverlayTrigger>
           </div>}
 

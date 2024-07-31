@@ -11,6 +11,7 @@ function PositionsList() {
   const currentSession = useSelector((state) => state.session.curent_session);
   const timeframe = useSelector((state) => state.data.timeframe);
   const showTime = useSelector((state) => state.data.showTime);
+  const isMobile = useSelector(state => state.user.isMobile);
   const [showChart, setShowChart] = useState(false);
   const [positionShow, setPositionShow] = useState(null);
 
@@ -23,7 +24,7 @@ function PositionsList() {
     <div>
       <ul
         className="list-group"
-        style={{ overflowY: "auto", maxHeight: "300px" }}
+        style={{ overflowY: "auto", maxHeight: isMobile ? "220px" : "300px" }}
       >
         {currentSession &&
           [...currentSession.positions].reverse().map((position) => (
@@ -43,20 +44,20 @@ function PositionsList() {
                 showChartHandler(position);
               }}
             >
-              <span>{position.coin_pair}</span>
-              <span>{position.buy_sell === "Buy" ? "Buy" : "Sell"}</span>
-              <span>
+              <span style={isMobile ? {fontSize: '7px', marginRight: 5} : {}}>{position.coin_pair}</span>
+              {!isMobile && <span style={isMobile ? {fontSize: '10px', margin: 5} : {}}>{position.buy_sell === "Buy" ? "Buy" : "Sell"}</span>}
+              <span style={isMobile ? {fontSize: '10px', marginRight: 5} : {}}>
                 Price: (Open: {position.open_price} Close:{" "}
                 {position.close_price})
               </span>
               {showTime && (
-                <span>
+                <span style={isMobile ? {fontSize: '10px', marginRight: 5} : {}}>
                   Time( Open: {convertTimestamp(position.open_time, timeframe)}{" "}
                   Close: {convertTimestamp(position.close_time, timeframe)})
                 </span>
               )}
-              {biutyfyTOS(position.type_of_close)}
-              <span>
+              <span style={isMobile ? {fontSize: '10px', marginRight: 5} : {}}>{biutyfyTOS(position.type_of_close)}</span>
+              <span style={isMobile ? {fontSize: '10px'} : {}}>
                 Profit: {Number(position.profit).toFixed(2)}{" "}
                 {position.profit < 0 ? "▼" : "▲"}
               </span>

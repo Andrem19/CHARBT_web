@@ -20,6 +20,7 @@ function ControlPanel() {
     const uuidCode = useSelector(state => state.session.uuidCode);
     const list = useSelector(state => state.data.list);
     const user = useSelector(state => state.user.user);
+    const globalSettings = useSelector(state => state.user.globalSettings);
     const current_pair = useSelector(state => state.data.current_pair);
     const current_timeframe = useSelector(state => state.data.timeframe);
     const current_position = useSelector(state => state.session.current_position);
@@ -174,6 +175,10 @@ function ControlPanel() {
 
 
     const openPosition = async (Buy_Sell) => {
+      if (curent_session.positions.length >= globalSettings.position_in_session) {
+        dispatch(setMsg('You have reached the limit on the number of positions in the session. Create a new session.'))
+        return
+      }
       setPositionToClose(false)
       const candel = list[cursor-1]
       if (amount>curent_session.balance) {
