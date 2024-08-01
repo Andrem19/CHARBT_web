@@ -6,6 +6,7 @@ import ProfitBarChart from "../charts_stat/ProfitBarChart";
 import CloseTypePieChart from "../charts_stat/CloseTypePieChart";
 import StatisticPage from "../charts_stat/Statisctic";
 import SellBuyChart from "../charts_stat/SellBuyChart";
+import ScatterChart from "../charts_stat/ScatterChart";
 
 function StatisticModal({ showModal, setShowModal }) {
   const positions = useSelector(
@@ -15,6 +16,7 @@ function StatisticModal({ showModal, setShowModal }) {
   const [fee, setFee] = useState(0);
   const [pos, setPos] = useState(positions);
   const theme = useSelector((state) => state.data.theme);
+  const isMobile = useSelector(state => state.user.isMobile);
 
   const handleModal = () => {
     setShowModal(false);
@@ -37,7 +39,7 @@ function StatisticModal({ showModal, setShowModal }) {
       <Modal show={showModal} onHide={handleModal}>
         <Modal.Header closeButton>
           <Modal.Title>
-            Detailed statistics
+            <span>Detailed statistics</span>
             <Dropdown onSelect={(key) => setFee(parseFloat(key))}>
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Fee: {fee.toFixed(2)}
@@ -54,20 +56,24 @@ function StatisticModal({ showModal, setShowModal }) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
-            <Tab eventKey="home" title="Visualization 1">
+          <Tabs defaultActiveKey="home" id="uncontrolled-tab-example" className={isMobile ? "mobile-tabs" : ""}>
+            <Tab eventKey="home" title={<span style={{ fontSize: isMobile ? '12px' : 'inherit' }}>Visual 1</span>}>
               Profit 1:
               <BalanceChart positions={pos} />
               Profit 2:
               <ProfitBarChart positions={pos} />
             </Tab>
-            <Tab eventKey="profile" title="Visualization 2">
+            <Tab eventKey="profile" title={<span style={{ fontSize: isMobile ? '12px' : 'inherit' }}>Visual 2</span>}>
               Close types:
               <CloseTypePieChart positions={pos} />
               Buy/Sell:
               <SellBuyChart positions={pos} />
             </Tab>
-            <Tab eventKey="contact" title="Statistics">
+            <Tab eventKey="stat" title={<span style={{ fontSize: isMobile ? '12px' : 'inherit' }}>Visual 3</span>}>
+              Duration types:
+              <ScatterChart positions={pos} />
+            </Tab>
+            <Tab eventKey="contact" title={<span style={{ fontSize: isMobile ? '12px' : 'inherit' }}>Statistics</span>}>
               <StatisticPage positions={pos} />
             </Tab>
           </Tabs>

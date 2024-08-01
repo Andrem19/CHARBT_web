@@ -43,7 +43,6 @@ const subscribeClickRef = useRef();
 const subscribeMouseMoveRef = useRef();
 const temporaryStartTimeRef = useRef(null);
 const temporaryFinishTimeRef = useRef(null);
-const dropdownRef = useRef(null);
 const lineStartRef = useRef(false);
 const stopLossLineRef = useRef(null);
 const takeProfitLineRef = useRef(null);
@@ -52,21 +51,19 @@ const takeProfitLineRef = useRef(null);
 // Redux states
 const dispatch = useDispatch();
 const navigate = useNavigate();
+const showTools = useSelector(state => state.data.showTools);
 const loading = useSelector((state) => state.data.loading);
 const dataWasAdded = useSelector((state) => state.data.dataWasAdded);
 const showTime = useSelector((state) => state.data.showTime);
 const percPrice = useSelector((state) => state.data.percPrice);
 const showTpsl = useSelector((state) => state.data.showTpsl);
 const showMarkers = useSelector((state) => state.data.showMarkers);
-const patterns = useSelector((state) => state.data.showPatterns);
 const list = useSelector((state) => state.data.list);
 const user = useSelector((state) => state.user.user);
 const cursor = useSelector((state) => state.data.cursor);
 const markers = useSelector((state) => state.data.markers);
 const takeProfitLine = useSelector((state) => state.data.takeProfitLine);
 const stopLossLine = useSelector((state) => state.data.stopLossLine);
-const currentSession = useSelector(state => state.session.curent_session);
-const currentPosition = useSelector(state => state.session.current_position);
 const theme = useSelector((state) => state.data.theme);
 const currentPair = useSelector((state) => state.data.current_pair);
 const currentTimeframe = useSelector((state) => state.data.timeframe);
@@ -602,7 +599,7 @@ const [showTooltip, setShowTooltip] = useState(false);
           width: "100%",
           height: "100%",
         }}>
-        {!isMobile && <ToolsPanel 
+        {!isMobile && showTools && <ToolsPanel 
         chartContainerRef={chartContainerRef} 
         chartGlobal={chartGlobal} 
         lineSeriesRef={lineSeriesRef} 

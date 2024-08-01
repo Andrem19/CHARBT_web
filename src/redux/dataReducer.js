@@ -21,6 +21,7 @@ const initialState = {
     showPatterns: false,
     dataWasAdded: false,
     showAddData: false,
+    showTools: false,
 };
   
 const listReducer = (state = initialState, action) => {
@@ -59,6 +60,11 @@ const listReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showPatterns: action.payload,
+            };
+        case 'SHOW_TOOLS':
+            return {
+                ...state,
+                showTools: action.payload,
             };
         case 'SET_ADD_LIST':
             return {

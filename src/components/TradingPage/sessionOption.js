@@ -20,7 +20,7 @@ export function SessionOption({ session, currentSessionId, handleDeleteClick, se
                     Balance: {(session.balance + currentSessionPnl).toFixed(2)}
                 </div>
                 <div style={{ fontSize: 'small' }}>
-                    {session.coin_pair}, {TIME_CONVERT[session.timeframe]}
+                    {session.coin_pair}, {TIME_CONVERT[session.timeframe]}{`, ${session.pos_count | ''}`}
                 </div>
             </div>
             <span>{session.session_name}</span>

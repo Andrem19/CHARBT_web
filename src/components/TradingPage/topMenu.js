@@ -28,6 +28,7 @@ import {
     setMarkersShow,
     setShowAddData,
     showPatterns,
+    setShowTools,
   } from "../../redux/dataActions";
 
 function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators }) {
@@ -42,6 +43,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
     const showTpsl = useSelector((state) => state.data.showTpsl);
     const showMarkers = useSelector((state) => state.data.showMarkers);
     const patterns = useSelector((state) => state.data.showPatterns);
+    const tools = useSelector((state) => state.data.showTools);
     const list = useSelector((state) => state.data.list);
     const user = useSelector((state) => state.user.user);
     const theme = useSelector((state) => state.data.theme);
@@ -75,6 +77,11 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
   const setShowPatterns = async () => {
     await changeSettings(navigate, {'settings': {'showPatterns': !patterns}})
     dispatch(showPatterns(!patterns))    
+  }
+
+  const setTools = async () => {
+    await changeSettings(navigate, {'settings': {'showTools': !tools}})
+    dispatch(setShowTools(!tools))    
   }
 
   const setShowTpsl = async () => {
@@ -303,7 +310,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
           </div>}
 
       <FontAwesomeIcon style={{fontSize: isMobile ? 15 : 20, marginLeft: 'auto', marginTop: 5, marginRight: 5, cursor: 'pointer'}} icon={faGear} onClick={() => setHandleShowSettings(true)} />
-        <SettingsModal showSettings={handleShowSettings} setShowChart={setHandleShowSettings} setPriceMode={setPriceScale} setTimeLine={setTimeScale} setTpsl={setShowTpsl} setMarkers={setShowMarkers} setPatterns={setShowPatterns} />
+        <SettingsModal showSettings={handleShowSettings} setShowChart={setHandleShowSettings} setPriceMode={setPriceScale} setTimeLine={setTimeScale} setTpsl={setShowTpsl} setMarkers={setShowMarkers} setPatterns={setShowPatterns} setTools={setTools} />
       </div>
     )
 }

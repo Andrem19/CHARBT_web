@@ -205,6 +205,12 @@ export const showPatterns = (showPatterns) => {
       payload: showPatterns
   };
 };
+export const setShowTools = (showTools) => {
+  return {
+      type: 'SHOW_TOOLS',
+      payload: showTools
+  };
+};
 export const setPercPrice = (percPrice) => {
   return {
       type: 'SET_PERC_PRICE',

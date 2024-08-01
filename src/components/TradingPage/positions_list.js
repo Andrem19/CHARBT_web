@@ -24,7 +24,7 @@ function PositionsList() {
     <div>
       <ul
         className="list-group"
-        style={{ overflowY: "auto", maxHeight: isMobile ? "220px" : "300px" }}
+        style={{ maxHeight: isMobile ? "220px" : "300px" }}
       >
         {currentSession &&
           [...currentSession.positions].reverse().map((position) => (
@@ -59,7 +59,7 @@ function PositionsList() {
               <span style={isMobile ? {fontSize: '10px', marginRight: 5} : {}}>{biutyfyTOS(position.type_of_close)}</span>
               <span style={isMobile ? {fontSize: '10px'} : {}}>
                 Profit: {Number(position.profit).toFixed(2)}{" "}
-                {position.profit < 0 ? "▼" : "▲"}
+                {position.buy_sell === "Buy" ? "▲" : "▼"}
               </span>
             </li>
           ))}

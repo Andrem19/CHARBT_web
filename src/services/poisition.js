@@ -129,3 +129,26 @@ export function getVolatility(timeframe_m, last_5candle) {
     }
     return volatility;
 }
+
+export function convertPercentToPrice(currentPrice, TpPerc, SlPerc, side, afterDot) {
+    let result = {};
+    TpPerc = TpPerc !== null ? parseFloat(TpPerc) : null;
+    SlPerc = SlPerc !== null ? parseFloat(SlPerc) : null;
+
+    if (TpPerc !== null) {
+        result['tp'] = side === 'Buy' ? currentPrice * (1 + (TpPerc / 100)) : currentPrice * (1 - (TpPerc / 100));
+        result['tp'] = parseFloat(result['tp'].toFixed(afterDot));
+    } else {
+        result['tp'] = null;
+    }
+
+    if (SlPerc !== null) {
+        result['sl'] = side === 'Buy' ? currentPrice * (1 - (SlPerc / 100)) : currentPrice * (1 + (SlPerc / 100));
+        result['sl'] = parseFloat(result['sl'].toFixed(afterDot));
+    } else {
+        result['sl'] = null;
+    }
+
+    return result;
+}
+

@@ -164,7 +164,9 @@ export const convertTimeframe = (time) => {
 }
 
 export const countSessionStatistic = (positions) => {
+    
     let stats = {
+        averageDuration: '',
         profitCount: 0,
         lossCount: 0,
         sumProfit: 0,
@@ -174,12 +176,18 @@ export const countSessionStatistic = (positions) => {
         stopLossClose: 0,
         manualClose: 0,
         pnl: 0,
+        sell: 0,
+        buy: 0,
     };
+    let totalDuration = 0;
+    let count = positions.length;
 
     positions.forEach(position => {
         if (!position || !position.profit || !position.type_of_close) {
             return;
         }
+        let duration = position.close_time - position.open_time;
+        totalDuration += duration;
 
         let profit = position.profit;
         stats.pnl += profit;
@@ -208,7 +216,15 @@ export const countSessionStatistic = (positions) => {
             default:
                 break;
         }
+        if (position.buy_sell == 'Buy') {
+            stats.buy++
+        } else if (position.buy_sell == 'Sell') {
+            stats.sell++
+        }
     });
+
+    let averageDuration = totalDuration / count;
+    stats.averageDuration = formatDuration(averageDuration);
 
     let totalPositions = positions.length;
     let successPositionPercent = (stats.profitCount && totalPositions) ? (stats.profitCount / totalPositions) * 100 : 0;
@@ -224,6 +240,23 @@ export const countSessionStatistic = (positions) => {
         ...stats,
     };
 };
+
+function formatDuration(seconds) {
+    const days = Math.floor(seconds / (24 * 3600));
+    seconds %= 24 * 3600;
+    const hours = Math.floor(seconds / 3600);
+    seconds %= 3600;
+    const minutes = Math.floor(seconds / 60);
+    seconds %= 60;
+  
+    let result = '';
+    if (days > 0) result += `${days}d `;
+    if (hours > 0) result += `${hours}h `;
+    if (minutes > 0) result += `${minutes}m `;
+    if (seconds > 0) result += `${seconds}s`;
+  
+    return result.trim();
+  }
 
 export function convertTimestamp(timestamp, timeframe) {
     let date = new Date(timestamp * 1000);

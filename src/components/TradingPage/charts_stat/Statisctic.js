@@ -41,18 +41,24 @@ return (
         <Col>
             <Row style={{ fontSize: 14}} >Session PnL: {sessionStat.pnl.toFixed(2)}</Row>
             <Row style={{ marginBottom: 3, fontSize: 14}} >Positions: {positions.length}</Row>
-            <Row style={{ marginBottom: 3, fontSize: 14}} >Profit/Loss:</Row>
+            <Row style={{ fontSize: 13}} >Profit positions: {sessionStat.profitCount}</Row>
+            <Row style={{ fontSize: 13}} >Loss positions: {sessionStat.lossCount}</Row>
+            <Row style={{ fontSize: 13}} >Buy positions: {sessionStat.buy}</Row>
+            <Row style={{ fontSize: 13}} >Sell positions: {sessionStat.sell}</Row>
             <Row style={{ fontSize: 13}} >Success Positions: {sessionStat.successPositionPercent.toFixed(2)}%</Row>
             <Row style={{ fontSize: 13}} >Sum profit: ${sessionStat.sumProfit.toFixed(2)}</Row>
             <Row style={{ fontSize: 13}} >Sum loss: ${sessionStat.sumLoss.toFixed(2)}</Row>
             <Row style={{ fontSize: 13}} >Average profit: ${sessionStat.averageProfit.toFixed(2)}</Row>
             <Row style={{ fontSize: 13}} >Average loss: ${sessionStat.averageLoss.toFixed(2)}</Row>
+            
             <hr />
             <Row style={{ marginBottom: 3,  fontSize: 14}} >Closing type statistics:  </Row>
             <Row style={{ fontSize: 13}} >Auto Close: {sessionStat.autoClose}</Row>
             <Row style={{ fontSize: 13}} >Take Profit: {sessionStat.takeProfitClose}</Row>
             <Row style={{ fontSize: 13}} >Stop Loss: {sessionStat.stopLossClose}</Row>
             <Row style={{ fontSize: 13}} >Manual: {sessionStat.manualClose}</Row>
+            <hr />
+            <Row style={{ fontSize: 13}} >Average Duration: {sessionStat.averageDuration}</Row>
         </Col>
         <div style={{ display: "flex", alignItems: "center" }}>
         <Button

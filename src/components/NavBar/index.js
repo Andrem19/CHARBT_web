@@ -9,7 +9,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { faMoon, faLightbulb, faRightFromBracket, faBolt } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { toggleTheme, clearMarkers, resetStopLossLine, resetTakeProfitLine } from '../../redux/dataActions';
 import { reloadUser, setGlobalSettings, setIsMobile } from '../../redux/userActions';
 import { Spinner, Form } from 'react-bootstrap';
@@ -26,6 +26,12 @@ function NavB() {
   const loading = useSelector(state => state.user.loading);
   const dispatch = useDispatch();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [expanded, setExpanded] = useState(false);
+
+  const handleToggle = () => {
+    setExpanded(!expanded);
+  };
+
 
   const getPaymentStatus = () => {
     let status = 0;
@@ -102,10 +108,12 @@ function NavB() {
 
   const handleTradingClick = () => {
     navigate('/trading');
+    setExpanded(false);
   };
 
   const handleHomeClick = () => {
     navigate('/home');
+    setExpanded(false);
   }
   const handleLogOut = () => {
     window.localStorage.removeItem('jwt')
@@ -119,9 +127,11 @@ function NavB() {
 
   const handleScreenshotsPage = () => {
     navigate('/screenshots');
+    setExpanded(false);
   }
   const handlePricing = () => {
     navigate('/pricing');
+    setExpanded(false);
   }
   const referal = () => {
     navigate('/referal_program')
@@ -145,7 +155,7 @@ function NavB() {
         <span className="sr-only">Loading...</span>
       </Spinner>
     </div> :
-    <Navbar expand="lg" style={{ backgroundColor: 'var(--navbar-bg-color)', color: 'var(--navbar-text-color)', paddingTop: '0.0rem', paddingBottom: '0.0rem' }}>
+    <Navbar expand="lg" expanded={expanded} onToggle={handleToggle} style={{ backgroundColor: 'var(--navbar-bg-color)', color: 'var(--navbar-text-color)', paddingTop: '0.0rem', paddingBottom: '0.0rem' }}>
       <Container fluid>
         <Navbar.Brand href="/" style={{ display: 'flex', alignItems: 'baseline', textDecoration: 'none'}}>
           <span style={{ color: '#00d8b2', fontWeight: 'bold', fontFamily: 'LogoFont_1', fontSize: isMobile ? 20 : 25 }}>Char</span>
@@ -192,7 +202,7 @@ function NavB() {
           <Navbar.Toggle aria-controls="navbarScroll" />
         </div>
   
-        <Navbar.Collapse id="navbarScroll">
+        <Navbar.Collapse id="navbarScroll" >
         <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
           <Nav
             className="my-2 my-lg-0"
@@ -267,10 +277,6 @@ function NavB() {
       </Container>
     </Navbar>
   );
-  
-  
-  
-  
 }
 
 export default NavB;

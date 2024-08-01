@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Line } from 'react-chartjs-2';
-import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale } from 'chart.js';
+import { biutyfyTOS } from "../../../services/services";
+import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend } from 'chart.js';
 
-Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale);
-
+Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
 
 const BalanceChart = ({ positions }) => {
     let balance = 0;
@@ -11,7 +11,6 @@ const BalanceChart = ({ positions }) => {
         balance += position.profit;
         return balance;
     });
-
 
     const chartData = {
         labels: positions.map((_, index) => index + 1),
@@ -26,7 +25,32 @@ const BalanceChart = ({ positions }) => {
         ]
     };
 
-    return <Line data={chartData} />;
+    const options = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const index = context.dataIndex;
+                        const position = positions[index];
+                        return [
+                            `Balance: ${context.raw.toFixed(2)}`,
+                            `Open Price: ${position.open_price ?? 0}`,
+                            `Close Price: ${position.close_price ?? 0}`,
+                            `Take Profit: ${position.take_profit ?? 0}`,
+                            `Stop Loss: ${position.stop_loss ?? 0}`,
+                            `Profit: ${position.profit.toFixed(2)}`,
+                            `Amount: ${position.amount ?? 0}`,
+                            `Target Length: ${position.target_len ?? 0}`,
+                            `Type of Close: ${biutyfyTOS(position.type_of_close) ?? 0}`,
+                            `Buy/Sell: ${position.buy_sell ?? 0}`
+                        ];                        
+                    }
+                }
+            }
+        }
+    };
+
+    return <Line data={chartData} options={options} />;
 };
 
 export default BalanceChart;

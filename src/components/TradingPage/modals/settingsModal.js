@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 
-const SettingsModal = ({showSettings, setShowChart, setPriceMode, setTimeLine, setTpsl, setMarkers, setPatterns}) => {
+const SettingsModal = ({showSettings, setShowChart, setPriceMode, setTimeLine, setTpsl, setMarkers, setPatterns, setTools}) => {
 
     const handleClose = () => setShowChart(false);
     const showTime = useSelector((state) => state.data.showTime);
@@ -10,7 +10,7 @@ const SettingsModal = ({showSettings, setShowChart, setPriceMode, setTimeLine, s
     const showTpsl = useSelector((state) => state.data.showTpsl);
     const showMarkers = useSelector((state) => state.data.showMarkers);
     const patterns = useSelector((state) => state.data.showPatterns);
-
+    const showTools = useSelector((state) => state.data.showTools);
     
 
     return (
@@ -23,6 +23,13 @@ const SettingsModal = ({showSettings, setShowChart, setPriceMode, setTimeLine, s
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
+                    <Form.Check 
+                            onChange={setTools}
+                            type="switch"
+                            id="setTools"
+                            label="Show Tools"
+                            checked={showTools}
+                        />
                         <Form.Check 
                             onChange={setPatterns}
                             type="switch"

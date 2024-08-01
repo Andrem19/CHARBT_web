@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Doughnut } from 'react-chartjs-2';
 import { biutyfyTOS } from "../../../services/services";
-import { Chart, DoughnutController, ArcElement, CategoryScale, LinearScale, Title } from 'chart.js';
+import { Chart, DoughnutController, ArcElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 
-Chart.register(DoughnutController, ArcElement, CategoryScale, LinearScale, Title);
+Chart.register(DoughnutController, ArcElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 const CloseTypePieChart = ({ positions }) => {
 
@@ -48,7 +48,7 @@ const CloseTypePieChart = ({ positions }) => {
                     label: function(tooltipItem) {
                         const total = tooltipItem.dataset.data.reduce((acc, val) => acc + val, 0);
                         const percentage = ((tooltipItem.parsed / total) * 100).toFixed(2) + '%';
-                        return `Type of Close: ${tooltipItem.label}, Percentage: ${percentage}`;
+                        return `Type of Close: ${biutyfyTOS(tooltipItem.label)}`;
                     }
                 }
             }

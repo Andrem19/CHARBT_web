@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Button, Row, Col } from 'react-bootstrap';
+import { Container, Form, Button, Row, Col, Dropdown } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCursor } from '../../redux/dataActions';
 import { setCurrentPosition, addPositionToSession } from '../../redux/sessionActions';
@@ -9,7 +9,7 @@ import { LineStyle } from 'lightweight-charts';
 import { useNavigate } from "react-router-dom";
 import { addMarker, setTakeProfitLine, setStopLossLine, resetStopLossLine, resetTakeProfitLine, loadList } from '../../redux/dataActions';
 import { TIME_CONVERT_REVERSED, tradingPairs } from '../../config';
-import { createPosition, calculateProfit, checkBalance, checkStopLoss, checkTakeProfit, checkSL, checkTP, getVolatility } from '../../services/poisition';
+import { createPosition, calculateProfit, checkBalance, checkStopLoss, checkTakeProfit, checkSL, checkTP, getVolatility, convertPercentToPrice } from '../../services/poisition';
 
 function ControlPanel() {
     const dispatch = useDispatch();
@@ -26,6 +26,7 @@ function ControlPanel() {
     const current_position = useSelector(state => state.session.current_position);
     const curent_session = useSelector(state => state.session.curent_session);
     const curent_session_pnl = useSelector(state => state.session.curent_session_pnl);
+    const isMobile = useSelector(state => state.user.isMobile);
     const [amount, setAmount] = useState(20);
     const [showTPSL, setShowTPSL] = useState(false);
     const [autoClose, setAutoClose] = useState(false);
@@ -39,24 +40,43 @@ function ControlPanel() {
     const [step, setStep] = useState(1);
     const [takeProfit, setTakeProfit] = useState(null);
     const [stopLoss, setStopLoss] = useState(null);
+    const [takeProfitPerc, setTakeProfitPerc] = useState(null);
+    const [stopLossPerc, setStopLossPerc] = useState(null);
     const [addTpsl, setAddTpsl] = useState(false);
+    const [tpslType, setTpslType] = useState('')
 
     const handleTakeProfitChange = (event) => {
-      setTakeProfit(event.target.value);
+      if (tpslType === 'price') {
+        setTakeProfit(event.target.value);
+      } else if (tpslType === 'percent') {
+        setTakeProfitPerc(event.target.value);
+        setTakeProfit(1);
+      }
   };
   
   
 
     const handleStopLossChange = (event) => {
-      setStopLoss(event.target.value);
+      if (tpslType === 'price') {
+        setStopLoss(event.target.value);
+      } else if (tpslType === 'percent') {
+        setStopLossPerc(event.target.value);
+        setStopLoss(1);
+      }
         
     };
 
-    const handleCheckboxTPSL = () => {
-        setAddTpsl(!showTPSL);
-        setShowTPSL(!showTPSL);
-        
-    };
+    const handleSelect = (event) => {
+      const value = event.target.value;
+      if (value === 'off') {
+          setAddTpsl(false);
+          setShowTPSL(false);
+      } else {
+          setAddTpsl(true);
+          setShowTPSL(true);
+          setTpslType(value)
+      }
+  };
     const hendleCheckboxAutoClose = () => {
       setAutoClose(!autoClose);
     };
@@ -83,8 +103,17 @@ function ControlPanel() {
 
     const changeTP = () => {
       let tp = 0
+      if (tpslType === 'percent' && current_position) {
+        const afterDot = tradingPairs[current_pair];
+        let tpslconverted = convertPercentToPrice(list[cursor-1].close,  takeProfitPerc, stopLossPerc, current_position.buy_sell, afterDot)
+        if (tpslconverted.tp != null && tpslconverted.tp > 0) {
+          setTakeProfit(tpslconverted.tp)
+          tp = tpslconverted.tp
+        }
+      }
+      
     if (takeProfit && addTpsl) {
-      const value = takeProfit;
+      const value = tpslType === 'percent' ? tp : takeProfit;
       const numbersAfterDot = tradingPairs[current_pair];
       const regex = new RegExp(`^\\d+(\\.\\d{1,${numbersAfterDot}})?$`);
   
@@ -128,8 +157,19 @@ function ControlPanel() {
 
     const changeSL = () => {
       let sl = 0
+      if (tpslType === 'percent' && current_position) {
+        const afterDot = tradingPairs[current_pair];
+        let tpslconverted = convertPercentToPrice(list[cursor-1].close,  takeProfitPerc, stopLossPerc, current_position.buy_sell, afterDot)
+        
+        if (tpslconverted.sl != null && tpslconverted.sl > 0) {
+          setStopLoss(tpslconverted.sl)
+          sl = tpslconverted.sl
+        }
+        
+      }
+      
       if (stopLoss && addTpsl) {
-        const value = stopLoss;
+        const value = tpslType === 'percent'? sl : stopLoss;
         const numbersAfterDot = tradingPairs[current_pair];
         const regex = new RegExp(`^\\d+(\\.\\d{1,${numbersAfterDot}})?$`);
         
@@ -184,9 +224,22 @@ function ControlPanel() {
       if (amount>curent_session.balance) {
         dispatch(setMsg('Your balance is not enough'))
       }
+      let tp = 0
       let sl = 0
+      if (tpslType === 'percent') {
+        const afterDot = tradingPairs[current_pair];
+        let tpslconverted = convertPercentToPrice(list[cursor-1].close, takeProfitPerc, stopLossPerc, Buy_Sell, afterDot)
+        if (tpslconverted.tp != null && tpslconverted.tp > 0) {
+          setTakeProfit(tpslconverted.tp)
+          tp = tpslconverted.tp
+        }
+        if (tpslconverted.sl != null && tpslconverted.sl > 0) {
+          setStopLoss(tpslconverted.sl)
+          sl = tpslconverted.sl
+        }
+      }
       if (stopLoss && addTpsl) {
-        const value = stopLoss;
+        const value = tpslType === 'percent' ? sl : stopLoss;
         const numbersAfterDot = tradingPairs[current_pair];
         const regex = new RegExp(`^\\d+(\\.\\d{1,${numbersAfterDot}})?$`);
         
@@ -219,9 +272,9 @@ function ControlPanel() {
       }
       dispatch(setStopLossLine(stopLine))
     }
-    let tp = 0
+    
     if (takeProfit && addTpsl) {
-      const value = takeProfit;
+      const value = tpslType === 'percent' ? tp : takeProfit;
       const numbersAfterDot = tradingPairs[current_pair];
       const regex = new RegExp(`^\\d+(\\.\\d{1,${numbersAfterDot}})?$`);
   
@@ -488,33 +541,42 @@ function ControlPanel() {
                     <Form.Control value={amount} onChange={handleQuantity} type="number" placeholder="Enter quantity" style={{ WebkitAppearance: "none", margin: "0" }} />
                 </Form.Group>
 
-                <Form.Group controlId="tpsl" style={{ alignSelf: 'flex-start', marginBottom: autoClose? '0px' : '12px', marginTop: '15px', display: 'flex', flexDirection: 'row' }}>
-                    <div><Form.Check type="checkbox" label="TP/SL" onChange={handleCheckboxTPSL} style={{ marginRight: '10px' }} /></div>
-                    <div style={{ marginLeft: '15%' }}><Form.Check type="checkbox" label="Auto Close" onChange={hendleCheckboxAutoClose} /></div>
-                    {autoClose && (
-                      // <Form.Control onChange={hendleAutoCloseCandle} value={autoCloseSteps} style={{ width: '48%', marginLeft: 'auto' }} type="number" placeholder="Candles" />
-                      <Form.Control as="select" value={autoCloseSteps} onChange={hendleAutoCloseCandle} style={{ marginLeft: 'auto', width: '30%', WebkitAppearance: "menulist" }}>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
-                            </Form.Control>
-                    )}
-                </Form.Group>
+                <Form.Group controlId="tpsl" style={{ alignSelf: 'flex-start', marginTop: '15px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '30%' }}>
+                <Form.Label style={{ fontSize: '12px' }}>TPSL</Form.Label>
+                <Form.Control as="select" onChange={handleSelect} style={{ WebkitAppearance: "menulist" }}>
+                    <option value="off">Off</option>
+                    <option value="percent">Percent</option>
+                    <option value="price">Price</option>
+                </Form.Control>
+            </div>
+            <div style={{ fontSize: isMobile ? '12px' : '15px', width: '30%' }}>
+                <Form.Check type="checkbox" label="Auto Close" onChange={hendleCheckboxAutoClose} />
+            </div>
+            {autoClose && (
+                <Form.Control as="select" value={autoCloseSteps} onChange={hendleAutoCloseCandle} style={{ width: '30%', WebkitAppearance: "menulist",  marginTop: '25px', display: 'flex' }}>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                </Form.Control>
+            )}
+            {!autoClose && <div style={{ width: '30%' }}></div>}
+        </Form.Group>
 
                 {showTPSL && (
                     <>
                         <Form.Group controlId="takeProfit">
-                            <Form.Label>Take Profit</Form.Label>
+                            <Form.Label>Take Profit ({tpslType})</Form.Label>
                             <Row>
                               <Col style={{ paddingRight: '7.5px' }}>
-                                <Form.Control value={takeProfit} type="text"  placeholder="Enter take profit" onChange={handleTakeProfitChange} />
+                                <Form.Control value={tpslType === 'percent' ? takeProfitPerc : takeProfit} type="text"  placeholder={tpslType === 'percent' ? "1.25" : "Enter take profit"} onChange={handleTakeProfitChange} />
                               </Col>
                               <Col style={{ paddingLeft: '7.5px' }}>
                                 <Button disabled={!current_position || autoClose} onClick={changeTP} variant="secondary" style={{ width: '100%' }}>Add/Change TP</Button>
@@ -523,10 +585,10 @@ function ControlPanel() {
                         </Form.Group>
 
                         <Form.Group controlId="stopLoss">
-                            <Form.Label>Stop Loss</Form.Label>
+                            <Form.Label>Stop Loss ({tpslType})</Form.Label>
                             <Row style={{ marginBottom: 20 }}>
                               <Col style={{ paddingRight: '7.5px' }}>
-                                <Form.Control value={stopLoss} type="text" placeholder="Enter stop loss" onChange={handleStopLossChange} />
+                                <Form.Control value={tpslType === 'percent' ? stopLossPerc : stopLoss} type="text" placeholder={tpslType === 'percent' ? "0.85" : "Enter stop loss"} onChange={handleStopLossChange} />
                               </Col>
                               <Col style={{ paddingLeft: '7.5px' }}>
                                 <Button disabled={!current_position || autoClose} onClick={changeSL} variant="secondary" style={{ width: '100%' }}>Add/Change SL</Button>
@@ -537,7 +599,7 @@ function ControlPanel() {
                 )}
                 
 
-                <Row style={{ marginTop: autoClose || showTPSL ? '9px' : '21px' }}>
+                <Row style={{ marginTop: '9px' }}>
                     <Col style={{ paddingRight: '7.5px' }}>
                         <Button disabled={current_position}  onClick={buyClick} variant="success" style={{ width: '100%' }}>Buy</Button>
                     </Col>

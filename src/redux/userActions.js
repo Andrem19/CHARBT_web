@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL, PUB_URL } from '../config';
-import { setShowTime, setPercPrice, setTpSl, setMarkersShow, setTimeframe, setPair, showPatterns } from './dataActions';
+import { setShowTime, setPercPrice, setTpSl, setMarkersShow, setTimeframe, setPair, showPatterns, setShowTools } from './dataActions';
 import { setCurrentSession, setSessionsList } from './sessionActions';
 import { jwtExpired, encryptToken, decryptToken } from '../services/services'
 import { TIME_CONVERT } from '../config';
@@ -59,8 +59,8 @@ async function loginUserApi(email, password) {
         },
         });
         if (response.status === 200) {
+          console.log(response.data.settings)
           dispatch(loginSuccess(response.data));
-          // dispatch(setCursor(response.data.current_session.cursor));
           dispatch(setCurrentSession(response.data.current_session))
           dispatch(setShowTime(response.data.settings.timeScale)) 
           dispatch(setPercPrice(response.data.settings.rightScale))
@@ -68,6 +68,7 @@ async function loginUserApi(email, password) {
           dispatch(setMarkersShow(response.data.settings.showMarkers))
           dispatch(setSessionsList(response.data.sessions))
           dispatch(showPatterns(response.data.settings.showPatterns))
+          dispatch(setShowTools(response.data.settings.showTools))
           dispatch(setTimeframe(TIME_CONVERT[response.data.current_session.timeframe]))
           dispatch(setPair(response.data.current_session.coin_pair))
           dispatch(setGlobalSettings(response.data.global_settings))
