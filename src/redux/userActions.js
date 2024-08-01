@@ -84,6 +84,7 @@ async function loginUserApi(email, password) {
           navigate('/login');
           dispatch(loginFailure('error'));
         }
+        dispatch(loginFailure('error'));
       }
     }
 }
