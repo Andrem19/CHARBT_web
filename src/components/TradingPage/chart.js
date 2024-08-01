@@ -25,6 +25,7 @@ import { uploadScreenshot } from "../../api/data";
 import { useNavigate } from "react-router-dom";
 import TopMenu from "./topMenu";
 import ToolsPanel from "./toolsPanel";
+import { setMsg } from "../../redux/userActions";
 
 function Chart({ isMobile }) {
   // Refs
@@ -296,6 +297,10 @@ const [showTooltip, setShowTooltip] = useState(false);
   useEffect(() => {
     if (list.length > 0 && chartContainerRef.current && prevCursor !== null) {
       
+    if (list.length-3 < cursor && user.payment_status === 'default') {
+      dispatch(setMsg('To get more data, upgrade your account to one of our subscription packages.'))
+      return
+    }
 
       let dataSlice = list
         .slice(0, prevCursor)

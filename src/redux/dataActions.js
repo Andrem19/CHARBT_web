@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../config';
+import { setMsg } from './userActions';
 
 
 async function loadListApi(coin, timeframe, finish_date) {
@@ -8,6 +9,9 @@ async function loadListApi(coin, timeframe, finish_date) {
         const response = await axios.get(`${API_URL}/data?coin=${coin}&timeframe=${timeframe}&finish_date=${finish_date}`, {
             headers: {
                 'Authorization': `Bearer ${jwt}`
+            },
+            validateStatus: function (status) {
+                return true; 
             }
         });
 
@@ -85,6 +89,7 @@ export const setNewPair = (coin, timeframe, finish_date) => {
         }
       } else {
         dispatch(loadListFailure(response.data));
+        dispatch(setMsg(response.message))
       }
     };
   };

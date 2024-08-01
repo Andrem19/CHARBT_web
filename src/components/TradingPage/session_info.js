@@ -240,11 +240,9 @@ function SessionInfo() {
           <Row style={{ fontSize: 13 }}>
             Sum loss: ${sessionStat.sumLoss.toFixed(2)}
           </Row>
-          {/* <Row style={{ fontSize: 13}} >Average profit: ${sessionStat.averageProfit.toFixed(2)}</Row>
-                    <Row style={{ fontSize: 13}} >Average loss: ${sessionStat.averageLoss.toFixed(2)}</Row> */}
           <hr />
           <Button
-            disabled={user.payment_status !== 'premium-plus'}
+            disabled={user.payment_status !== 'premium-plus' && user.payment_status !== 'default' && user.payment_status !== 'premium'}
             onClick={openStatistics}
             variant="secondary"
             style={{

@@ -92,11 +92,11 @@ export function getColor(theme, profit) {
 
 export function checkTP(take_profit, current_price, buy_sell) {
     if (buy_sell === 'Buy') {
-        if (take_profit <= current_price) {
+        if (take_profit <= current_price || take_profit > current_price * 1.05) {
             return false
         }
     } else if (buy_sell === 'Sell') {
-        if (take_profit >= current_price) {
+        if (take_profit >= current_price || take_profit < current_price * 0.95) {
             return false
         }
     }
@@ -105,11 +105,11 @@ export function checkTP(take_profit, current_price, buy_sell) {
 
 export function checkSL(stop_loss, current_price, buy_sell) {
     if (buy_sell === 'Buy') {
-        if (stop_loss >= current_price) {
+        if (stop_loss >= current_price || stop_loss < current_price * 0.95) {
             return false
         }
     } else if (buy_sell === 'Sell') {
-        if (stop_loss <= current_price) {
+        if (stop_loss <= current_price || stop_loss > current_price * 1.05) {
             return false
         }
     }
