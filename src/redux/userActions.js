@@ -43,6 +43,7 @@ async function loginUserApi(email, password) {
       const jwt = localStorage.getItem('jwt');
       
       if (!jwt || jwtExpired(jwt)) {
+        dispatch(loginFailure('jwt expired'));
         navigate('/login');
         return;
       }
@@ -59,7 +60,6 @@ async function loginUserApi(email, password) {
         },
         });
         if (response.status === 200) {
-          console.log(response.data.settings)
           dispatch(loginSuccess(response.data));
           dispatch(setCurrentSession(response.data.current_session))
           dispatch(setShowTime(response.data.settings.timeScale)) 
@@ -82,6 +82,7 @@ async function loginUserApi(email, password) {
         if (error.response && error.response.status === 401) {
           localStorage.removeItem('jwt')
           navigate('/login');
+          dispatch(loginFailure('error'));
         }
       }
     }

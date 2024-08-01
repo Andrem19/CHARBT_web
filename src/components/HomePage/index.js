@@ -13,7 +13,7 @@ function HomePage() {
   };
 
   return (
-    <Container fluid style={{ backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: isMobile ? '400vh' : '200vh', paddingTop: '1rem' }}>
+    <Container fluid style={{ backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: isMobile ? '300vh' : '200vh', paddingTop: '1rem' }}>
       <div style={{ width: isMobile ? '100%' : '80%', height: '50%', border: '1px solid black', borderRadius: '10px', overflow: 'hidden', position: 'relative', fontFamily: 'TextFont_1' }}>
         <Image src="HomePageBackground.png" alt="Candles" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} />
         <Row className="justify-content-md-center" style={{ position: 'relative', height: '100%', justifyContent: 'space-between' }}>
@@ -39,39 +39,38 @@ function HomePage() {
       </div>
 
 
-      <div style={{ width: '80%', height: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: isMobile ? '2rem' : '0' }}>
-  <Card style={{ width: '100%', padding: '1rem', backgroundColor: theme == 'dark'? '#C4BCB5' : '#f2f2f2' }}>
-    <Card.Body style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      {isMobile ? (
-        <>
-          <Col style={{ padding: '1rem' }}><Image src="screen_2/buy_sell.png" alt="Buy and Sell" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Buy and Sell</p></Col>
-          <Col style={{ padding: '1rem' }}><Image src="screen_2/indicators.png" alt="Add Indicators" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Add Indicators</p></Col>
-          <Col style={{ padding: '1rem' }}><Image src="screen_2/lines.png" alt="Draw Lines" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Draw Lines</p></Col>
-          <Col style={{ padding: '1rem' }}><Image src="screen_2/photo.png" alt="Take Screenshots of Chart" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Save chart screenshots in cloud storage with permanent access</p></Col>
-          <Col style={{ padding: '1rem' }}><Image src="screen_2/TPSL.png" alt="Set Take Profit and Stop Loss" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Set Take Profit and Stop Loss</p></Col>
-          <Col style={{ padding: '1rem' }}><Image src="screen_2/statistic.png" alt="Detailed Statistics" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Detailed Statistics</p></Col>
-        </>
-      ) : (
-        <>
-          <Row xs={3}>
-            <Col style={{ padding: '1rem' }}><Image src="screen_2/buy_sell.png" alt="Buy and Sell" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Buy and Sell</p></Col>
-            <Col style={{ padding: '1rem' }}><Image src="screen_2/indicators.png" alt="Add Indicators" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Add Indicators</p></Col>
-            <Col style={{ padding: '1rem' }}><Image src="screen_2/lines.png" alt="Draw Lines" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Draw Lines</p></Col>
-          </Row>
-          <Row xs={3}>
-            <Col style={{ padding: '1rem' }}><Image src="screen_2/photo.png" alt="Take Screenshots of Chart" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Save chart screenshots in cloud storage with permanent access</p></Col>
-            <Col style={{ padding: '1rem' }}><Image src="screen_2/TPSL.png" alt="Set Take Profit and Stop Loss" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Set Take Profit and Stop Loss</p></Col>
-            <Col style={{ padding: '1rem' }}><Image src="screen_2/statistic.png" alt="Detailed Statistics" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Detailed Statistics</p></Col>
-          </Row>
-        </>
-      )}
-      <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
-        <span style={{ fontSize: isMobile ? 15 : 25 }}>Sign Up</span>
-      </Button>
-    </Card.Body>
-  </Card>
-</div>
-
+      <div style={{ width: isMobile ? '100%' : '80%', height: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Card style={{ width: '100%', padding: '1rem', backgroundColor: theme == 'dark'? '#C4BCB5' : '#f2f2f2' }}>
+          <Card.Body style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            {isMobile ? (
+              <>
+                <Image src="screen_2/buy_sell.png" alt="Buy and Sell" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: isMobile? '1em' : '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Buy and Sell</p>
+                <Image src="screen_2/indicators.png" alt="Add Indicators" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: isMobile? '1em' : '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Add Indicators</p>
+                <Image src="screen_2/lines.png" alt="Draw Lines" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: isMobile? '1em' : '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Draw Lines</p>
+                <Image src="screen_2/photo.png" alt="Take Screenshots of Chart" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: isMobile? '1em' : '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Save chart screenshots in cloud storage with permanent access</p>
+                <Image src="screen_2/TPSL.png" alt="Set Take Profit and Stop Loss" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: isMobile? '1em' : '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Set Take Profit and Stop Loss</p>
+                <Image src="screen_2/statistic.png" alt="Detailed Statistics" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: isMobile? '1em' : '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Detailed Statistics</p>
+              </>
+            ) : (
+              <>
+                <Row xs={3}>
+                  <Col style={{ padding: '1rem' }}><Image src="screen_2/buy_sell.png" alt="Buy and Sell" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Buy and Sell</p></Col>
+                  <Col style={{ padding: '1rem' }}><Image src="screen_2/indicators.png" alt="Add Indicators" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Add Indicators</p></Col>
+                  <Col style={{ padding: '1rem' }}><Image src="screen_2/lines.png" alt="Draw Lines" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1'}}>Draw Lines</p></Col>
+                </Row>
+                <Row xs={3}>
+                  <Col style={{ padding: '1rem' }}><Image src="screen_2/photo.png" alt="Take Screenshots of Chart" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Save chart screenshots in cloud storage with permanent access</p></Col>
+                  <Col style={{ padding: '1rem' }}><Image src="screen_2/TPSL.png" alt="Set Take Profit and Stop Loss" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Set Take Profit and Stop Loss</p></Col>
+                  <Col style={{ padding: '1rem' }}><Image src="screen_2/statistic.png" alt="Detailed Statistics" style={{ width: '90%', height: 'auto', border: '2px solid black', borderRadius: '10px' }} /><p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', fontFamily: 'TextFont_1' }}>Detailed Statistics</p></Col>
+                </Row>
+              </>
+            )}
+            <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
+              <span style={{ fontSize: isMobile ? 15 : 25 }}>Sign Up</span>
+            </Button>
+          </Card.Body>
+        </Card>
+      </div>
     </Container>
   );
   

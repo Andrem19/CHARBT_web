@@ -6,6 +6,7 @@ import { PayButton } from './PayButton';
 import { getPaymentPlans } from '../../api/payment';
 import { setPaymentPlans } from '../../redux/dataActions';
 import AvatarWithBadge from '../NavBar/Avatar';
+import './styles.css'
 
 
 function Pricing() {
@@ -59,15 +60,15 @@ function Pricing() {
       <h1 className="text-center mb-4">Join us with one of our plans</h1>
 
       <div className="d-flex justify-content-center mb-5 align-items-center">
-      <div style={{ marginRight: '10px', padding: '10px', backgroundColor: theme === 'light' ? '#dee2e6' : '#343a40', borderRadius: '5px', fontSize: isMobile ? '0.8em' : '1em' }}>
-        -20%, which is like 72 days for free.
-      </div>
-      <span className="ml-3" style={{ fontSize: isMobile ? '0.8em' : '1em' }}>Annually</span>
-      <label className="switch" style={{ margin: 10 }}>
-        <input type="checkbox" checked={isMonthly} onChange={() => setIsMonthly(!isMonthly)} />
-        <span className="slider round"></span>
-      </label>
-      <span className="ml-3" style={{ fontSize: isMobile ? '0.8em' : '1em' }}>Monthly</span>
+        <div style={{ marginRight: '10px', padding: '10px', backgroundColor: theme === 'light' ? '#dee2e6' : '#343a40', borderRadius: '5px', fontSize: isMobile ? '0.8em' : '1em' }}>
+          -20%, which is like 72 days for free.
+        </div>
+        <span className="ml-3" style={{ fontSize: isMobile ? '0.8em' : '1em' }}>Annually</span>
+          <label className="switch" style={{ margin: 10 }}>
+            <input type="checkbox" checked={isMonthly} onChange={() => setIsMonthly(!isMonthly)} />
+            <span className="slider round"></span>
+          </label>
+        <span className="ml-3" style={{ fontSize: isMobile ? '0.8em' : '1em' }}>Monthly</span>
       </div>
 
 
