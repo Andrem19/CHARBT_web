@@ -21,6 +21,9 @@ jobs:
       - name: Clean npm cache
         run: npm cache clean --force
 
+      - name: Install @restart/ui
+        run: npm install @restart/ui@^1.6.8
+
       - name: Install dependencies
         run: npm install
 
