@@ -17,6 +17,10 @@ export const removeCurrentPosition = () => ({
     type: 'REMOVE_CURRENT_POSITION',
 });
 
+export const resetPositions = () => ({
+    type: 'RESET_POSITIONS',
+});
+
 export const addPositionToSession = (position) => ({
     type: 'ADD_POSITION_TO_SESSION',
     payload: position,

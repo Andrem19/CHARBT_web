@@ -20,8 +20,13 @@ function PositionsList() {
     setPositionShow(position);
   };
 
+  useEffect(() => {
+    console.log('curentSession new', currentSession)
+  }, [currentSession]);
+
+
   return currentSession ? (
-    <div>
+    <div key={currentSession.id}>
       <ul
         className="list-group"
         style={{ maxHeight: isMobile ? "220px" : "300px" }}
@@ -38,7 +43,7 @@ function PositionsList() {
           }, [])
           .map((position) => (
             <li
-              key={position.profit}
+              key={position.id}
               className={`list-group-item ${
                 position.profit < 0
                   ? "list-group-item-danger"

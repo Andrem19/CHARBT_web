@@ -23,7 +23,7 @@ import {
 import { clearMarkers } from "../../redux/dataActions";
 import { SessionOption } from "./sessionOption";
 import { useNavigate } from "react-router-dom";
-import { setUuidCode } from "../../redux/sessionActions";
+import { setUuidCode, resetPositions } from "../../redux/sessionActions";
 import { getColor } from "../../services/poisition";
 import { v4 as uuidv4 } from "uuid";
 import { setPair, setTimeframe, setNewPair } from "../../redux/dataActions";
@@ -73,6 +73,7 @@ function SessionInfo() {
   const handleSessionChange = async (selectedOption) => {
     const result = await getSession(navigate, selectedOption.value);
     if (result) {
+      dispatch(resetPositions());
       dispatch(setCurrentSession(result));
 
       dispatch(clearMarkers());

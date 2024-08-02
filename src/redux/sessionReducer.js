@@ -46,6 +46,14 @@ const initialState = {
           ...state,
           current_position: null,
         };
+      case 'RESET_POSITIONS':
+        return {
+            ...state,
+            curent_session: {
+                ...state.curent_session,
+                positions: []
+            }
+        };
       case 'ADD_POSITION_TO_SESSION':
         const existingPosition = state.curent_session.positions.find(pos => pos.id === action.payload.id);
         if (existingPosition) {
