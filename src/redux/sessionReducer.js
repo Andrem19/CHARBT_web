@@ -23,7 +23,10 @@ const initialState = {
       case 'SET_CURRENT_SESSION':
         return {
             ...state,
-            curent_session: action.payload,
+            curent_session: {
+              ...action.payload,
+              positions: action.payload.positions || [] 
+          },
         };
       case 'SET_CURRENT_SESSION_PNL':
         return {

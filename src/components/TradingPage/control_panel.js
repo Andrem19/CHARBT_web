@@ -48,9 +48,16 @@ function ControlPanel() {
     const handleTakeProfitChange = (event) => {
       if (tpslType === 'price') {
         setTakeProfit(event.target.value);
+        if (event.target.value === '') {
+          setTakeProfit(null);
+        }
       } else if (tpslType === 'percent') {
         setTakeProfitPerc(event.target.value);
         setTakeProfit(1);
+        if (event.target.value === '') {
+          setTakeProfitPerc(null);
+          setTakeProfit(null);
+        }
       }
   };
   
@@ -59,9 +66,16 @@ function ControlPanel() {
     const handleStopLossChange = (event) => {
       if (tpslType === 'price') {
         setStopLoss(event.target.value);
+        if (event.target.value === '') {
+          setStopLoss(null);
+        }
       } else if (tpslType === 'percent') {
         setStopLossPerc(event.target.value);
         setStopLoss(1);
+        if (event.target.value === '') {
+          setStopLossPerc(null);
+          setStopLoss(null);
+        }
       }
         
     };

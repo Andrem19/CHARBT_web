@@ -27,7 +27,9 @@ function PositionsList() {
         style={{ maxHeight: isMobile ? "220px" : "300px" }}
       >
         {currentSession &&
-          [...currentSession.positions].reverse().map((position) => (
+          [...currentSession.positions]
+          .filter(position => position.session_id === currentSession.id)
+          .sort((a, b) => b.id - a.id).map((position) => (
             <li
               key={position.profit}
               className={`list-group-item ${

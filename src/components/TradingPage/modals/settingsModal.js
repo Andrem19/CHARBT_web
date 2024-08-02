@@ -11,6 +11,7 @@ const SettingsModal = ({showSettings, setShowChart, setPriceMode, setTimeLine, s
     const showMarkers = useSelector((state) => state.data.showMarkers);
     const patterns = useSelector((state) => state.data.showPatterns);
     const showTools = useSelector((state) => state.data.showTools);
+    const isMobile = useSelector(state => state.user.isMobile);
     
 
     return (
@@ -23,13 +24,13 @@ const SettingsModal = ({showSettings, setShowChart, setPriceMode, setTimeLine, s
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                    <Form.Check 
+                    {!isMobile && <Form.Check 
                             onChange={setTools}
                             type="switch"
                             id="setTools"
                             label="Show Tools"
                             checked={showTools}
-                        />
+                        />}
                         <Form.Check 
                             onChange={setPatterns}
                             type="switch"
