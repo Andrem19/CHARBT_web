@@ -47,13 +47,18 @@ const initialState = {
           current_position: null,
         };
       case 'ADD_POSITION_TO_SESSION':
+        const existingPosition = state.curent_session.positions.find(pos => pos.id === action.payload.id);
+        if (existingPosition) {
+            return state; // Если позиция уже существует, не добавляем её снова
+        }
         return {
-          ...state,
-          curent_session: {
-              ...state.curent_session,
-              positions: [...state.curent_session.positions, action.payload]
-          }
-      };
+            ...state,
+            curent_session: {
+                ...state.curent_session,
+                positions: [...state.curent_session.positions, action.payload]
+            }
+        };
+      
       case 'SET_SESSIONS_LIST':
         return {
             ...state,

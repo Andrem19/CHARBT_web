@@ -29,7 +29,14 @@ function PositionsList() {
         {currentSession &&
           [...currentSession.positions]
           .filter(position => position.session_id === currentSession.id)
-          .sort((a, b) => b.id - a.id).map((position) => (
+          .sort((a, b) => b.id - a.id)
+          .reduce((unique, position) => {
+            if (!unique.some(item => item.id === position.id)) {
+              unique.push(position);
+            }
+            return unique;
+          }, [])
+          .map((position) => (
             <li
               key={position.profit}
               className={`list-group-item ${
