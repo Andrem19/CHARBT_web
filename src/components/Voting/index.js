@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBlog, voteOnPoll } from '../../api/data';
 import { useNavigate } from "react-router-dom";
 import { updateBlogLastVisit } from '../../redux/userActions';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import ReactPlayer from 'react-player';
 
 function VotingBlogPage() {
@@ -17,6 +19,12 @@ function VotingBlogPage() {
         const getData = async () => {
             const type = user ? 'api' : 'pub';
             const blog = await getBlog(navigate, type);
+            // Сортировка постов: сначала прикрепленные, затем остальные, и сортировка по дате
+            blog.sort((a, b) => {
+                if (a.pinned && !b.pinned) return -1;
+                if (!a.pinned && b.pinned) return 1;
+                return new Date(b.timestamp) - new Date(a.timestamp);
+            });
             setBlogPosts(blog);
             console.log(blog)
         }
@@ -41,7 +49,9 @@ function VotingBlogPage() {
                         const pollDisabled = post.poll && (post.poll.disabled || new Date(post.poll.to_date) < new Date());
                         return (
                             <Card key={index} className="mb-4" bg={theme} text={theme === 'dark' ? 'white' : 'dark'}>
-                                <Card.Header as="h5">{post.title}</Card.Header>
+                                <Card.Header as="h5">
+                                    {post.pinned && <FontAwesomeIcon style={{fontSize: 14, color: 'red'}} icon={faThumbTack} />} {post.title}
+                                </Card.Header>
                                 <Card.Body>
                                     {post.img_url && <Image src={post.img_url} fluid />}
                                     {post.video_url && <ReactPlayer url={post.video_url} width="100%" />}
