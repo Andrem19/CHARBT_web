@@ -18,6 +18,7 @@ function VotingBlogPage() {
             const type = user ? 'api' : 'pub';
             const blog = await getBlog(navigate, type);
             setBlogPosts(blog);
+            console.log(blog)
         }
         getData();
         if (user) {
