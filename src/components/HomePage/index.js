@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function HomePage() {
   const theme = useSelector(state => state.data.theme);
   const isMobile = useSelector(state => state.user.isMobile);
+  const user = useSelector(state => state.user.user);
   const navigate = useNavigate()
 
   const handleSignUp = () => {
@@ -31,9 +32,9 @@ function HomePage() {
             </ul>
           </Col>
           <Col md="auto" style={{ position: 'absolute', bottom: '10%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1, textAlign: 'center' }}>
-          <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
+          {user && <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
             <span style={{ fontSize: isMobile ? 15 : 25 }}>Sign Up</span>
-          </Button>
+          </Button>}
           </Col>
         </Row>
       </div>
@@ -65,9 +66,9 @@ function HomePage() {
                 </Row>
               </>
             )}
-            <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
+            {user && <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
               <span style={{ fontSize: isMobile ? 15 : 25 }}>Sign Up</span>
-            </Button>
+            </Button>}
           </Card.Body>
         </Card>
       </div>

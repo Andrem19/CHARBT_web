@@ -216,7 +216,7 @@ function NavB() {
                 { user && <Nav.Link onClick={handleScreenshotsPage} style={{ color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Screenshots</span></Nav.Link> }
                 <Nav.Link onClick={handlePricing} style={{ color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Pricing</span></Nav.Link>
                 {globalSettings && globalSettings.blogOn && <Nav.Link onClick={blog} style={{ color: 'var(--navbar-text-color)', position: 'relative', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}>
-                  <span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '0.6em' : '1em' }}>Info</span>
+                  <span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Info</span>
                   {user && showNewPost(user.blogLastVisit, globalSettings.blogLastPost) && 
                     <span style={{ 
                       color: 'red', 

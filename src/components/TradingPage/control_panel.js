@@ -104,7 +104,8 @@ function ControlPanel() {
     };
 
     const handleQuantity = (event) => {
-      setAmount(Number(event.target.value));
+      const value = event.target.value;
+      setAmount(value === '' ? '' : Number(value));
     }
 
     const handleStepChange = (event) => {
@@ -237,6 +238,9 @@ function ControlPanel() {
       const candel = list[cursor-1]
       if (amount>curent_session.balance) {
         dispatch(setMsg('Your balance is not enough'))
+      }
+      if (amount<=19) {
+        dispatch(setMsg('You need to set amount 20 or more USD'))
       }
       let tp = 0
       let sl = 0
