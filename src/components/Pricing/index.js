@@ -56,7 +56,7 @@ function Pricing() {
       </Spinner>
     </div> :
     <div className={` ${theme === 'light' ? 'light-theme' : 'dark-theme'}`}>
-    <Container >
+    <Container>
       <h1 className="text-center mb-4">Join us with one of our plans</h1>
 
       <div className="d-flex justify-content-center mb-5 align-items-center">

@@ -158,6 +158,7 @@ function MyScreenshots() {
 
       <Pagination
         className="justify-content-center"
+        style={{ marginTop: 5 }}
       >
         {pageNumbers}
       </Pagination>

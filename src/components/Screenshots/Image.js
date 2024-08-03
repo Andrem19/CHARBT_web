@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "react-bootstrap";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from 'react-redux';
 
 function ImageWithDelete({ url, handleShow, handleDelete }) {
     const [showDeleteIcon, setShowDeleteIcon] = useState(false);
     const fileName = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'));
+    const isMobile = useSelector(state => state.user.isMobile);
   
     return (
       <div 
@@ -20,7 +22,7 @@ function ImageWithDelete({ url, handleShow, handleDelete }) {
           onClick={() => handleShow(url)} 
           style={{cursor: 'pointer', height: 'auto', minHeight: '200px'}}
         />
-        {showDeleteIcon && (
+        {showDeleteIcon && !isMobile && (
           <FontAwesomeIcon 
             onClick={() => handleDelete(url)} 
             icon={faTrash} 

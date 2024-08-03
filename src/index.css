@@ -142,3 +142,13 @@ code {
   font-family: 'TextFont_1';
   src: url('./fonts/Electrolize-Regular.ttf') format('truetype');
 }
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--footer-bg-color);
+  color: var(--footer-text-color);
+  text-align: center;
+  padding: 10px 0;
+}

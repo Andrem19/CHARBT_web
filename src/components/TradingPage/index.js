@@ -42,7 +42,7 @@ function Trading() {
   const containerchart = {
     backgroundColor: 'var(--bg-color)',
     color: 'var(--text-color)',
-    height: isMobile ? '150vh' : '100vh',
+    height: isMobile ? '165vh' : '',
     display: 'flex',
     flexDirection: 'column',
   };
@@ -56,6 +56,7 @@ function Trading() {
     </div> :
     isLoading === 'finish' && user ?
     <div style={containerchart}>
+
       <div className='rowchart'>
           <Chart isMobile={isMobile}></Chart>
         <div className='controlPanel'>
@@ -83,7 +84,8 @@ function Trading() {
           </>
         )}
       </div>
-    </div> : 
+      </div>
+    : 
     null
   );
   

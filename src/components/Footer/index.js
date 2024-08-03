@@ -1,16 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { useLocation } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 
 function Footer() {
     const theme = useSelector(state => state.data.theme);
     const location = useLocation();
     const isHomePage = location.pathname === '/home' || location.pathname === '/';
+    const [windowSize, setWindowSize] = useState(window.innerWidth)
 
+    useEffect(() => {
+      const handleResize = () => {
+        console.log(window.innerWidth)
+        setWindowSize(window.innerWidth);
+      };
+  
+      handleResize();
+  
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, [window.innerWidth]);
 
   return (
-    <MDBFooter style={{position: 'sticky', fontFamily: isHomePage ? 'TextFont_1' : 'defaultFont', backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black' }} >
+    <MDBFooter style={{zIndex:-9999, position: 'static', fontFamily: isHomePage ? 'TextFont_1' : 'defaultFont', backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black' }} >
       <section  className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
         <div>
           <a href='' className='me-4 text-reset'>

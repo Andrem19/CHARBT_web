@@ -15,11 +15,11 @@ export async function uploadScreenshot(navigate, screenshot, name) {
         const headers = { 'Content-Type': 'multipart/form-data' };
         const uploadResponse = await apiRequest(navigate, 'POST', '/upload_screenshot', formData, headers);
         
-        if (uploadResponse) {
-            return uploadResponse.data.file_url;
+        if (uploadResponse.status === 200) {
+            return {result: true, file_url: uploadResponse.data.file_url};
         } else {
             console.error('Error uploading screenshot');
-            return null;
+            return {result: false, message: uploadResponse.data.message};
         }
     } catch (error) {
         console.error('Error in uploadScreenshot:', error);

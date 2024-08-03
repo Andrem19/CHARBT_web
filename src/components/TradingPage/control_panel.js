@@ -399,7 +399,7 @@ function ControlPanel() {
       }
       dispatch(resetStopLossLine())
       dispatch(resetTakeProfitLine())
-      if (list.length-21 < cursor) {
+      if (list.length-21 < cursor && user.payment_status !== 'default') {
         dispatch(loadList(current_pair, TIME_CONVERT_REVERSED[current_timeframe], list[list.length-1].time *1000))
       }
   };

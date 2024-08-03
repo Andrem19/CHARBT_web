@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBlog, voteOnPoll } from '../../api/data';
 import { useNavigate } from "react-router-dom";
 import { updateBlogLastVisit } from '../../redux/userActions';
+import ReactPlayer from 'react-player';
 
 function VotingBlogPage() {
     const navigate = useNavigate();
@@ -42,6 +43,7 @@ function VotingBlogPage() {
                                 <Card.Header as="h5">{post.title}</Card.Header>
                                 <Card.Body>
                                     {post.img_url && <Image src={post.img_url} fluid />}
+                                    {post.video_url && <ReactPlayer url={post.video_url} width="100%" />}
                                     <Card.Text>{post.content}</Card.Text>
                                     {post.poll && (
                                         <>

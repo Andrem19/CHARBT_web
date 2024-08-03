@@ -13,6 +13,7 @@ import {
   import { addScreenshot } from "../../redux/dataActions";
 import ImageModal from "./modals/imageModal";
 import { uploadScreenshot } from "../../api/data";
+import { setMsg } from '../../redux/userActions';
 
 function ToolsPanel({
     chartGlobal, 
@@ -77,12 +78,16 @@ function ToolsPanel({
 
   const handleSave = async (imageName) => {
     let screenshot = chartGlobal.takeScreenshot();
-    const screenshot_url = await uploadScreenshot(
+    const result = await uploadScreenshot(
       navigate,
       screenshot,
       imageName
     );
-    dispatch(addScreenshot(screenshot_url));
+    if (result.result) {
+      dispatch(addScreenshot(result.file_url));
+    } else {
+      dispatch(setMsg(result.message))
+    }
     handleClose();
   };
 
