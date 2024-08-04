@@ -32,7 +32,7 @@ function HomePage() {
             </ul>
           </Col>
           <Col md="auto" style={{ position: 'absolute', bottom: '10%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1, textAlign: 'center' }}>
-          {user && <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
+          {!user && <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
             <span style={{ fontSize: isMobile ? 15 : 25 }}>Sign Up</span>
           </Button>}
           </Col>
@@ -66,7 +66,7 @@ function HomePage() {
                 </Row>
               </>
             )}
-            {user && <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
+            {!user && <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ height: isMobile ? '40px' : '60px', width: isMobile ? '150px' : '250px', marginRight: '10px' }}>
               <span style={{ fontSize: isMobile ? 15 : 25 }}>Sign Up</span>
             </Button>}
           </Card.Body>

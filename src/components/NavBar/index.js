@@ -145,6 +145,7 @@ function NavB() {
 
   const blog = () => {
     navigate('/blog')
+    setExpanded(false);
   }
 
 
