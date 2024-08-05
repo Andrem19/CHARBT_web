@@ -12,6 +12,7 @@ function SubscriptionDetails() {
   const [modalTitle, setModalTitle] = useState('');
   const [modalDate, setModalDate] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reqSended, setReqSended] = useState(false)
   const dispatch = useDispatch();
   const plan = useSelector(state => state.payment.plan);
   const theme = useSelector((state) => state.data.theme);
@@ -27,6 +28,7 @@ function SubscriptionDetails() {
 
   const onSubmit = async () => {
     const result = await checkoutReq(navigate, token_id, plan, monthly)
+    setReqSended(true)
     dispatch(setMsg(result))
     await new Promise(resolve => setTimeout(resolve, 1000));
     navigate('/trading')
@@ -70,7 +72,7 @@ function SubscriptionDetails() {
           I authorize CharBt to charge me automatically until I cancel my subscription. I have read and agree to CharBt <span style={{textDecoration: 'underline', fontWeight: 'bold', color: theme === 'dark' ? 'white' : 'blue', cursor: 'pointer'}} onMouseDown={(e) => { e.stopPropagation(); handleLinkClick('terms_of_service'); }}>Terms of Service</span> and <span style={{textDecoration: 'underline', fontWeight: 'bold', color: theme === 'dark' ? 'white' : 'blue', cursor: 'pointer'}} onMouseDown={(e) => { e.stopPropagation(); handleLinkClick('privacy_policy'); }}>Privacy Policy</span>.
         </label>
       </div>
-      <button className="subscription-button" onClick={isChecked ? onSubmit : null} disabled={!isChecked || token_id == null}>
+      <button className="subscription-button" onClick={isChecked && !reqSended ? onSubmit : null} disabled={!isChecked || token_id == null}>
         Start Subscription
       </button>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={modalTitle} content={modalContent} acceptTerms={false} date={modalDate} />

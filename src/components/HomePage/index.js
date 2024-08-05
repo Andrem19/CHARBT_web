@@ -15,14 +15,15 @@ function HomePage() {
 
   return (
     <Container fluid style={{ backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: isMobile ? '300vh' : '200vh', paddingTop: '1rem' }}>
+      <h1>Historical Data Back Testing</h1>
       <div style={{ width: isMobile ? '100%' : '80%', height: '50%', border: '1px solid black', borderRadius: '10px', overflow: 'hidden', position: 'relative', fontFamily: 'TextFont_1' }}>
         <Image src="HomePageBackground.png" alt="Candles" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} />
         <Row className="justify-content-md-center" style={{ position: 'relative', height: '100%', justifyContent: 'space-between' }}>
           {isMobile? <Col md="auto" style={{ position: 'absolute', top: '10%', zIndex: 1, textAlign: 'center' }}>
-          <h1 style={{ fontWeight: 'bold', marginBottom: '120px', fontSize: isMobile ? '1.5em' : '2.5em' }}>
+          <h2 style={{ fontWeight: 'bold', marginBottom: '120px', fontSize: isMobile ? '1.5em' : '2.5em' }}>
             <span style={{ color: '#00d8b2'}}>MASTER TRADING WITH</span> 
             <span style={{ color: '#ff7f6c' }}>CharBT</span>
-          </h1>
+          </h2>
             <ul style={{ color: '#00d8b2', fontSize: isMobile ? '1em' : '1.5em', textAlign: 'left', listStyleType: 'none', fontWeight: 'bold' }}>
               <li style={{ textShadow: '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black', marginBottom: isMobile ? '15px' : '30px' }}><span style={{ color: '#ff7f6c' }}>HISTORICAL MARKET REPLAY:</span> Practice trading with real data from past stock and crypto markets</li>
               <li style={{ textShadow: '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black', marginBottom: isMobile ? '15px' : '30px' }}><span style={{ color: '#ff7f6c' }}>STRATEGY TESTING:</span> Experiment with your trading strategies in historical market scenarios</li>

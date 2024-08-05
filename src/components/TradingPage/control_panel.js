@@ -236,11 +236,13 @@ function ControlPanel() {
       }
       setPositionToClose(false)
       const candel = list[cursor-1]
-      if (amount>curent_session.balance) {
+      if (amount > (curent_session.balance+curent_session_pnl)) {
         dispatch(setMsg('Your balance is not enough'))
+        return
       }
       if (amount<=19) {
         dispatch(setMsg('You need to set amount 20 or more USD'))
+        return
       }
       let tp = 0
       let sl = 0
