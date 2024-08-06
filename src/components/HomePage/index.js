@@ -17,11 +17,16 @@ function HomePage() {
     <Container fluid style={{ backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: isMobile ? 'auto' : '200vh', paddingTop: '1rem' }}>
       <h1 style={{ fontFamily: !isMobile ? 'TextFont_1' : '' }}>Historical Data Back Testing</h1>
       <div style={{ width: isMobile ? '100%' : '80%', height: isMobile ? 'auto' : '50%', border: '1px solid black', borderRadius: '10px', overflow: 'hidden', position: 'relative', fontFamily: 'TextFont_1', margin: isMobile ? '1rem' : '1rem 0' }}>
-        <video autoPlay loop muted style={{ width: '100%', height: isMobile ? 'auto' : '100%', objectFit: isMobile ? 'contain' : 'cover' }}>
-          <source src="charbt_tutorial.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
+    <video autoPlay loop muted style={{ width: '100%', height: isMobile ? 'auto' : '100%', objectFit: isMobile ? 'contain' : 'cover' }}>
+      <source src="charbt_tutorial.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    {!user && (
+      <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', opacity: 0.6, height: isMobile ? '35px' : '60px', width: isMobile ? '120px' : '250px' }}>
+        <span style={{ fontSize: isMobile ? 15 : 25 }}>Sign Up</span>
+      </Button>
+    )}
+  </div>
 
 
 

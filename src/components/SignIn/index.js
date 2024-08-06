@@ -16,6 +16,7 @@ function SignInSignUpPage() {
   const errorState = useSelector((state) => state.user.error);
   const errorCount = useSelector((state) => state.user.errorCount);
   const user = useSelector((state) => state.user.user);
+  const theme = useSelector(state => state.data.theme);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -231,14 +232,14 @@ function SignInSignUpPage() {
                 <span>
                   I have read and agree to CharBt <br />
                   <span 
-                    style={{textDecoration: 'underline', fontWeight: 'bold', color: 'blue', cursor: 'pointer'}} 
+                    style={{textDecoration: 'underline', fontWeight: 'bold', color: theme == 'dark'? 'white' : 'blue', cursor: 'pointer'}} 
                     onClick={() => handleLinkClick('terms_of_service')}
                   >
                     Terms of Use
                   </span> 
                   {' and '}
                   <span 
-                    style={{textDecoration: 'underline', fontWeight: 'bold', color: 'blue', cursor: 'pointer'}} 
+                    style={{textDecoration: 'underline', fontWeight: 'bold', color: theme == 'dark'? 'white' : 'blue', cursor: 'pointer'}} 
                     onClick={() => handleLinkClick('privacy_policy')}
                   >
                     Privacy Policy
