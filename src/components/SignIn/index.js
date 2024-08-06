@@ -151,9 +151,9 @@ function SignInSignUpPage() {
               className="mb-3"
               style={{ maxWidth: '250px' }}
             />
-            <Button variant="primary" onClick={handleNextClick}>
-              Next
-            </Button>
+              <Button variant="primary" onClick={handleNextClick}>
+                Next
+              </Button>
           </>
         ) : isUserExist ? (
           <>

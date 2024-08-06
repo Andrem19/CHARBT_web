@@ -27,8 +27,8 @@ function SubscriptionDetails() {
   };
 
   const onSubmit = async () => {
-    const result = await checkoutReq(navigate, token_id, plan, monthly)
     setReqSended(true)
+    const result = await checkoutReq(navigate, token_id, plan, monthly)
     dispatch(setMsg(result))
     await new Promise(resolve => setTimeout(resolve, 1000));
     navigate('/trading')

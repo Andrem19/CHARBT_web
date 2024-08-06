@@ -240,7 +240,7 @@ function ControlPanel() {
         dispatch(setMsg('Your balance is not enough'))
         return
       }
-      if (amount<=19) {
+      if (amount<=19.99) {
         dispatch(setMsg('You need to set amount 20 or more USD'))
         return
       }

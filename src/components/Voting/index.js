@@ -34,8 +34,8 @@ function VotingBlogPage() {
         }
     }, []);
 
-    const handleVote = async (postId, optionId) => {
-        if (user) {
+    const handleVote = async (isVoted, postId, optionId) => {
+        if (user && !isVoted) {
             const updatedBlog = await voteOnPoll(navigate, postId, optionId);
             setBlogPosts(updatedBlog);
         }
@@ -66,7 +66,7 @@ function VotingBlogPage() {
                                                     const totalVotes = post.poll.options.reduce((total, opt) => total + opt.votes, 0);
                                                     const votePercentage = totalVotes > 0 ? Math.round((option.votes / totalVotes) * 100) : 0;
                                                     return (
-                                                        <ListGroup.Item key={index} action variant={theme} onClick={!pollDisabled && user ? () => handleVote(post.id, option.id) : null}>
+                                                        <ListGroup.Item key={index} action variant={theme} onClick={!pollDisabled && user ? () => handleVote(post.isVoted, post.id, option.id) : null}>
                                                             {option.name} {pollDisabled || post.isVoted ? `(${option.votes} votes, ${votePercentage}%)` : ''}
                                                             {pollDisabled || post.isVoted ? <ProgressBar now={votePercentage} label={`${votePercentage}%`} /> : ''}
                                                         </ListGroup.Item>

@@ -20,10 +20,6 @@ function PositionsList() {
     setPositionShow(position);
   };
 
-  useEffect(() => {
-    console.log('curentSession new', currentSession)
-  }, [currentSession]);
-
 
   return currentSession ? (
     <div key={currentSession.id}>
