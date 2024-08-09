@@ -32,23 +32,31 @@ function SubscriptionDetails() {
   };
 
   const createSubscription = async (paymentIntentId) => {
+    const jwt = localStorage.getItem('jwt');
+    
+    if (!jwt || jwtExpired(jwt)) {
+        navigate('/login');
+        return;
+    }
     const response = await fetch(`${API_URL}/create-subscription`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}` // Добавляем JWT токен в заголовок
       },
       body: JSON.stringify({
         payment_intent_id: paymentIntentId,
       }),
     });
-  
+
     const data = await response.json();
     if (data.message === 'Subscription created successfully') {
-      console.log('Subscription created successfully');
+        console.log('Subscription created successfully');
     } else {
-      console.error('Subscription creation failed');
+        console.error('Subscription creation failed');
     }
-  };
+};
+
 
   const onSubmit = async () => {
     setReqSended(true);
