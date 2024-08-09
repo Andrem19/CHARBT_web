@@ -91,4 +91,4 @@ export const tradingPairs = {
     'USDCHF': 4, 
     'AUDUSD': 4
 }
-export const STRIPE_KEY='pk_test_51PXPAJJlOCgKlIIvREJR6hnBI7G8CmG466JGA17egI8aLSfL0cAnbkrdZ7QNHjT5q1a4c1rV4l4Bt1VRRQ7C2PHb0003Ddd0Hn'
+export const STRIPE_KEY='pk_live_51PXPAJJlOCgKlIIvmiQq6esI7faaNJQy3UxuAEJokqFF8UQJd1qOUQoUsM6XCQ3IWhMezHAM2iqhEXLq5QQYfWMv00utc6uGxw'

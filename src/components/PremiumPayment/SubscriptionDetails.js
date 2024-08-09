@@ -5,7 +5,6 @@ import { reloadUser, setMsg } from '../../redux/userActions';
 import { checkoutReq } from '../../api/payment';
 import Modal from '../ServicePage/modalText';
 import { getText } from '../../api/data';
-import { API_URL } from '../../config';
 import { useStripe, useElements, CardNumberElement } from '@stripe/react-stripe-js';
 
 function SubscriptionDetails() {
@@ -31,38 +30,10 @@ function SubscriptionDetails() {
     setIsChecked(event.target.checked);
   };
 
-  const createSubscription = async (paymentIntentId) => {
-    const jwt = localStorage.getItem('jwt');
-    
-    if (!jwt || jwtExpired(jwt)) {
-        navigate('/login');
-        return;
-    }
-    const response = await fetch(`${API_URL}/create-subscription`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwt}` // Добавляем JWT токен в заголовок
-      },
-      body: JSON.stringify({
-        payment_intent_id: paymentIntentId,
-      }),
-    });
-
-    const data = await response.json();
-    if (data.message === 'Subscription created successfully') {
-        console.log('Subscription created successfully');
-    } else {
-        console.error('Subscription creation failed');
-    }
-};
-
 
   const onSubmit = async () => {
     setReqSended(true);
     const result = await checkoutReq(navigate, token_id, plan, monthly);
-    // dispatch(setMsg(result));
-    console.log('result.client_secret', result.client_secret)
     const { error, paymentIntent } = await stripe.confirmCardPayment(result.client_secret, {
       payment_method: {
         card: elements.getElement(CardNumberElement),
@@ -76,13 +47,12 @@ function SubscriptionDetails() {
     if (error) {
       dispatch(setMsg('error'));
     } else if (paymentIntent.status === 'succeeded') {
-      const res = await createSubscription(paymentIntent.id)
-      console.log('res', res)
       dispatch(setMsg('Payment succeeded!'));
       await new Promise(resolve => setTimeout(resolve, 1000));
       navigate('/trading');
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      dispatch(reloadUser(navigate));
+      // await new Promise(resolve => setTimeout(resolve, 3000));
+      // dispatch(reloadUser(navigate));
+      // 4000002760003184 card with auth
     }
   };
 
