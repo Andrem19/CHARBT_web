@@ -66,6 +66,8 @@ function PaymentForm() {
     }
   };
 
+
+
   return (
     <div className={isMobile ? "mobile-checkout-form" : "checkout-form"}>
       <h2 className="left-align">Subscription {plan} (pay {monthly ? 'monthly' : 'annually'})</h2>
