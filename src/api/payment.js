@@ -17,7 +17,7 @@ export async function checkoutReq(navigate, token, plan, monthly) {
       const response = await apiRequest(navigate, 'POST', '/checkout', data);
       
       if (response) {
-          return response.data.message;
+          return response.data;
       } else {
           console.error('Error fetching payment plans');
           return null;

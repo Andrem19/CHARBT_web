@@ -18,8 +18,7 @@ function Checkout() {
       <div className="content-row" style={{ flexDirection: isMobile ? 'column' : 'row' }}>
         <Elements stripe={stripePromise}>
           <PaymentForm />
-        
-        <SubscriptionDetails />
+          <SubscriptionDetails />
         </Elements>
       </div>
     </div>
