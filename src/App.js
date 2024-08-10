@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './redux';
@@ -21,7 +21,6 @@ import { Toast, Alert } from 'react-bootstrap';
 import TermsOfService from './components/ServicePage/termsOfService';
 import PrivacyPolicy from './components/ServicePage/privacyPolicy';
 import VotingBlogPage from './components/Voting';
-import { useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga';
 
 const store = configureStore({
@@ -54,7 +53,7 @@ const MainApp = () => {
   }, [msg, dispatch]);
 
   return (
-    <Router>
+    <>
       <NavB />
         {show && (
           <Toast style={{ zIndex: 9999, position: 'fixed', top: 0, left: '50%', transform: 'translate(-50%, 0)' }} onClose={() => setShow(false)} show={show} delay={7000} autohide>
@@ -86,14 +85,16 @@ const MainApp = () => {
         </Routes>
       </div>
       {!isMobile && <Footer />}
-    </Router>
+    </>
   );
 };
 
 function App() {
   return (
     <Provider store={store}>
-      <MainApp />
+      <Router>
+        <MainApp />
+      </Router>
     </Provider>
   );
 }
