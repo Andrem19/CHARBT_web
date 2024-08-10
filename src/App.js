@@ -21,6 +21,8 @@ import { Toast, Alert } from 'react-bootstrap';
 import TermsOfService from './components/ServicePage/termsOfService';
 import PrivacyPolicy from './components/ServicePage/privacyPolicy';
 import VotingBlogPage from './components/Voting';
+import { useLocation } from 'react-router-dom';
+import ReactGA from 'react-ga';
 
 const store = configureStore({
   reducer: rootReducer,
@@ -28,11 +30,17 @@ const store = configureStore({
 });
 
 const MainApp = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.data.theme);
   const msg = useSelector((state) => state.user.msg);
   const isMobile = useSelector(state => state.user.isMobile);
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    ReactGA.initialize('G-WC3KHWNHNL');
+    ReactGA.pageview(location.pathname + location.search);
+  }, [location]);
 
   useEffect(() => {
     if (msg) {
