@@ -70,7 +70,7 @@ const MainApp = () => {
           <Route path="/trading" element={<Trading />} />
           <Route path="/screenshots" element={<MyScreenshots />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/pricing" element={<Pricing />} />
+          {/* <Route path="/pricing" element={<Pricing />} /> */}
           <Route path="/support" element={<ProfileSettings />} />
           <Route path="/profile_settings" element={<ProfileSettings />} />
           <Route path="/blog" element={<VotingBlogPage />} />
