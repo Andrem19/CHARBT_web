@@ -14,8 +14,9 @@ function HomePage() {
   };
 
   return (
-    <Container fluid style={{ backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: isMobile ? 'auto' : '200vh', paddingTop: '1rem' }}>
+    <Container fluid style={{ backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: isMobile ? 'auto' : 'auto', paddingTop: '1rem' }}>
       <h1 style={{ fontFamily: !isMobile ? 'TextFont_1' : '' }}>Historical Data Back Testing</h1>
+      <h2 style={{ fontFamily: !isMobile ? 'TextFont_1' : '' }}> Crypto, Stock, Forex</h2>
       <div style={{ width: isMobile ? '100%' : '80%', height: isMobile ? 'auto' : '50%', border: '1px solid black', borderRadius: '10px', overflow: 'hidden', position: 'relative', fontFamily: 'TextFont_1', margin: isMobile ? '1rem' : '1rem 0' }}>
     <video autoPlay loop muted style={{ width: '100%', height: isMobile ? 'auto' : '100%', objectFit: isMobile ? 'contain' : 'cover' }}>
       <source src="charbt_tutorial.mp4" type="video/mp4" />
@@ -27,6 +28,18 @@ function HomePage() {
       </Button>
     )}
   </div>
+
+  <div style={{ width: isMobile ? '100%' : '80%', height: isMobile ? 'auto' : '50%', border: '1px solid black', borderRadius: '10px', overflow: 'hidden', position: 'relative', fontFamily: 'TextFont_1', margin: isMobile ? '1rem' : '1rem 0' }}>
+        <Image src="android_app.jpg" alt="Download our app" style={{ width: '100%', height: isMobile ? 'auto' : '100%', objectFit: isMobile ? 'contain' : 'cover' }} />
+        <div style={{ position: 'absolute', top: '10px', left: isMobile? '40%' : '40%', transform: 'translateX(-50%)', color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: '5px 10px', borderRadius: '5px', fontSize: isMobile ? '1em' : '1.5em', fontFamily: 'TextFont_1' }}>
+          <span style={{fontSize: isMobile? 13 : 40}}>Download our app and get access anywhere...</span>
+        </div>
+        {!user && !isMobile && (
+      <Button onClick={handleSignUp} variant="primary" size={isMobile ? "sm" : "lg"} style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', opacity: 0.6, height: isMobile ? '35px' : '60px', width: isMobile ? '120px' : '250px' }}>
+        <span style={{ fontSize: isMobile ? 15 : 25 }}>Sign Up</span>
+      </Button>
+    )}
+      </div>
 
 
 

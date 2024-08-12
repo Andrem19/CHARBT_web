@@ -21,6 +21,7 @@ import { Toast, Alert } from 'react-bootstrap';
 import TermsOfService from './components/ServicePage/termsOfService';
 import PrivacyPolicy from './components/ServicePage/privacyPolicy';
 import VotingBlogPage from './components/Voting';
+import AppPage from './components/AppsPage/Android';
 import ReactGA from 'react-ga';
 
 const store = configureStore({
@@ -76,6 +77,7 @@ const MainApp = () => {
           <Route path="/billing_settings" element={<ProfileSettings />} />
           <Route path="/referal_program" element={<ReferralPage />} />
           <Route path="/terms_of_service" element={<TermsOfService />} />
+          <Route path="/mobile_app" element={<AppPage />} />
           <Route path="/privacy_policy" element={<PrivacyPolicy />} />
           <Route path="/email_confirmation" element={<PleaseConfirmEmail />} />
           <Route path="/req_reset_password" element={<RequestResetPasswordPage />} />

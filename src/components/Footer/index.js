@@ -68,7 +68,7 @@ function Footer() {
                 </a>
               </p>
               <p style={{fontSize: '0.7rem'}}>
-                <a href='/' className='text-reset'>
+                <a href='/mobile_app' className='text-reset'>
                   Android
                 </a>
               </p>
