@@ -201,7 +201,7 @@ function ProfileSettings() {
             </Col>
           </Row>
           <br/>
-          <Row style={{ marginBottom: 20 }}>
+          {!isMobile && <Row style={{ marginBottom: 20 }}>
             <Col md={2}>
             <Form.Label style={{ fontSize: 20, marginBottom: 10 }} >Avatar:</Form.Label>
               <Form.Group controlId="formAvatar">
@@ -218,7 +218,7 @@ function ProfileSettings() {
                 <Button variant="outline-warning" onClick={handleDeleteAvatar} style={{ marginTop: '10px' }}>Delete Avatar</Button>
               </div>
             </Col>
-          </Row>
+          </Row>}
           <br/>
           <Row>
             <Col md={4}>

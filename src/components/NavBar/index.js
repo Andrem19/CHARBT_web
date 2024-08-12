@@ -152,6 +152,11 @@ function NavB() {
     setExpanded(false);
   }
 
+  const loginsignup = () => {
+    navigate('/login')
+    setExpanded(false);
+  }
+
 
   return (
     loading ? 
@@ -258,20 +263,20 @@ function NavB() {
             </>
           ) : !user && !isMobile && (
             location.pathname !== '/login' && (
-              <Link to="/login" className="ml-auto me-3" >
-                <Button variant="outline-success" className='fw-bold' style={{ minWidth: '180px' }}><span style={{ fontFamily: 'TextFont_1' }}>Log in / Sign Up</span></Button>
-              </Link>
+
+                <Button onClick={loginsignup}  variant="outline-success" className='fw-bold' style={{ minWidth: '180px' }}><span style={{ fontFamily: 'TextFont_1' }}>Log in / Sign Up</span></Button>
+
             
             )
           )}
   
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10, marginLeft: 15 }}>
           {!user && isMobile && location.pathname !== '/login' && (
-            <Link to="/login" className="ml-auto me-3" >
-              <Button variant="outline-success" className='fw-bold' style={{ minWidth: isMobile ? '120px' : '180px' }}>
+
+              <Button onClick={loginsignup} variant="outline-success" className='fw-bold' style={{ minWidth: isMobile ? '120px' : '180px' }}>
                 <span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? 12 : 16 }}>Log in / Sign Up</span>
               </Button>
-            </Link>
+
           )}
         </div>
           {!isMobile && <>
