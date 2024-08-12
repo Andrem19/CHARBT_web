@@ -37,7 +37,7 @@ function HomePage() {
   <div style={{ width: isMobile ? '100%' : '80%', height: isMobile ? 'auto' : '50%', border: '1px solid black', borderRadius: '10px', overflow: 'hidden', position: 'relative', fontFamily: 'TextFont_1', margin: isMobile ? '1rem' : '1rem 0' }}>
         <Image src="android_app.jpg" alt="Download our app" style={{ width: '100%', height: isMobile ? 'auto' : '100%', objectFit: isMobile ? 'contain' : 'cover' }} />
         <div style={{ position: 'absolute', top: '20px', right: '20px', padding: '5px', backgroundColor: 'white', borderRadius: '5px', cursor: 'pointer' }} onClick={handleQRCodeClick}>
-          <QRCode value="https://charbt.com/mobile_app" size={148} />
+          <QRCode value="https://charbt.com/mobile_app" size={isMobile? 48 : 148} />
         </div>
         <div style={{ position: 'absolute', top: '10px', left: isMobile ? '40%' : '40%', transform: 'translateX(-50%)', color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: '5px 10px', borderRadius: '5px', fontSize: isMobile ? '1em' : '1.5em', fontFamily: 'TextFont_1' }}>
           <span style={{ fontSize: isMobile ? 13 : 40 }}>Download our app and get access anywhere...</span>

@@ -8,7 +8,7 @@ function AppPage() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh', // Высота контейнера на всю высоту экрана
+    height: '100vh',
     textAlign: 'center',
     fontSize: isMobile ? '12px' : '26px',
   };
