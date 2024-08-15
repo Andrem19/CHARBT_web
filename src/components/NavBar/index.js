@@ -140,6 +140,9 @@ function NavB() {
   const referal = () => {
     navigate('/referal_program')
   }
+  const personal_dataset = () => {
+    navigate('/personal_dataset')
+  }
   const billing = () => {
     navigate('/billing_settings')
   }
@@ -194,6 +197,7 @@ function NavB() {
                 <NavDropdown.Item onClick={profile} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={billing} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Account and Billing</NavDropdown.Item>
                 <NavDropdown.Item onClick={referal} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Referal Program</NavDropdown.Item>
+                <NavDropdown.Item disabled={user.payment_status === 'essential' || user.payment_status === 'default'} onClick={personal_dataset} style={{ color: 'var(--navbar-text-color)'}}><span style={{color: user.payment_status === 'essential' || user.payment_status === 'default' ? 'grey' : ''}}>Personal Dataset</span></NavDropdown.Item>
                 <Dropdown.Divider />
                 {isMobile && <>
                   <div onClick={changeTheme} style={{marginLeft: 15, cursor: 'pointer', fontSize: 15, color: 'white'}}>
@@ -224,7 +228,7 @@ function NavB() {
                 <Nav.Link onClick={handleHomeClick} style={{ textDecoration: isActive('/home') ? 'underline' : 'none', color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Home</span></Nav.Link>
                 { user && <Nav.Link onClick={handleTradingClick} style={{ textDecoration: isActive('/trading') ? 'underline' : 'none', color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Trading</span></Nav.Link> }
                 { user && <Nav.Link onClick={handleScreenshotsPage} style={{ textDecoration: isActive('/screenshots') ? 'underline' : 'none', color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Screenshots</span></Nav.Link> }
-                {/* <Nav.Link onClick={handlePricing} style={{ textDecoration: isActive('/pricing') ? 'underline' : 'none',  color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Pricing</span></Nav.Link> */}
+                <Nav.Link onClick={handlePricing} style={{ textDecoration: isActive('/pricing') ? 'underline' : 'none',  color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Pricing</span></Nav.Link>
                 {globalSettings && globalSettings.blogOn && <Nav.Link onClick={blog} style={{ textDecoration: isActive('/blog') ? 'underline' : 'none', color: 'var(--navbar-text-color)', position: 'relative', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}>
                   <span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Info</span>
                   {user && showNewPost(user.blogLastVisit, globalSettings.blogLastPost) && 
@@ -256,6 +260,7 @@ function NavB() {
                 <NavDropdown.Item onClick={profile} style={{ color: 'var(--navbar-text-color)'}}>Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={billing} style={{ color: 'var(--navbar-text-color)'}}>Account and Billing</NavDropdown.Item>
                 <NavDropdown.Item onClick={referal} style={{ color: 'var(--navbar-text-color)'}}>Referal Program</NavDropdown.Item>
+                <NavDropdown.Item disabled={user.payment_status === 'essential' || user.payment_status === 'default'} onClick={personal_dataset} style={{ color: 'var(--navbar-text-color)'}}><span style={{color: user.payment_status === 'essential' || user.payment_status === 'default' ? 'grey' : ''}}>Personal Dataset</span></NavDropdown.Item>
                 <Dropdown.Divider />
                 <NavDropdown.Item onClick={handleLogOut} style={{ color: 'var(--navbar-text-color)'}}><div style={{width: '100%', textAlign: 'justify'}}>Log Out <FontAwesomeIcon style={{marginLeft: 10}} icon={faRightFromBracket}></FontAwesomeIcon></div></NavDropdown.Item>
               </NavDropdown>

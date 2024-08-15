@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Tabs, Tab, Button, Container, Dropdown, DropdownButton, Spinner, Row, Col, Form, Modal, Image, Card } from 'react-bootstrap';
+import { Tabs, Tab, Button, Container, Dropdown, DropdownButton, Spinner, Row, Col, Form, Modal, Image, Table, Card, ListGroup } from 'react-bootstrap';
 import { changeName, uploadAvatar, deleteUser, deleteAvatar, changeEmail, changePassword, createTicket } from '../../api/auth';
 import { cancelSubscription } from '../../api/payment';
 import { setMsg, reloadUser } from '../../redux/userActions';
@@ -37,6 +37,9 @@ function ProfileSettings() {
     case '/support':
       setActiveKey('support');
       break;
+    case '/personal_dataset':
+      setActiveKey('personalDataset');
+      break;
     default:
       setActiveKey('profile');
   }
@@ -57,6 +60,15 @@ function ProfileSettings() {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false)
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [timestamp, setTimestamp] = useState(1);
+  const [open, setOpen] = useState(2);
+  const [high, setHigh] = useState(3);
+  const [low, setLow] = useState(4);
+  const [close, setClose] = useState(5);
+  const [volume, setVolume] = useState(6);
+  const [isEditable, setIsEditable] = useState(false);
   const fileInput = useRef(null);
 
   const handleDeleteAccount = async () => {
@@ -174,6 +186,31 @@ function ProfileSettings() {
     setSubject('')
     setLoading(false)
   };
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    if (selectedFile) {
+      // Simulate file upload
+      const interval = setInterval(() => {
+        setUploadProgress((prevProgress) => {
+          if (prevProgress >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prevProgress + 10;
+        });
+      }, 200);
+    }
+  };
+  const handleEditChange = () => {
+    setIsEditable(!isEditable);
+  };
+
+  const totalAllocatedSize = user.payment_status === 'premium' ? 200 : 1000; // in MB
+  const usedSize = user.datasets.reduce((total, dataset) => total + dataset.size, 0); // in MB
 
   return jwt ? (
     user === null ? 
@@ -341,6 +378,79 @@ function ProfileSettings() {
             </Button>
           </Modal.Footer>
         </Modal>
+        </Tab>
+
+        <Tab eventKey="personalDataset" title={<span style={{ color: user.payment_status === 'essential' || user.payment_status === 'default' ? 'grey' : 'inherit' }}>Personal Dataset</span>}>
+          <div style={{ display: 'flex', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
+            <h3 style={{ marginRight: '10px' }}>Personal Dataset</h3>
+            <p style={{ color: 'green', fontSize: '14px', margin: '0 10px' }}>Total allocated: {totalAllocatedSize}MB</p>
+            <p style={{ color: 'red', fontSize: '14px', margin: '0 10px' }}>Used: {usedSize}MB</p>
+          </div>
+          <Table striped bordered hover variant={theme == "dark" ? "dark" : "light" } style={{ maxWidth: '300px', maxHeight: '200px', overflowY: 'scroll' }}>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              {user.datasets.length === 0 ? (
+                <tr>
+                  <td colSpan="3">No data available</td>
+                </tr>
+              ) : (
+                user.datasets.map((dataset, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{dataset.name}</td>
+                    <td>{dataset.size}MB</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
+          <Form>
+            <span>* Your data must be in CSV format with a .csv file extension and should not exceed 5 MB in size.</span>
+            <Form.Group style={{ maxWidth: '300px', marginTop: 10 }} controlId="formFile">
+              <Form.Label>Select file</Form.Label>
+              <Form.Control type="file" onChange={handleFileChange} />
+            </Form.Group>
+            {selectedFile && <p>Selected file: {selectedFile.name}</p>}
+            <div style={{ marginTop: 20 }}>
+            <span>** Your data should contain the following columns in this order: TIMESTAMP(milliseconds), OPEN, HIGH, LOW, CLOSE, VOLUME. (Most historical trade data is structured this way. If your data is different, please specify.)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
+              <Form.Group style={{ marginRight: '10px', maxWidth: '60px' }}>
+                <Form.Label><span style={{fontSize: '10px'}}>Timestamp</span></Form.Label>
+                <Form.Control type="number" value={timestamp} disabled={!isEditable} onChange={(e) => setTimestamp(e.target.value)} />
+              </Form.Group>
+              <Form.Group style={{ marginRight: '10px', maxWidth: '60px' }}>
+                <Form.Label><span style={{fontSize: '10px'}}>Open</span></Form.Label>
+                <Form.Control type="number" value={open} disabled={!isEditable} onChange={(e) => setOpen(e.target.value)} />
+              </Form.Group>
+              <Form.Group style={{ marginRight: '10px', maxWidth: '60px' }}>
+                <Form.Label><span style={{fontSize: '10px'}}>High</span></Form.Label>
+                <Form.Control type="number" value={high} disabled={!isEditable} onChange={(e) => setHigh(e.target.value)} />
+              </Form.Group>
+              <Form.Group style={{ marginRight: '10px', maxWidth: '60px' }}>
+                <Form.Label><span style={{fontSize: '10px'}}>Low</span></Form.Label>
+                <Form.Control type="number" value={low} disabled={!isEditable} onChange={(e) => setLow(e.target.value)} />
+              </Form.Group>
+              <Form.Group style={{ marginRight: '10px', maxWidth: '60px' }}>
+                <Form.Label><span style={{fontSize: '10px'}}>Close</span></Form.Label>
+                <Form.Control type="number" value={close} disabled={!isEditable} onChange={(e) => setClose(e.target.value)} />
+              </Form.Group>
+              <Form.Group style={{ marginRight: '10px', maxWidth: '60px' }}>
+                <Form.Label><span style={{fontSize: '10px'}}>Volume</span></Form.Label>
+                <Form.Control type="number" value={volume} disabled={!isEditable} onChange={(e) => setVolume(e.target.value)} />
+              </Form.Group>
+              <Button style={{ marginTop: 30}} variant="secondary" onClick={handleEditChange}>Change</Button>
+            </div>
+
+            <Button style={{ marginTop: 10 }} variant="primary" onClick={handleUpload}>Upload</Button>
+          </Form>
+          {uploadProgress > 0 && <ProgressBar now={uploadProgress} label={`${uploadProgress}%`} />}
         </Tab>
 
         <Tab eventKey="support" title="Support">

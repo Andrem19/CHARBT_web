@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './redux';
@@ -30,10 +30,12 @@ const store = configureStore({
 });
 
 const MainApp = () => {
+  const navigate = useNavigate()
   const location = useLocation();
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.data.theme);
   const msg = useSelector((state) => state.user.msg);
+  const user = useSelector((state) => state.user.user);
   const isMobile = useSelector(state => state.user.isMobile);
   const [show, setShow] = useState(false);
 
@@ -53,6 +55,11 @@ const MainApp = () => {
     }
   }, [msg, dispatch]);
 
+  const ProtectedRoute = ({ element, condition }) => {
+    console.log(user, condition)
+    return condition ? <Navigate to="/" /> : element;
+  };
+
   return (
     <>
       <NavB />
@@ -70,9 +77,10 @@ const MainApp = () => {
           <Route path="/trading" element={<Trading />} />
           <Route path="/screenshots" element={<MyScreenshots />} />
           <Route path="/checkout" element={<Checkout />} />
-          {/* <Route path="/pricing" element={<Pricing />} /> */}
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/support" element={<ProfileSettings />} />
           <Route path="/profile_settings" element={<ProfileSettings />} />
+          <Route path="/personal_dataset" element={<ProtectedRoute element={<ProfileSettings />} condition={!user || user.payment_status === 'essential' || user.payment_status === 'default'} />} />
           <Route path="/blog" element={<VotingBlogPage />} />
           <Route path="/billing_settings" element={<ProfileSettings />} />
           <Route path="/referal_program" element={<ReferralPage />} />

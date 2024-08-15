@@ -17,7 +17,7 @@ function Pricing() {
   const isMobile = useSelector(state => state.user.isMobile);
   const payment_plans_state = useSelector(state => state.data.payment_plans);
 
-  const timeframes = ['1 Day Timeframe', '1 Hour Timeframe', '30 Minute Timeframe', '5 Minute Timeframe', '1 Minute Timeframe', 'Auxiliary Timeframe', 'Detailed statistics', 'Saving session data in csv', 'Voting in polls'];
+  const timeframes = ['1 Day Timeframe', '1 Hour Timeframe', '30 Minute Timeframe', '5 Minute Timeframe', '1 Minute Timeframe', 'Auxiliary Timeframe', 'Detailed statistics', 'Saving session data in csv', 'Voting in polls', 'Personal dataset'];
 
   const getHeaderStyle = (planName) => {
     switch (planName) {
