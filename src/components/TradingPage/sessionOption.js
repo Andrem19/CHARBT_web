@@ -33,7 +33,7 @@ export function SessionOption({ session, currentSessionId, handleDeleteClick, se
                     onClick={(event) => handleDeleteClick(event, session.id)}
                     onMouseEnter={() => setIconHovered(true)}
                     onMouseLeave={() => setIconHovered(false)}
-                    style={{ fontSize: isIconHovered ? '1.5em' : '1em', cursor: 'pointer' }}
+                    style={{ fontSize: isIconHovered ? '1.2em' : '1em', cursor: 'pointer' }}
                 />
             }
         </div>

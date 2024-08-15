@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { countSessionStatistic } from "../../../services/services";
-import { Row, Col, Container, Button, OverlayTrigger, Tooltip, Table } from 'react-bootstrap';
+import { Row, Col, Container, Button, OverlayTrigger, Tooltip, Table, ProgressBar } from 'react-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,8 @@ const dispatch = useDispatch();
 let sessionStat = countSessionStatistic(positions)
 const user = useSelector((state) => state.user.user);
 const currentSession = useSelector((state) => state.session.curent_session);
+const [uploadProgress, setUploadProgress] = useState(0);
+const [loading, setLoading] = useState(false);
 
 const saveCSV = async () => {
     const jwt = localStorage.getItem('jwt');
@@ -23,11 +25,25 @@ const saveCSV = async () => {
         console.error('No JWT found in local storage');
         return;
     }
+    setLoading(true)
+    const totalDuration = Math.ceil(positions.length / 20) * 1000;
+    const intervalDuration = totalDuration / 100;
+    const interval = setInterval(() => {
+        setUploadProgress((prevProgress) => {
+          if (prevProgress >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prevProgress + 1;
+        });
+      }, intervalDuration);
     const response = await fetch(`${API_URL}/get_session_data?session_id=${currentSession.id}`, {
         headers: {
             'Authorization': `Bearer ${jwt}`
         }
     });
+    setUploadProgress(100);
+    setLoading(false)
     if (!response.ok) {
         dispatch(setMsg(`${response.data.message}`));
     }
@@ -157,6 +173,12 @@ return (
                 </OverlayTrigger>
             </div>
         </div>
+        {uploadProgress > 0 && loading && (
+            <div style={{ width: '400px', marginTop: 15 }}>
+                Data processing...
+              <ProgressBar now={uploadProgress} label={`${uploadProgress}%`} />
+            </div>
+          )}
     </Container>
 );
 };

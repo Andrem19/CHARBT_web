@@ -197,7 +197,7 @@ function NavB() {
                 <NavDropdown.Item onClick={profile} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={billing} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Account and Billing</NavDropdown.Item>
                 <NavDropdown.Item onClick={referal} style={{ color: 'var(--navbar-text-color)', fontSize: isMobile ? 12 : 16 }}>Referal Program</NavDropdown.Item>
-                <NavDropdown.Item disabled={user.payment_status === 'essential' || user.payment_status === 'default'} onClick={personal_dataset} style={{ color: 'var(--navbar-text-color)'}}><span style={{color: user.payment_status === 'essential' || user.payment_status === 'default' ? 'grey' : ''}}>Personal Dataset</span></NavDropdown.Item>
+                <NavDropdown.Item disabled={user.payment_status === 'essential' || user.payment_status === 'default'} onClick={personal_dataset} style={{ fontSize: isMobile ? 12 : 16, color: 'var(--navbar-text-color)'}}><span style={{color: user.payment_status === 'essential' || user.payment_status === 'default' ? 'grey' : ''}}>Personal Dataset</span></NavDropdown.Item>
                 <Dropdown.Divider />
                 {isMobile && <>
                   <div onClick={changeTheme} style={{marginLeft: 15, cursor: 'pointer', fontSize: 15, color: 'white'}}>

@@ -200,3 +200,33 @@ export const createTicket = async (navigate, subject, message) => {
     }
   }
 };
+
+export const uploadCSV = async (navigate, formData) => {
+  try {
+      const headers = { 'Content-Type': 'multipart/form-data' };
+      const response = await apiRequest(navigate, 'POST', '/upload_data', formData, headers);
+      
+      if (response) {
+          return response.data.message
+      } else {
+          return 'No response received from the server.';
+      }
+  } catch (error) {
+      return 'Error in setting up the request.';
+  }
+};
+
+export async function deleteDataSet(navigate, data_id) {
+  try {
+      const response = await apiRequest(navigate, 'DELETE', `/delete_data/${data_id}`);
+      return response.data.message;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data.message;
+    } else if (error.request) {
+      return 'No response received from the server.';
+    } else {
+      return 'Error in setting up the request.';
+    }
+  }
+}
