@@ -38,6 +38,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
     const navigate = useNavigate();
 
     const isMobile = useSelector(state => state.user.isMobile);
+    const isSelfData = useSelector((state) => state.session.isSelfData);
     const showTime = useSelector((state) => state.data.showTime);
     const percPrice = useSelector((state) => state.data.percPrice);
     const showTpsl = useSelector((state) => state.data.showTpsl);
@@ -55,6 +56,8 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
     const [handleShowSettings, setHandleShowSettings] = useState(false)
     const [showTooltip, setShowTooltip] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [currentPairToShow, setCurrentPairToShow] = useState(currentPair);
+    const fontSize = isSelfData ? getFontSize(currentPair) : (isMobile ? '13px' : '20px');
 
     //===============Rights=======================
     let availableTimeframes = getAvalibleTimeframes(user);
@@ -64,6 +67,28 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
     //===============End Rights=======================
 
     //==================Top Menu==========================
+    function getFontSize(currentPair) {
+      const length = currentPair.length;
+      if (length <= 5) {
+        return '20px';
+      } else if (length <= 10) {
+        return '18px';
+      } else if (length <= 15) {
+        return '16px';
+      } else if (length <= 20) {
+        return '13px';
+      } else {
+        return '12px';
+      }
+    }
+
+    useEffect(() => {
+      if (currentPair.length > 15) {
+        setCurrentPairToShow(currentPair.substring(0, 15) + '...');
+      } else {
+        setCurrentPairToShow(currentPair);
+      }
+    }, [currentPair]);
 
   const setPriceScale = async () => {
     await changeSettings(navigate, {'settings': {'rightScale': !percPrice}})
@@ -169,7 +194,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
             className="w-100"
             style={{height: isMobile? "35px" : ""}}
           >
-            <span style={{fontSize: isMobile? '13px' : '20px'}}>{currentPair ? currentPair : "BTCUSDT"}</span>
+            <span style={{fontSize: fontSize}}>{currentPairToShow ? currentPairToShow : "BTCUSDT"}</span>
           </Button>
 
           <Dropdown.Menu>
@@ -219,7 +244,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
           style={{ width: isMobile? "35px" : "50px", marginRight: 5 }}
         >
           <Button style={{height: isMobile? "35px" : ""}} disabled={true} variant="outline-success" id="dropdown-basic">
-            <span style={{fontSize: isMobile? '13px' : '20px'}}>{currentTimeframe ? currentTimeframe : "1d"}</span>
+            <span style={{fontSize: fontSize}}>{currentTimeframe ? currentTimeframe : "1d"}</span>
           </Button>
 
           <Dropdown.Menu>
@@ -237,7 +262,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
           </Dropdown.Menu>
         </Dropdown>
 
-          { user.payment_status === 'premium-plus' && currentTimeframe != '1d' && list.length > 0 && !currentPosition && <div style={{marginLeft: 10, marginTop: 6, cursor: 'crosshair', color: '#14A44D'}} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
+          { !isSelfData && user.payment_status === 'premium-plus' && currentTimeframe != '1d' && list.length > 0 && !currentPosition && <div style={{marginLeft: 10, marginTop: 6, cursor: 'crosshair', color: '#14A44D'}} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
             <span style={{ marginLeft: 2 }}>
               {TIME_CONVERT[currentSession.additional_timaframe]}
             </span>

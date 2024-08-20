@@ -5,6 +5,8 @@ const initialState = {
     add_list: [],
     error: null,
     cursor: null,
+    prevCursor: null,
+    waitingCursor: null,
     theme: localStorage.getItem('theme') || 'light',
     current_pair: 'BTCUSDT',
     timeframe: '1d',
@@ -70,6 +72,11 @@ const listReducer = (state = initialState, action) => {
             return {
                 ...state,
                 add_list: action.payload,
+            };
+        case 'SET_LIST':
+            return {
+                ...state,
+                list: action.payload,
             };
         case 'SET_TPSL':
             return {
@@ -146,6 +153,16 @@ const listReducer = (state = initialState, action) => {
             return {
                 ...state,
                 cursor: action.payload
+            };
+        case 'SET_PREV_CURSOR':
+            return {
+                ...state,
+                prevCursor: action.payload
+            };
+        case 'SET_WAITING_CURSOR':
+            return {
+                ...state,
+                waitingCursor: action.payload
             };
         case 'SET_PAIR':
             return {

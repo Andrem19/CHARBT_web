@@ -12,11 +12,14 @@ import { Col, Spinner } from "react-bootstrap";
 import {
   loadList,
   setCursor,
+  setPrevCursor,
   setPair,
   setTimeframe,
   addScreenshot,
   clearMarkers,
   setDataWasAdded,
+  setSelfData,
+  setWaitingCursor
 } from "../../redux/dataActions";
 import { tradingPairs, TIME_CONVERT, TIME_CONVERT_REVERSED } from "../../config";
 import { convertTimeframe } from "../../services/services";
@@ -26,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import TopMenu from "./topMenu";
 import ToolsPanel from "./toolsPanel";
 import { setMsg } from "../../redux/userActions";
+import { faTemperature0 } from "@fortawesome/free-solid-svg-icons";
 
 function Chart({ isMobile }) {
   // Refs
@@ -62,10 +66,14 @@ const showMarkers = useSelector((state) => state.data.showMarkers);
 const list = useSelector((state) => state.data.list);
 const user = useSelector((state) => state.user.user);
 const cursor = useSelector((state) => state.data.cursor);
+const prevCursor = useSelector((state) => state.data.prevCursor);
+const waitingCursor = useSelector((state) => state.data.waitingCursor);
 const markers = useSelector((state) => state.data.markers);
 const takeProfitLine = useSelector((state) => state.data.takeProfitLine);
 const stopLossLine = useSelector((state) => state.data.stopLossLine);
 const theme = useSelector((state) => state.data.theme);
+const currentSession = useSelector((state) => state.session.curent_session);
+const isSelfData = useSelector((state) => state.session.isSelfData);
 const currentPair = useSelector((state) => state.data.current_pair);
 const currentTimeframe = useSelector((state) => state.data.timeframe);
 
@@ -77,7 +85,6 @@ const [windowSize, setWindowSize] = useState({
 
 
 const [handleShowSettings, setHandleShowSettings] = useState(false)
-const [prevCursor, setPrevCursor] = useState(null);
 const [lineData, setlineData] = useState([]);
 const [temporaryLineData, setTemporaryLineData] = useState(0);
 const [update, setUpdate] = useState(0);
@@ -295,7 +302,12 @@ const [showTooltip, setShowTooltip] = useState(false);
 
   //====================CHART TRADIND DATA==================
   useEffect(() => {
-    if (list.length > 0 && chartContainerRef.current && prevCursor !== null) {
+    console.log('cursor trig: ', cursor, isSelfData, waitingCursor)
+    if (!cursor) {
+      return
+    }
+
+    if (list.length > 0 && chartGlobal && chartContainerRef.current && prevCursor !== null) {
       
     if (list.length-3 < cursor && user.payment_status === 'default') {
       dispatch(setMsg('To get more data, upgrade your account to one of our subscription packages.'))
@@ -315,6 +327,7 @@ const [showTooltip, setShowTooltip] = useState(false);
 
 
       dataSlice = [...dataSlice, ...newCandles];
+
       for (let i = 1; i <= 10; i++) {
         dataSlice.push({
           time:
@@ -355,7 +368,7 @@ const [showTooltip, setShowTooltip] = useState(false);
       volumeSeriesRef.current.setData(volumeData);
       rewriteIndicators();
     }
-    setPrevCursor(cursor);
+    dispatch(setPrevCursor(cursor));
   }, [cursor]);
 
   useEffect(() => {
@@ -411,18 +424,32 @@ const [showTooltip, setShowTooltip] = useState(false);
       const start_date = 0;
       dispatch(setPair(coin));
       dispatch(setTimeframe(TIME_CONVERT[timeframe]));
-      dispatch(loadList(coin, timeframe, start_date));
+      if (isSelfData) {
+        dispatch(setSelfData(navigate, currentSession.selfDataId, user.current_session.cursor))
+      } else {
+        dispatch(loadList(coin, timeframe, start_date, 100));
+      }
+      
     }
   }, []);
-
+  // useEffect(() => {
+  //   console.log('chartGlobal', chartGlobal)
+  // }, [chartGlobal]);
 
   useEffect(() => {
     if (dataWasAdded) {
       dispatch(setDataWasAdded(false));
     }
-    if (!cursor) {
-      dispatch(setCursor(100));
-    }
+      console.log('isSelfData && waitingCursor', isSelfData, waitingCursor, cursor)
+
+
+      if (!cursor) {
+        dispatch(setCursor(100));
+      }
+      
+      
+    
+    
     if (list.length > 0 && chartContainerRef.current) {
       chartContainerRef.current.innerHTML = "";
       const chart = createChart(chartContainerRef.current, {
@@ -459,6 +486,7 @@ const [showTooltip, setShowTooltip] = useState(false);
       });
       
       setChartGlobal(chart);
+      
       lineSeriesRef.current = chart.addCandlestickSeries(
 
       );
@@ -492,8 +520,9 @@ const [showTooltip, setShowTooltip] = useState(false);
           bottom: 0,
         },
       });
-      const decimalPlaces = tradingPairs[currentPair];
+      const decimalPlaces = isSelfData? currentSession.decimal_places : tradingPairs[currentPair];
       const minMove = 1 / Math.pow(10, decimalPlaces);
+      console.log('minMove', minMove)
       lineSeriesRef.current.applyOptions(
         {
           priceFormat: {
@@ -504,7 +533,7 @@ const [showTooltip, setShowTooltip] = useState(false);
         priceLineVisible: true,
         }
       )
-
+      console.log('CURSOR', cursor)
       const dataSlice = list.slice(0, cursor).map((candle) => ({ ...candle }));
       lineSeriesRef.current.setData(dataSlice);
       for (let i = 1; i <= 10; i++) {

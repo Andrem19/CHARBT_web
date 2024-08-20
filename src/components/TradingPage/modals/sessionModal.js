@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Alert, Dropdown } from "react-bootstrap";
 import { convertTimeframe } from "../../../services/services";
 import { COIN_CRYPTO_SET, STOCK, FOREX, TIMEFRAMES } from "../../../config";
@@ -7,10 +7,6 @@ import {
   getAvaliblePairs,
   getAvalibleTimeframes,
 } from "../../../services/access";
-import { TIME_CONVERT } from "../../../config";
-import { v4 as uuidv4 } from "uuid";
-import { setUuidCode } from "../../../redux/sessionActions";
-import { setPair, setTimeframe, setNewPair } from "../../../redux/dataActions";
 
 export default function SessionModal({ show, handleClose, handleSave }) {
   const dispatch = useDispatch();
@@ -21,8 +17,11 @@ export default function SessionModal({ show, handleClose, handleSave }) {
   const sessions_list = useSelector((state) => state.session.sessions_list);
   const currentPair = useSelector((state) => state.data.current_pair);
   const currentTimeframe = useSelector((state) => state.data.timeframe);
-  const [coin_pair, setCoinPair] = useState(currentPair);
+  const [coin_pair, setCoinPair] = useState(currentPair || 'BTCUSDT');
   const [timeframe, setTimeframe] = useState(currentTimeframe);
+  const [personalData, setPersonalData] = useState(false);
+  const [decimalPlaces, setDecimalPlaces] = useState(2)
+  const [selectedDataset, setSelectedDataset] = useState('')
   const user = useSelector((state) => state.user.user);
   const theme = useSelector((state) => state.data.theme);
 
@@ -38,21 +37,20 @@ export default function SessionModal({ show, handleClose, handleSave }) {
 
   const handleSelectPair = async (selectedPair) => {
     setCoinPair(selectedPair);
-    // dispatch(setPair(selectedPair));
-    // const time = convertTimeframe(currentTimeframe)
-    // localStorage.setItem("coin", selectedPair);
-    // dispatch(setUuidCode(uuidv4()))
-    // dispatch(setNewPair(selectedPair, time, 0))
   };
 
   const handleSelectTimeframe = (selectedTime) => {
     setTimeframe(selectedTime);
-    // dispatch(setTimeframe(selectedTime));
-    // const time = convertTimeframe(selectedTime)
-    // localStorage.setItem("timeframe", time);
-    // dispatch(setUuidCode(uuidv4()))
-    // dispatch(setNewPair(currentPair, time, 0))
   };
+
+  const closeWindow = () => {
+    setImageName('')
+    setCoinPair('')
+    setSelectedDataset('')
+    setPersonalData(false)
+    setDecimalPlaces(2)
+    handleClose()
+  }
 
   const handleImageNameChange = (e) => {
     const newName = e.target.value;
@@ -67,7 +65,7 @@ export default function SessionModal({ show, handleClose, handleSave }) {
     } else if (!latinLettersNumbersSymbolsAndSpaces.test(newName)) {
       setShowAlert(true);
       setAlertMessage(
-        "The image name should only contain Latin letters, numbers, hyphens, and underscores."
+        "The session name name should only contain Latin letters, numbers, hyphens, and underscores."
       );
     } else {
       setShowAlert(false);
@@ -76,22 +74,53 @@ export default function SessionModal({ show, handleClose, handleSave }) {
   };
 
   const saveHandler = (name) => {
-    const nameExists = sessions_list.some((session) => {
-      return session.session_name === name;
-    });
-
-    if (nameExists) {
+    const nameExists = sessions_list.some((session) => session.session_name === name);
+  
+    if (nameExists || !name) {
       setShowAlert(true);
-      setAlertMessage(
-        "The image name already exists. Please choose a different name."
-      );
-    } else {
-      handleSave(imageName, coin_pair, convertTimeframe(timeframe));
+      setAlertMessage("The session name already exists or is empty. Please choose a different name.");
+      return;
     }
+
+    if (!coin_pair && !personalData) {
+      setShowAlert(true);
+      setAlertMessage("Please select the coin pair.");
+      return;
+    }
+  
+    if (personalData && !selectedDataset) {
+      setShowAlert(true);
+      setAlertMessage("You need to load and select your dataset.");
+      return;
+    }
+  
+    let tm = personalData ? 60 : convertTimeframe(timeframe);
+  
+    handleSave(imageName, coin_pair, tm, personalData, selectedDataset, decimalPlaces);
+  
+    // Reset state
+    setImageName('');
+    setCoinPair('');
+    setSelectedDataset('');
+    setPersonalData(false);
+    setDecimalPlaces(2);
+  };
+  
+
+  const handlePersonalDataChange = (event) => {
+    setPersonalData(event.target.checked);
+  };
+
+  useEffect(() => {
+    console.log(selectedDataset)
+  }, [selectedDataset]);
+
+  const handleSelectDecimalPlaces = (eventKey) => {
+    setDecimalPlaces(parseInt(eventKey));
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={closeWindow}>
       <Modal.Header closeButton>
         <Modal.Title>Create New Session</Modal.Title>
       </Modal.Header>
@@ -134,7 +163,7 @@ export default function SessionModal({ show, handleClose, handleSave }) {
               id="dropdown-basic"
               className="w-100"
             >
-              {coin_pair ? coin_pair : "BTCUSDT"}
+              {personalData? "BTCUSDT" : coin_pair ? coin_pair : "BTCUSDT"}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -230,9 +259,79 @@ export default function SessionModal({ show, handleClose, handleSave }) {
             </Dropdown.Menu>
           </Dropdown>
         </div>
+
+        <Form.Group controlId="formPersonalData" style={{ marginTop: 10 }}>
+          <Form.Check
+            disabled={user.payment_status === 'defoult' || user.payment_status === 'essential'}
+            type="checkbox"
+            label="Personal Data"
+            checked={personalData}
+            onChange={handlePersonalDataChange}
+          />
+        </Form.Group>
+        {personalData && (
+          <div>
+          <div style={{ display: "flex", alignItems: "center", marginTop: 10 }}>
+            <Dropdown
+              // onSelect={handleSelectDataset}
+              className={theme}
+              style={{ width: "100%" }}
+            >
+              <Dropdown.Toggle variant="outline-default" id="dropdown-basic">
+                Select Dataset
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {user.datasets.map((dataset, index) => (
+                  <Dropdown.Item
+                    key={index}
+                    eventKey={dataset.id}
+                    active={dataset.id === selectedDataset?.id}
+                    style={{
+                      color: theme === "dark" ? "white" : "black",
+                    }}
+                    onClick={() => setSelectedDataset(dataset)}
+                  >
+                    {dataset.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            {selectedDataset && (
+              <span style={{ marginRight: 15 }}>{selectedDataset.name}</span>
+            )}
+            
+          </div>
+            <div style={{ display: "flex", alignItems: "center", marginTop: 10 }}>
+            <Dropdown onSelect={handleSelectDecimalPlaces} className={theme} style={{ width: "100%", marginTop: 10 }}>
+            <Dropdown.Toggle variant="outline-default" id="dropdown-decimal-places">
+              Decimal Places:
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {[1, 2, 3, 4, 5, 6].map((number) => (
+                <Dropdown.Item
+                  key={number}
+                  eventKey={number.toString()}
+                  active={number === decimalPlaces}
+                  style={{
+                    color: theme === "dark" ? "white" : "black",
+                  }}
+                >
+                  {number}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+          <span style={{ marginRight: 15 }}>{decimalPlaces}</span>
+          </div>
+        </div>
+        )}
+        
+
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={closeWindow}>
           Close
         </Button>
         <Button

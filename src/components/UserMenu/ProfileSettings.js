@@ -2,10 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tabs, Tab, Button, Container, Dropdown, DropdownButton, Spinner, Row, Col, Form, Modal, Image, Table, Card, ListGroup, ProgressBar } from 'react-bootstrap';
 import { changeName, uploadAvatar, deleteUser, deleteAvatar, changeEmail, changePassword, createTicket, uploadCSV, deleteDataSet } from '../../api/auth';
+import { setList, clearMarkers, resetStopLossLine, resetTakeProfitLine } from '../../redux/dataActions';
 import { cancelSubscription } from '../../api/payment';
 import { setMsg, reloadUser } from '../../redux/userActions';
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { validateUsername, validateEmail, validatePassword } from '../../services/services';
 import { formatDistanceToNow } from 'date-fns';
 import { useNavigate, useLocation, Redirect } from 'react-router-dom';
@@ -55,6 +54,8 @@ function ProfileSettings() {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
+  const [showModal4, setShowModal4] = useState(false);
+  const [dataIdToDelete, setDataIdToDelete] = useState(null);
   const [newName, setNewName] = useState('');
   const [email, setEmail] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
@@ -127,11 +128,9 @@ function ProfileSettings() {
     const response = await changeEmail(navigate, currentPassword, email)
     dispatch(setMsg(response))
     setShowModal2(false)
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     if (response === 'Confirm your new email and log in') {
-        window.localStorage.removeItem('jwt')
-        dispatch({ type: 'RESET_USER' });
-        navigate('/login');
+      logOut()
     }
   };
 
@@ -151,13 +150,20 @@ function ProfileSettings() {
 
     const response = await changePassword(navigate, currentPassword, newPassword)
     dispatch(setMsg(response))
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     if (response === 'Password successfully changed') {
-        window.localStorage.removeItem('jwt')
-        dispatch({ type: 'RESET_USER' });
-        navigate('/login');
+        logOut()
     }
   };
+  const logOut = () => {
+    window.localStorage.removeItem('jwt')
+    window.localStorage.removeItem("draw_lines")
+    dispatch({ type: 'RESET_USER' });
+    dispatch(clearMarkers())
+    dispatch(resetStopLossLine())
+    dispatch(resetTakeProfitLine())
+    navigate('/login');
+}
 
   const changeCancelPlan = () => {
     if (user.payment_status.toUpperCase() === 'DEFAULT' || user.subscription_to !== 0 ) {
@@ -199,8 +205,18 @@ function ProfileSettings() {
 
     if (file) {
       const sizeInMB = file.size / (1024 * 1024); // Преобразуем байты в мегабайты
+      if (sizeInMB > 2.5) {
+        dispatch(setMsg('size cannot be more than 2.5MB'));
+        return
+      }
       setFileSize(sizeInMB);
       setFileName(file.name);
+      
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      if (fileExtension !== 'csv') {
+        dispatch(setMsg('The file extension must be csv'));
+        return;
+      }
     }
   };
 
@@ -259,8 +275,22 @@ function ProfileSettings() {
   const handleDelete = async (data_id) => {
     const msg = await deleteDataSet(navigate, data_id)
     dispatch(setMsg(msg));
-    await dispatch(reloadUser(navigate));
+    dispatch(reloadUser(navigate));
+    dispatch(setList([]))
   }
+
+  const handleDeleteClick = (data_id) => {
+    setDataIdToDelete(data_id);
+    setShowModal4(true);
+  };
+  const handleConfirmDelete = async () => {
+    if (dataIdToDelete !== null) {
+      await handleDelete(dataIdToDelete);
+      setShowModal4(false);
+      setDataIdToDelete(null);
+    }
+  };
+
 
   const totalAllocatedSize = user.payment_status === 'premium' ? 200 : 1000; // in MB
   const usedSize = user.datasets.reduce((total, dataset) => total + dataset.size, 0); // in MB
@@ -461,7 +491,7 @@ function ProfileSettings() {
               <td style={{ minWidth: '150px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{dataset.name}</td>
               <td style={{ textAlign: 'center', minWidth: '80px' }}>{dataset.size}MB</td>
               <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-              <TrashIcon onClick={() => handleDelete(dataset.id)} />
+              <TrashIcon onClick={() => handleDeleteClick(dataset.id)} />
               </td>
             </tr>
           ))
@@ -470,7 +500,7 @@ function ProfileSettings() {
     </table>
           </Table>
           <Form>
-            <span>* Your data must be in CSV format with a .csv file extension and should not exceed 5 MB in size.</span>
+            <span>* Your data must be in CSV format with a .csv file extension and should not exceed 2.5 MB in size.</span>
             <Form.Group style={{ maxWidth: '300px', marginTop: 10 }} controlId="formFile">
               <Form.Label>Select file</Form.Label>
               <Form.Control type="file" onChange={handleFileChange} />
@@ -514,6 +544,21 @@ function ProfileSettings() {
               <ProgressBar now={uploadProgress} label={`${uploadProgress}%`} />
             </div>
           )}
+
+        <Modal show={showModal4} onHide={() => setShowModal4(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Deletion</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>When deleting data, all <b>sessions and positions associated with this data set will also be deleted.</b> Are you sure you want to delete this data?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowModal4(false)}>
+                Cancel
+              </Button>
+              <Button variant="danger" onClick={handleConfirmDelete}>
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Tab>
 
         <Tab eventKey="support" title="Support">

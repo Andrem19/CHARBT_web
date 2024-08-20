@@ -5,6 +5,7 @@ const initialState = {
     curent_session: null,
     curent_session_pnl: 0,
     current_position: null,
+    isSelfData: false,
     uuidCode: uuidv4()
   };
 
@@ -53,6 +54,11 @@ const initialState = {
                 ...state.curent_session,
                 positions: []
             }
+        };
+      case 'IS_SELF_DATA':
+        return {
+            ...state,
+            isSelfData: action.payload,
         };
       case 'ADD_POSITION_TO_SESSION':
         const existingPosition = state.curent_session.positions.find(pos => pos.id === action.payload.id);

@@ -4,13 +4,16 @@ import { setMsg } from "../../../redux/userActions";
 import { createChart } from "lightweight-charts";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getPositionHistory } from "../../../api/data";
+import {
+  getPositionHistory,
+  selfPositionHistory,
+  uploadScreenshot,
+} from "../../../api/data";
 import { convertTimeframe } from "../../../services/services";
 import { tradingPairs } from "../../../config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { TIME_CONVERT } from "../../../config";
-import { uploadScreenshot } from "../../../api/data";
 import { addScreenshot } from "../../../redux/dataActions";
 import ImageModal from "./imageModal";
 
@@ -26,6 +29,7 @@ const ChartModal = ({ showChart, setShowChart, position }) => {
   };
   const showTime = useSelector((state) => state.data.showTime);
   const percPrice = useSelector((state) => state.data.percPrice);
+  const isSelfData = useSelector((state) => state.session.isSelfData);
   const currentTimeframe = useSelector((state) => state.data.timeframe);
   const theme = useSelector((state) => state.data.theme);
   const chartContainerRef = useRef(null);
@@ -73,8 +77,14 @@ const ChartModal = ({ showChart, setShowChart, position }) => {
   ];
   useEffect(() => {
     const getDataset = async () => {
-      const response = await getPositionHistory(navigate, position.id);
+      let response = null
+      if (isSelfData) {
+        response = await selfPositionHistory(navigate, position.id);
+      } else {
+        response = await getPositionHistory(navigate, position.id);
+      }
       if (response["status"]) {
+        console.log('response["data"]', response["data"])
         setlistData(response["data"]);
       } else {
         dispatch(setMsg(response["message"]));
@@ -124,6 +134,7 @@ const ChartModal = ({ showChart, setShowChart, position }) => {
     });
     setChartGl(chart);
     lineSeriesRef.current = chart.addCandlestickSeries();
+    console.log('markers', markers)
     lineSeriesRef.current.setMarkers(markers);
     volumeSeriesRef.current = chart.addHistogramSeries({
       baseLineVisible: false,

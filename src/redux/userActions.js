@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL, PUB_URL } from '../config';
-import { setShowTime, setPercPrice, setTpSl, setMarkersShow, setTimeframe, setPair, showPatterns, setShowTools } from './dataActions';
-import { setCurrentSession, setSessionsList } from './sessionActions';
+import { setShowTime, setPercPrice, setTpSl, setMarkersShow, setTimeframe, setPair, showPatterns, setShowTools, setWaitingCursor } from './dataActions';
+import { setCurrentSession, setSessionsList, setIsSelfData } from './sessionActions';
 import { jwtExpired, encryptToken, decryptToken } from '../services/services'
 import { TIME_CONVERT } from '../config';
 
@@ -72,6 +72,11 @@ async function loginUserApi(email, password) {
           dispatch(setTimeframe(TIME_CONVERT[response.data.current_session.timeframe]))
           dispatch(setPair(response.data.current_session.coin_pair))
           dispatch(setGlobalSettings(response.data.global_settings))
+          dispatch(setIsSelfData(response.data.current_session.is_self_data))
+          // if (response.data.current_session.is_self_data) {
+          //   dispatch(setWaitingCursor(response.data.current_session.cursor))
+          // }
+          
         } else {
           console.warn(`No user: ${response.status}`);
           localStorage.removeItem('jwt')

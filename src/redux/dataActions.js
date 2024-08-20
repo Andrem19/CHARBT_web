@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 import { setMsg } from './userActions';
+import { getSelfData } from '../api/data';
 
 
 async function loadListApi(coin, timeframe, finish_date) {
@@ -49,10 +50,11 @@ async function loadListApi(coin, timeframe, finish_date) {
     }
 }
 
-export const setNewPair = (coin, timeframe, finish_date) => {
+export const setNewPair = (coin, timeframe, finish_date, cursor) => {
   return async (dispatch, getState) => {
     dispatch(loadingStart())
     const response = await loadListApi(coin, timeframe, finish_date);
+    dispatch(setCursor(cursor))
     if (response.result) {
       dispatch(loadListSuccess(response.data));
       if ('add_data' in response) {
@@ -63,11 +65,25 @@ export const setNewPair = (coin, timeframe, finish_date) => {
     }
   };
 };
+
+export const setSelfData = (navigate, id, cursor) => {
+  return async (dispatch, getState) => {
+    dispatch(loadingStart())
+    const response = await getSelfData(navigate, id);
+    dispatch(setCursor(cursor))
+    if (response.result) {
+      dispatch(loadListSuccess(response.data));
+    } else {
+      dispatch(loadListFailure(response.data));
+    }
+  };
+};
   
 
-  export const loadList = (coin, timeframe, finish_date) => {
+  export const loadList = (coin, timeframe, finish_date, cursor) => {
     return async (dispatch, getState) => {
       dispatch(loadingStart())
+      dispatch(setCursor(cursor))
       const response = await loadListApi(coin, timeframe, finish_date);
       if (response.result) {
         const currentList = getState().data.list;
@@ -121,6 +137,12 @@ export const setAddList = (list) => {
     payload: list
   };
 };
+export const setList = (list) => {
+  return {
+    type: 'SET_LIST',
+    payload: list
+  };
+};
 
 export const loadListFailure = (error) => {
   return {
@@ -146,6 +168,18 @@ export const addScreenshot = (screenshot) => {
 export const setCursor = (cursor) => {
   return {
       type: 'SET_CURSOR',
+      payload: cursor
+  };
+};
+export const setPrevCursor = (cursor) => {
+  return {
+      type: 'SET_PREV_CURSOR',
+      payload: cursor
+  };
+};
+export const setWaitingCursor = (cursor) => {
+  return {
+      type: 'SET_WAITING_CURSOR',
       payload: cursor
   };
 };

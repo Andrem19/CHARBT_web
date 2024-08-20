@@ -70,6 +70,10 @@ function SignInSignUpPage() {
   }, [user, errorCount]);
 
   async function handleSignUpClick() {
+    if (!username) {
+      setError('Username cannot be empty');
+      return;
+    }
     if (!validateUsername(username)) {
       setError('Username should not exceed 30 characters');
       setUsername('');

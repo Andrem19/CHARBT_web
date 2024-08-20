@@ -93,6 +93,30 @@ export async function getPositionHistory(navigate, position_id) {
     }
 };
 
+export async function selfPositionHistory(navigate, position_id) {
+    try {
+        const response = await apiRequest(navigate, 'GET', `/position_self_data?position_id=${position_id}`);
+        
+        if (response.status === 200) {
+            const data = response.data.data.map(candle => ({
+                time: new Date(new Date(candle[0]).toISOString()).valueOf() / 1000,
+                open: candle[1],
+                high: candle[2],
+                low: candle[3],
+                close: candle[4],
+                volume: candle[5]
+            }));
+            return { 'status': true, 'data': data }
+        } else {
+            console.error('Error getting screenshots');
+            return { 'status': false, 'message': response.data.message }
+        }
+    } catch (error) {
+        console.error('Error in getScreenshots:', error);
+        return { 'status': false, 'message': `Error: ${error}` }
+    }
+};
+
 
 export async function deleteScreenshot(navigate, fileUrl) {
     try {
@@ -111,13 +135,35 @@ export async function deleteScreenshot(navigate, fileUrl) {
     }
 };
 
-export async function createSession(navigate, sessionName, coin_pair, timeframe) {
+export async function createSession(navigate, sessionName, coin_pair, timeframe, is_self_data, dataName, dataId, decimalPlaces) {
     try {
-        const data = { name: sessionName, coin_pair: coin_pair, timeframe: timeframe };
+        const name = is_self_data ? dataName : coin_pair;
+        const data = { name: sessionName, coin_pair: name, timeframe: timeframe, is_self_data: is_self_data, data_id: dataId, decimal_places: decimalPlaces };
         const response = await apiRequest(navigate, 'POST', '/add_session', data);
         
         if (response && response.status === 201) {
             return {result: true, session: response.data.session};
+        } else {
+            return { result: false };
+        }
+    } catch (error) {
+        console.error('An error occurred while sending the request:', error);
+    }
+};
+
+export async function getSelfData(navigate, dataId) {
+    try {
+        const response = await apiRequest(navigate, 'GET', `/download_data/${dataId}`);
+        if (response.status === 200) {
+            const data = response.data.data.map(candle => ({
+                time: new Date(new Date(candle[0]).toISOString()).valueOf() / 1000,
+                open: candle[1],
+                high: candle[2],
+                low: candle[3],
+                close: candle[4],
+                volume: candle[5]
+            }));
+            return {result: true, data: data};
         } else {
             return { result: false };
         }
@@ -149,7 +195,7 @@ export async function deleteSession(navigate, sessionId) {
         const response = await apiRequest(navigate, 'DELETE', `/session/${sessionId}`);
         
         if (response) {
-            return response.status === 200;
+            return {result: response.status === 200, current_session_id: response.data.current_session};
         } else {
             console.error('Error deleting the session');
             return false;
@@ -228,6 +274,25 @@ export async function voteOnPoll(navigate, postId, optionId) {
         };
 
         const response = await apiRequest(navigate, 'POST', '/vote', data);
+
+        if (response && response.status === 200) {
+            return response.data;
+        } else {
+            console.error(`Error with status code ${response.status}`);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export async function setSelfCursor(navigate, session_id, cursor) {
+    try {
+        const data = {
+            'session_id': session_id,
+            'cursor': cursor,
+        };
+
+        const response = await apiRequest(navigate, 'POST', '/save_cursor', data);
 
         if (response && response.status === 200) {
             return response.data;

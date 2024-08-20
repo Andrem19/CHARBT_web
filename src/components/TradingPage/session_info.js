@@ -19,8 +19,9 @@ import {
   setCurrentSession,
   removeOneSession,
   setCurrentSessionPnl,
+  setIsSelfData
 } from "../../redux/sessionActions";
-import { clearMarkers } from "../../redux/dataActions";
+import { clearMarkers, setCursor, setSelfData, setList, setAddList, setPrevCursor } from "../../redux/dataActions";
 import { SessionOption } from "./sessionOption";
 import { useNavigate } from "react-router-dom";
 import { setUuidCode, resetPositions } from "../../redux/sessionActions";
@@ -53,19 +54,27 @@ function SessionInfo() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSave = async (name, coin_pair, timeframe) => {
-    const result = await createSession(navigate, name, coin_pair, timeframe);
+  const handleSave = async (name, coin_pair, timeframe, is_self_data, data, decimalPlaces) => {
+    const result = await createSession(navigate, name, coin_pair, timeframe, is_self_data, data.name, data.id, decimalPlaces);
     if (result.result) {
+      dispatch(setList([]))
+      dispatch(setAddList([]))
+      dispatch(setPrevCursor(null))
       dispatch(addSessionToList(result.session));
+      dispatch(resetPositions());
       dispatch(setCurrentSession(result.session));
 
       dispatch(clearMarkers());
       dispatch(setPair(result.session.coin_pair));
-      dispatch(setTimeframe(TIME_CONVERT[result.session.timeframe]));
+      dispatch(setTimeframe(is_self_data? '1h' : TIME_CONVERT[result.session.timeframe]));
       dispatch(setUuidCode(uuidv4()));
-      dispatch(
-        setNewPair(result.session.coin_pair, result.session.timeframe, 0)
-      );
+      dispatch(setIsSelfData(result.session.is_self_data))
+      if (result.session.is_self_data) {
+        dispatch(setSelfData(navigate, result.session.selfDataId, 100))
+      } else {
+        dispatch(setNewPair(result.session.coin_pair, result.session.timeframe, 0, 100));
+      }
+      
     }
     handleClose();
   };
@@ -73,14 +82,23 @@ function SessionInfo() {
   const handleSessionChange = async (selectedOption) => {
     const result = await getSession(navigate, selectedOption.value);
     if (result) {
+      dispatch(setList([]))
+      dispatch(setAddList([]))
+      dispatch(setPrevCursor(null))
       dispatch(resetPositions());
       dispatch(setCurrentSession(result));
 
       dispatch(clearMarkers());
       dispatch(setPair(result.coin_pair));
-      dispatch(setTimeframe(TIME_CONVERT[result.timeframe]));
+      dispatch(setTimeframe(result.is_self_data? '1h' : TIME_CONVERT[result.timeframe]));
       dispatch(setUuidCode(uuidv4()));
-      dispatch(setNewPair(result.coin_pair, result.timeframe, 0));
+      dispatch(setIsSelfData(result.is_self_data))//???
+      console.log('result.cursor', result.cursor)
+      if (result.is_self_data) {
+        dispatch(setSelfData(navigate, result.selfDataId, result.cursor))
+      } else {
+        dispatch(setNewPair(result.coin_pair, result.timeframe, 0, 100));
+      }
     }
   };
 
@@ -111,7 +129,7 @@ function SessionInfo() {
   }, [currentSession]);
 
   useEffect(() => {
-    if (current_position !== null) {
+    if (current_position !== null && current_position.profit != 0) {
       setCurentPositionPnl(current_position.profit);
       setFont(true);
       const timer = setTimeout(() => {
@@ -128,12 +146,32 @@ function SessionInfo() {
     setShowDeleteModal(false);
 
     // Отправить запрос на сервер для удаления сессии
-    const result = await deleteSession(navigate, sessionToDelete);
-    if (result) {
+    const response = await deleteSession(navigate, sessionToDelete);
+    if (response.result) {
       dispatch(removeOneSession(sessionToDelete));
       if (sessionToDelete === currentSession.id) {
-        dispatch(setCurrentSession(sessions[0]));
+      
+      const result = await getSession(navigate, response.current_session_id);
+      if (result) {
+        dispatch(setList([]))
+        dispatch(setAddList([]))
+        dispatch(setPrevCursor(null))
+        dispatch(resetPositions());
+        dispatch(setCurrentSession(result));
+
+        dispatch(clearMarkers());
+        dispatch(setPair(result.coin_pair));
+        dispatch(setTimeframe(TIME_CONVERT[result.timeframe]));
+        dispatch(setUuidCode(uuidv4()));
+        dispatch(setIsSelfData(result.is_self_data))
+        if (result.is_self_data) {
+          dispatch(setSelfData(navigate, result.selfDataId, result.cursor))
+        } else {
+          dispatch(setNewPair(result.coin_pair, result.timeframe, 0, 100));
+        }
+        
       }
+    }
     }
   };
 

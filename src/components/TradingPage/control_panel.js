@@ -7,6 +7,7 @@ import { setMsg } from '../../redux/userActions';
 import { addPosition } from '../../api/data';
 import { LineStyle } from 'lightweight-charts';
 import { useNavigate } from "react-router-dom";
+import { setSelfCursor } from '../../api/data';
 import { addMarker, setTakeProfitLine, setStopLossLine, resetStopLossLine, resetTakeProfitLine, loadList } from '../../redux/dataActions';
 import { TIME_CONVERT_REVERSED, tradingPairs } from '../../config';
 import { createPosition, calculateProfit, checkBalance, checkStopLoss, checkTakeProfit, checkSL, checkTP, getVolatility, convertPercentToPrice } from '../../services/poisition';
@@ -18,6 +19,7 @@ function ControlPanel() {
     // const positionToClose = useSelector(state => state.data.positionToClose);
     const cursor = useSelector(state => state.data.cursor);
     const uuidCode = useSelector(state => state.session.uuidCode);
+    const isSelfData = useSelector((state) => state.session.isSelfData);
     const list = useSelector(state => state.data.list);
     const user = useSelector(state => state.user.user);
     const globalSettings = useSelector(state => state.user.globalSettings);
@@ -330,7 +332,7 @@ function ControlPanel() {
 
       let position = createPosition(user.id, TIME_CONVERT_REVERSED[current_timeframe], autoCloseSteps, amount, Buy_Sell, candel.close, candel.time, current_pair, curent_session.id, tp, sl)
       
-      position['volatility'] = getVolatility(current_timeframe, list.slice(cursor-5, cursor))
+      position['volatility'] = isSelfData? 0 : getVolatility(current_timeframe, list.slice(cursor-5, cursor))
       
       const marker = {
         time: candel.time,
@@ -397,6 +399,9 @@ function ControlPanel() {
       }
       dispatch(addMarker(marker))
       const response = await addPosition(navigate, curent_session.id, newPosition)
+      if (isSelfData) {
+        await setSelfCursor(navigate, curent_session.id, cursor)
+      }
       if (response['status']) {
         newPosition['id'] = response['id']
         
@@ -405,7 +410,7 @@ function ControlPanel() {
       }
       dispatch(resetStopLossLine())
       dispatch(resetTakeProfitLine())
-      if (list.length-21 < cursor && user.payment_status !== 'default') {
+      if (list.length-21 < cursor && user.payment_status !== 'default' && !isSelfData) {
         dispatch(loadList(current_pair, TIME_CONVERT_REVERSED[current_timeframe], list[list.length-1].time *1000))
       }
   };

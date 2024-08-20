@@ -29,7 +29,12 @@ export const setUuidCode = (code) => ({
     type: 'SET_UUID_CODE',
     payload: code,
 });
-    
+export const setIsSelfData = (isData) => {
+    return {
+        type: 'IS_SELF_DATA',
+        payload: isData
+    };
+  };
 
 export const setSessionsList = (sessions) => ({
     type: 'SET_SESSIONS_LIST',
