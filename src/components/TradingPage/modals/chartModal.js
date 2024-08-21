@@ -31,6 +31,7 @@ const ChartModal = ({ showChart, setShowChart, position }) => {
   const percPrice = useSelector((state) => state.data.percPrice);
   const isSelfData = useSelector((state) => state.session.isSelfData);
   const currentTimeframe = useSelector((state) => state.data.timeframe);
+  const currentSession = useSelector((state) => state.session.curent_session);
   const theme = useSelector((state) => state.data.theme);
   const chartContainerRef = useRef(null);
   const volumeSeriesRef = useRef(null);
@@ -156,7 +157,7 @@ const ChartModal = ({ showChart, setShowChart, position }) => {
         bottom: 0,
       },
     });
-    const decimalPlaces = tradingPairs[currentPair];
+    const decimalPlaces = isSelfData? currentSession.decimal_places : tradingPairs[currentPair];
     const minMove = 1 / Math.pow(10, decimalPlaces);
     lineSeriesRef.current.applyOptions({
       priceFormat: {
