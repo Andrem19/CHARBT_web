@@ -302,7 +302,6 @@ const [showTooltip, setShowTooltip] = useState(false);
 
   //====================CHART TRADIND DATA==================
   useEffect(() => {
-    console.log('cursor trig: ', cursor, isSelfData, waitingCursor)
     if (!cursor) {
       return
     }
@@ -440,7 +439,6 @@ const [showTooltip, setShowTooltip] = useState(false);
     if (dataWasAdded) {
       dispatch(setDataWasAdded(false));
     }
-      console.log('isSelfData && waitingCursor', isSelfData, waitingCursor, cursor)
 
 
       if (!cursor) {
@@ -533,7 +531,6 @@ const [showTooltip, setShowTooltip] = useState(false);
         priceLineVisible: true,
         }
       )
-      console.log('CURSOR', cursor)
       const dataSlice = list.slice(0, cursor).map((candle) => ({ ...candle }));
       lineSeriesRef.current.setData(dataSlice);
       for (let i = 1; i <= 10; i++) {

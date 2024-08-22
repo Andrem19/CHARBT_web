@@ -26,7 +26,6 @@ function VotingBlogPage() {
                 return new Date(b.timestamp) - new Date(a.timestamp);
             });
             setBlogPosts(blog);
-            console.log(blog)
         }
         getData();
         if (user) {

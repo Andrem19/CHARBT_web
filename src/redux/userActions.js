@@ -5,12 +5,27 @@ import { setCurrentSession, setSessionsList, setIsSelfData } from './sessionActi
 import { jwtExpired, encryptToken, decryptToken } from '../services/services'
 import { TIME_CONVERT } from '../config';
 
+async function getUserIp() {
+  try {
+      const response = await axios.get('https://api.ipify.org?format=json');
+      return response.data.ip;
+  } catch (error) {
+      console.error('Error getting user IP:', error);
+      return '';
+  }
+}
+
 
 async function loginUserApi(email, password) {
     try {
+      const userIp = await getUserIp();
       const response = await axios.post(`${PUB_URL}/login`, {
         email,
         password
+      }, {
+        headers: {
+          'X-Forwarded-For': userIp
+        }
       });
       if (response.status === 200) {
         return {'result': true, 'data': response.data};

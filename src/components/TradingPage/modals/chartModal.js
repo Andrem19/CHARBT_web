@@ -85,7 +85,6 @@ const ChartModal = ({ showChart, setShowChart, position }) => {
         response = await getPositionHistory(navigate, position.id);
       }
       if (response["status"]) {
-        console.log('response["data"]', response["data"])
         setlistData(response["data"]);
       } else {
         dispatch(setMsg(response["message"]));
@@ -135,7 +134,6 @@ const ChartModal = ({ showChart, setShowChart, position }) => {
     });
     setChartGl(chart);
     lineSeriesRef.current = chart.addCandlestickSeries();
-    console.log('markers', markers)
     lineSeriesRef.current.setMarkers(markers);
     volumeSeriesRef.current = chart.addHistogramSeries({
       baseLineVisible: false,

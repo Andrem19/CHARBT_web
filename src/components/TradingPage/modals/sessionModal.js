@@ -111,9 +111,9 @@ export default function SessionModal({ show, handleClose, handleSave }) {
     setPersonalData(event.target.checked);
   };
 
-  useEffect(() => {
-    console.log(selectedDataset)
-  }, [selectedDataset]);
+  // useEffect(() => {
+  //   console.log(selectedDataset)
+  // }, [selectedDataset]);
 
   const handleSelectDecimalPlaces = (eventKey) => {
     setDecimalPlaces(parseInt(eventKey));

@@ -93,7 +93,6 @@ function SessionInfo() {
       dispatch(setTimeframe(result.is_self_data? '1h' : TIME_CONVERT[result.timeframe]));
       dispatch(setUuidCode(uuidv4()));
       dispatch(setIsSelfData(result.is_self_data))//???
-      console.log('result.cursor', result.cursor)
       if (result.is_self_data) {
         dispatch(setSelfData(navigate, result.selfDataId, result.cursor))
       } else {

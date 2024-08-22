@@ -59,7 +59,6 @@ const MainApp = () => {
   }, [msg, dispatch]);
 
   const ProtectedRoute = ({ element, condition }) => {
-    console.log(user, condition)
     return condition ? <Navigate to="/" /> : element;
   };
 
