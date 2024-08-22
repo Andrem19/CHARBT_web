@@ -520,7 +520,6 @@ const [showTooltip, setShowTooltip] = useState(false);
       });
       const decimalPlaces = isSelfData? currentSession.decimal_places : tradingPairs[currentPair];
       const minMove = 1 / Math.pow(10, decimalPlaces);
-      console.log('minMove', minMove)
       lineSeriesRef.current.applyOptions(
         {
           priceFormat: {
