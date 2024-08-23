@@ -602,7 +602,7 @@ function ControlPanel() {
                                 <Form.Control value={tpslType === 'percent' ? takeProfitPerc : takeProfit} type="text"  placeholder={tpslType === 'percent' ? "1.25" : "Enter take profit"} onChange={handleTakeProfitChange} />
                               </Col>
                               <Col style={{ paddingLeft: '7.5px' }}>
-                                <Button disabled={!current_position || autoClose} onClick={changeTP} variant="secondary" style={{ width: '100%' }}>Add/Change TP</Button>
+                                <Button disabled={!current_position || autoClose} onClick={changeTP} variant="secondary" style={{ width: '100%' }}>Set TP</Button>
                               </Col>
                             </Row>
                         </Form.Group>
@@ -614,7 +614,7 @@ function ControlPanel() {
                                 <Form.Control value={tpslType === 'percent' ? stopLossPerc : stopLoss} type="text" placeholder={tpslType === 'percent' ? "0.85" : "Enter stop loss"} onChange={handleStopLossChange} />
                               </Col>
                               <Col style={{ paddingLeft: '7.5px' }}>
-                                <Button disabled={!current_position || autoClose} onClick={changeSL} variant="secondary" style={{ width: '100%' }}>Add/Change SL</Button>
+                                <Button disabled={!current_position || autoClose} onClick={changeSL} variant="secondary" style={{ width: '100%' }}>Set SL</Button>
                               </Col>
                             </Row>
                         </Form.Group>
@@ -622,17 +622,17 @@ function ControlPanel() {
                 )}
                 
 
-                <Row style={{ marginTop: '9px' }}>
-                    <Col style={{ paddingRight: '7.5px' }}>
-                        <Button disabled={current_position}  onClick={buyClick} variant="success" style={{ width: '100%' }}>Buy</Button>
-                    </Col>
-                    <Col style={{ paddingLeft: '7.5px' }}>
-                        <Button disabled={current_position} onClick={sellClick} variant="danger" style={{ width: '100%' }}>Sell</Button>
-                    </Col>
-                    <Col style={{ paddingLeft: '7.5px' }}>
-                        <Button disabled={autoClose || !current_position} onClick={closePosition} variant="warning" style={{ width: '100%' }}>Close</Button>
-                    </Col>
-                </Row>
+                <Row style={{ marginTop: '9px', display: 'flex', flexWrap: 'nowrap' }}>
+                  <Col style={{ paddingRight: '7.5px', flex: '1' }}>
+                      <Button disabled={current_position} onClick={buyClick} variant="success" style={{ width: '100%' }}>Buy</Button>
+                  </Col>
+                  <Col style={{ paddingLeft: '7.5px', flex: '1' }}>
+                      <Button disabled={current_position} onClick={sellClick} variant="danger" style={{ width: '100%' }}>Sell</Button>
+                  </Col>
+                  <Col style={{ paddingLeft: '7.5px', flex: '1' }}>
+                      <Button disabled={autoClose || !current_position} onClick={closePosition} variant="warning" style={{ width: '100%' }}>Close</Button>
+                  </Col>
+              </Row>
 
                 <Row style={{ marginTop: '12px' }}>
                     <Col style={{ paddingRight: '7.5px' }}>

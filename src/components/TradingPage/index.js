@@ -5,7 +5,7 @@ import SessionInfo from './session_info';
 import PositionsList from './positions_list';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { reloadUser, setIsMobile } from '../../redux/userActions'
+import { reloadUser } from '../../redux/userActions'
 import { Spinner, Container } from 'react-bootstrap';
 import './css/Trading.css';
 

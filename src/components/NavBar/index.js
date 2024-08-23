@@ -89,7 +89,7 @@ function NavB() {
 
   useEffect(() => {
     const handleResize = () => {
-      dispatch(setIsMobile(window.innerWidth <= 1200));
+      dispatch(setIsMobile(window.innerWidth < 1020));
     };
 
     // Вызовите handleResize при загрузке страницы, чтобы установить начальное состояние
