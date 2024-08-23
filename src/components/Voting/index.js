@@ -3,9 +3,10 @@ import { Container, Row, Col, Card, Button, ListGroup, Image, ProgressBar } from
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlog, voteOnPoll } from '../../api/data';
 import { useNavigate } from "react-router-dom";
-import { updateBlogLastVisit } from '../../redux/userActions';
+import { setMsg, updateBlogLastVisit } from '../../redux/userActions';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbTack } from "@fortawesome/free-solid-svg-icons";
+import { submitTester } from '../../api/auth';
 import ReactPlayer from 'react-player';
 
 function VotingBlogPage() {
@@ -14,6 +15,7 @@ function VotingBlogPage() {
     const theme = useSelector(state => state.data.theme);
     const user = useSelector((state) => state.user.user);
     const [blogPosts, setBlogPosts] = useState(null);
+    const [testerRequest, setTesterRequest] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -40,10 +42,32 @@ function VotingBlogPage() {
         }
     }
 
+    const handleTesterSignUp = async () => {
+        setTesterRequest(true)
+        await submitTester();
+        dispatch(setMsg('You are on the waiting list for testing our app. Check your email.'))
+        localStorage.setItem('isTesterSignedUp', 'true');
+    }
+
+    const isTesterSignedUp = localStorage.getItem('isTesterSignedUp') === 'true';
+
     return (
         <Container fluid style={{ backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black', paddingTop: '1rem' }}>
             <Row className="justify-content-md-center">
                 <Col xs={12} md={8}>
+
+                    {!isTesterSignedUp && user && (
+                        <Card className="mb-4" bg={theme} text={theme === 'dark' ? 'white' : 'dark'}>
+                            <Card.Header as="h5">Android App Testing</Card.Header>
+                            <Card.Body>
+                                <Card.Text>
+                                    We are preparing to test our Android app. If you want to participate and get access to a paid subscription for 2 weeks in exchange for leaving feedback, please sign up for testing.
+                                </Card.Text>
+                                <Button disabled={testerRequest} onClick={handleTesterSignUp}>Sign Up for Testing</Button>
+                            </Card.Body>
+                        </Card>
+                    )}
+
                     {blogPosts && blogPosts.map((post, index) => {
                         const pollDisabled = post.poll && (post.poll.disabled || new Date(post.poll.to_date) < new Date());
                         return (

@@ -230,3 +230,12 @@ export async function deleteDataSet(navigate, data_id) {
     }
   }
 }
+
+export async function submitTester(navigate) {
+  try {
+      const response = await apiRequest(navigate, 'GET', `/tester`);
+  } catch (error) {
+      console.error('Error in submitTester:', error);
+      return { 'status': false, 'message': `Error: ${error}` }
+  }
+};
