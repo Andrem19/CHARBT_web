@@ -7,6 +7,7 @@ const initialState = {
     msg: null,
     globalSettings: null,
     isMobile: false,
+    screenSize: 0
   };
   
   const userReducer = (state = initialState, action) => {
@@ -43,6 +44,11 @@ const initialState = {
         return {
           ...state,
           msg: action.payload
+        };
+      case 'SET_SCREEN':
+        return {
+          ...state,
+          screenSize: action.payload
         };
       case 'SET_GLOBAL_SETTINGS':
         return {

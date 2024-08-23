@@ -29,6 +29,7 @@ function ControlPanel() {
     const curent_session = useSelector(state => state.session.curent_session);
     const curent_session_pnl = useSelector(state => state.session.curent_session_pnl);
     const isMobile = useSelector(state => state.user.isMobile);
+    const screenSize = useSelector(state => state.user.screenSize);
     const [amount, setAmount] = useState(20);
     const [showTPSL, setShowTPSL] = useState(false);
     const [autoClose, setAutoClose] = useState(false);
@@ -488,6 +489,7 @@ function ControlPanel() {
     if (positionToClose) {
       updatePositionAndDispatch(current_position, resultVars);
     }
+    console.log('screenSize', screenSize)
   }, [positionToClose]);
 
     const closePosition = () => {
@@ -555,7 +557,7 @@ function ControlPanel() {
 
   };
 
-
+  const fontSize = screenSize > 1020 && screenSize < 1536 ? '10px' : '16px';
     return (
         <Container fluid >
             <Form >
@@ -567,7 +569,7 @@ function ControlPanel() {
                 <Form.Group controlId="tpsl" style={{ alignSelf: 'flex-start', marginTop: '15px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column', width: '30%' }}>
                 <Form.Label style={{ fontSize: '12px' }}>TPSL</Form.Label>
-                <Form.Control as="select" onChange={handleSelect} style={{ WebkitAppearance: "menulist" }}>
+                <Form.Control as="select" onChange={handleSelect} style={{ WebkitAppearance: "menulist", fontSize }}>
                     <option value="off">Off</option>
                     <option value="percent">Percent</option>
                     <option value="price">Price</option>

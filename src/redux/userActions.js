@@ -135,6 +135,13 @@ async function loginUserApi(email, password) {
     };
   };
 
+  export const setScreenSize = (screen) => {
+    return {
+      type: 'SET_SCREEN',
+      payload: screen
+    };
+  };
+
   export const setGlobalSettings = (settings) => {
     return {
       type: 'SET_GLOBAL_SETTINGS',

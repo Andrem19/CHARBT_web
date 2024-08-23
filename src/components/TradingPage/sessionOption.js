@@ -8,9 +8,19 @@ export function SessionOption({ session, currentSessionId, handleDeleteClick, se
     const [isHovered, setIsHovered] = useState(false);
     const [isIconHovered, setIconHovered] = useState(false);
     const isMobile = useSelector(state => state.user.isMobile);
+    const screenSize = useSelector(state => state.user.screenSize);
+    const litleScreen = screenSize > 1020 && screenSize < 1536;
 
-    const fontSize = isMobile ? 'small' : 'medium';
-    const balanceFontSize = isMobile ? 'small' : 'large';
+    const fontSize = isMobile ? 'small' : litleScreen ? '10px' : '16px';
+    const balanceFontSize = isMobile ? 'small' : litleScreen ? '10px' : '16px';
+
+    const coinPair = (currentPair) => {
+        if (currentPair.length > 15) {
+            return currentPair.substring(0, 15) + '...';
+          } else {
+            return currentPair;
+          }
+    }
 
     return (
         <div 
@@ -20,13 +30,15 @@ export function SessionOption({ session, currentSessionId, handleDeleteClick, se
         >
             <div>
                 <div style={{ fontWeight: session.id === currentSessionId ? 'bold' : 'normal', fontSize: balanceFontSize }}>
-                    Balance: {(session.balance + currentSessionPnl).toFixed(2)}
+                    {litleScreen ? 'Bal' : 'Balance'}: {(session.balance + currentSessionPnl).toFixed(2)}
                 </div>
                 <div style={{ fontSize: fontSize }}>
-                    {session.coin_pair}, {TIME_CONVERT[session.timeframe]}{`, ${session.pos_count || ''}`}
+                    {coinPair(session.coin_pair)}, {TIME_CONVERT[session.timeframe]}{`, ${session.pos_count || ''}`}
                 </div>
+                {litleScreen && <span style={{ fontSize: fontSize }}>{session.session_name}</span>}
             </div>
-            <span style={{ fontSize: fontSize }}>{session.session_name}</span>
+            {!litleScreen && <span style={{ fontSize: fontSize }}>{session.session_name}</span>}
+            
             {(isHovered || isMobile) && sessionsCount > 1 && 
                 <FontAwesomeIcon 
                     icon={faTrash} 

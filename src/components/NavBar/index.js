@@ -11,7 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { faMoon, faLightbulb, faRightFromBracket, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState, useRef } from 'react';
 import { toggleTheme, clearMarkers, resetStopLossLine, resetTakeProfitLine } from '../../redux/dataActions';
-import { reloadUser, setGlobalSettings, setIsMobile } from '../../redux/userActions';
+import { reloadUser, setGlobalSettings, setIsMobile, setScreenSize } from '../../redux/userActions';
 import { Spinner, Form } from 'react-bootstrap';
 import { getGSettings } from '../../api/data';
 import AvatarWithBadge from './Avatar';
@@ -90,6 +90,7 @@ function NavB() {
   useEffect(() => {
     const handleResize = () => {
       dispatch(setIsMobile(window.innerWidth < 1020));
+      dispatch(setScreenSize(window.innerWidth));
     };
 
     // Вызовите handleResize при загрузке страницы, чтобы установить начальное состояние
