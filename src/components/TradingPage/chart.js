@@ -302,24 +302,29 @@ const [showTooltip, setShowTooltip] = useState(false);
 
   //====================CHART TRADIND DATA==================
   useEffect(() => {
-    if (!cursor) {
+    console.log(cursor, list.length, chartGlobal, chartContainerRef.current, prevCursor)
+    if (!cursor || cursor == 100 || cursor === currentSession.cursor) {
       return
     }
 
-    if (list.length > 0 && chartGlobal && chartContainerRef.current && prevCursor !== null) {
+    if (list.length > 0 && chartGlobal && chartContainerRef.current) {
       
     if (list.length-3 < cursor && user.payment_status === 'default') {
       dispatch(setMsg('To get more data, upgrade your account to one of our subscription packages.'))
       return
     }
-
+      let pCur = prevCursor? prevCursor : cursor-1
       let dataSlice = list
-        .slice(0, prevCursor)
+        .slice(0, pCur)
         .map((candle) => ({ ...candle }));
       const newCandles = list
-        .slice(prevCursor, cursor)
+        .slice(pCur, cursor)
         .map((candle) => ({ ...candle }));
-
+      
+      if (newCandles.length === 0) {
+        return
+      }
+      console.log('newCandles', newCandles)
       newCandles.forEach((item) => {
         lineSeriesRef.current.update(item);
       });
