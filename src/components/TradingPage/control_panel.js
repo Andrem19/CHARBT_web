@@ -289,7 +289,7 @@ function ControlPanel() {
           return
         }
         if (!checkSL(sl, list[cursor-1].close, Buy_Sell)) {
-          dispatch(setMsg('Stop loss should be within 5% of the current price: lower for long positions and higher for short positions.'));
+          dispatch(setMsg('Stop loss should be within 10% of the current price: lower for long positions and higher for short positions.'));
           // setStopLoss(null)
           return
         }
@@ -324,7 +324,7 @@ function ControlPanel() {
         return
       }
       if (!checkTP(tp, list[cursor-1].close, Buy_Sell)) {
-        dispatch(setMsg('Take profit should be within 5% of the current price: higher for long positions and lower for short positions.'));
+        dispatch(setMsg('Take profit should be within 10% of the current price: higher for long positions and lower for short positions.'));
         // setTakeProfit(null)
         return
       }
