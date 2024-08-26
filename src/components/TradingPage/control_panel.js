@@ -8,6 +8,7 @@ import { addPosition } from '../../api/data';
 import { LineStyle } from 'lightweight-charts';
 import { useNavigate } from "react-router-dom";
 import { setSelfCursor } from '../../api/data';
+import { v4 as uuidv4 } from "uuid";
 import { addMarker, setTakeProfitLine, setStopLossLine, resetStopLossLine, resetTakeProfitLine, loadList } from '../../redux/dataActions';
 import { TIME_CONVERT_REVERSED, tradingPairs } from '../../config';
 import { createPosition, calculateProfit, checkBalance, checkStopLoss, checkTakeProfit, checkSL, checkTP, getVolatility, convertPercentToPrice } from '../../services/poisition';
@@ -233,6 +234,14 @@ function ControlPanel() {
 
 
     const openPosition = async (Buy_Sell) => {
+        if (user && list.length-21 < cursor && user.payment_status !== 'default') {
+          dispatch(setMsg('To get more data, upgrade your account to one of our subscription packages.'))
+          return
+        } else if (!user && list.length-21 < cursor) {
+          dispatch(setMsg('To get more data, you need to Sign Up.'))
+          return
+        }
+
       if (curent_session.positions.length >= globalSettings.position_in_session) {
         dispatch(setMsg('You have reached the limit on the number of positions in the session. Create a new session.'))
         return
@@ -331,8 +340,8 @@ function ControlPanel() {
       dispatch(setTakeProfitLine(takeLine))
     }
 
-      let position = createPosition(user.id, TIME_CONVERT_REVERSED[current_timeframe], autoCloseSteps, amount, Buy_Sell, candel.close, candel.time, current_pair, curent_session.id, tp, sl)
-      
+      let position = createPosition(user? user.id : 0, TIME_CONVERT_REVERSED[current_timeframe], autoCloseSteps, amount, Buy_Sell, candel.close, candel.time, current_pair, curent_session.id, tp, sl)
+
       position['volatility'] = isSelfData? 0 : getVolatility(current_timeframe, list.slice(cursor-5, cursor))
       
       const marker = {
@@ -399,20 +408,34 @@ function ControlPanel() {
         shape: current_position.buy_sell === 'Buy' ? 'arrowDown' : 'arrowUp',
       }
       dispatch(addMarker(marker))
-      const response = await addPosition(navigate, curent_session.id, newPosition)
-      if (isSelfData) {
-        await setSelfCursor(navigate, curent_session.id, cursor)
+      if (user) {
+        const response = await addPosition(navigate, curent_session.id, newPosition)
+        if (isSelfData) {
+          await setSelfCursor(navigate, curent_session.id, cursor)
+        }
+        // if (response['status']) {
+        //   newPosition['id'] = response['id']
+          
+          
+        // }
       }
-      if (response['status']) {
-        newPosition['id'] = response['id']
-        
-        dispatch(addPositionToSession(newPosition));
-        dispatch(setCurrentPosition(null))
+      if (!user) {
+        newPosition.id = curent_session.positions.length+1
       }
+      dispatch(addPositionToSession(newPosition));
+      dispatch(setCurrentPosition(null))
+      
       dispatch(resetStopLossLine())
       dispatch(resetTakeProfitLine())
-      if (list.length-21 < cursor && user.payment_status !== 'default' && !isSelfData) {
+      if (user && list.length-21 < cursor && user.payment_status !== 'default' && !isSelfData) {
         dispatch(loadList(current_pair, TIME_CONVERT_REVERSED[current_timeframe], list[list.length-1].time *1000))
+      } else {
+        if (user && list.length-21 < cursor && user.payment_status == 'default') {
+          dispatch(setMsg('To get more data, upgrade your account to one of our subscription packages.'))
+        } else if (!user && list.length-21 < cursor) {
+          dispatch(setMsg('To get more data, you need to Sign Up.'))
+        }
+        
       }
   };
 

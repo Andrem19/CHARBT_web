@@ -164,6 +164,25 @@ export const convertTimeframe = (time) => {
 }
 
 export const countSessionStatistic = (positions) => {
+    if (!positions || positions.length === 0) {
+        return {
+            successPositionPercent: 0,
+            averageProfit: 0,
+            averageLoss: 0,
+            averageDuration: '',
+            profitCount: 0,
+            lossCount: 0,
+            sumProfit: 0,
+            sumLoss: 0,
+            autoClose: 0,
+            takeProfitClose: 0,
+            stopLossClose: 0,
+            manualClose: 0,
+            pnl: 0,
+            sell: 0,
+            buy: 0,
+            }
+    }
     
     let stats = {
         averageDuration: '',
@@ -310,3 +329,20 @@ export const showNewPost = (blogLastVisit, blogLastPost) => {
     return result;
 }
 
+export function getDefaultSessionData() {
+    return {
+        id: 0,
+        decimal_places: 2,
+        selfDataId: null,
+        is_self_data: false,
+        pos_count: 0,
+        session_name: 'TestSession',
+        coin_pair: 'BTCUSDT',
+        timeframe: '1d',
+        additional_timeframe: '1d',
+        cursor: 100,
+        balance: 5000,
+        current_PnL: 0.0,
+        positions: []
+    };
+}

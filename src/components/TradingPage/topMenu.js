@@ -50,8 +50,8 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
     const theme = useSelector((state) => state.data.theme);
     const currentSession = useSelector(state => state.session.curent_session);
     const currentPosition = useSelector(state => state.session.current_position);
-    const currentPair = useSelector((state) => state.data.current_pair);
-    const currentTimeframe = useSelector((state) => state.data.timeframe);
+    const currentPair = useSelector((state) => state.data.current_pair || 'BTCUSDT');
+    const currentTimeframe = useSelector((state) => state.data.timeframe || '1d');
 
     const [handleShowSettings, setHandleShowSettings] = useState(false)
     const [showTooltip, setShowTooltip] = useState(false);
@@ -262,7 +262,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
           </Dropdown.Menu>
         </Dropdown>
 
-          { !isSelfData && user.payment_status === 'premium-plus' && currentTimeframe != '1d' && list.length > 0 && !currentPosition && <div style={{marginLeft: 10, marginTop: 6, cursor: 'crosshair', color: '#14A44D'}} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
+          { !isSelfData && user && user.payment_status === 'premium-plus' && currentTimeframe != '1d' && list.length > 0 && !currentPosition && <div style={{marginLeft: 10, marginTop: 6, cursor: 'crosshair', color: '#14A44D'}} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
             <span style={{ marginLeft: 2 }}>
               {TIME_CONVERT[currentSession.additional_timaframe]}
             </span>
@@ -334,7 +334,7 @@ function TopMenu({ setZIndexDrawPanel, selectedIndicators, setSelectedIndicators
             </OverlayTrigger>
           </div>}
 
-      <FontAwesomeIcon style={{fontSize: isMobile ? 15 : 20, marginLeft: 'auto', marginTop: 5, marginRight: 5, cursor: 'pointer'}} icon={faGear} onClick={() => setHandleShowSettings(true)} />
+      {user && <FontAwesomeIcon style={{fontSize: isMobile ? 15 : 20, marginLeft: 'auto', marginTop: 5, marginRight: 5, cursor: 'pointer'}} icon={faGear} onClick={() => setHandleShowSettings(true)} />}
         <SettingsModal showSettings={handleShowSettings} setShowChart={setHandleShowSettings} setPriceMode={setPriceScale} setTimeLine={setTimeScale} setTpsl={setShowTpsl} setMarkers={setShowMarkers} setPatterns={setShowPatterns} setTools={setTools} />
       </div>
     )

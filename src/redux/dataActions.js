@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../config';
+import { API_URL, PUB_URL } from '../config';
 import { setMsg } from './userActions';
 import { getSelfData } from '../api/data';
 
@@ -7,7 +7,9 @@ import { getSelfData } from '../api/data';
 async function loadListApi(coin, timeframe, finish_date) {
     try {
         const jwt = localStorage.getItem('jwt');
-        const response = await axios.get(`${API_URL}/data?coin=${coin}&timeframe=${timeframe}&finish_date=${finish_date}`, {
+        let response = null
+        if (jwt) {
+        response = await axios.get(`${API_URL}/data?coin=${coin}&timeframe=${timeframe}&finish_date=${finish_date}`, {
             headers: {
                 'Authorization': `Bearer ${jwt}`
             },
@@ -15,6 +17,13 @@ async function loadListApi(coin, timeframe, finish_date) {
                 return true; 
             }
         });
+      } else {
+        response = await axios.get(`${PUB_URL}/pub_data`, {
+          validateStatus: function (status) {
+              return true; 
+          }
+      });
+      }
 
         if (response.status === 200) {
           

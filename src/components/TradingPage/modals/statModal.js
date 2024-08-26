@@ -10,7 +10,7 @@ import ScatterChart from "../charts_stat/ScatterChart";
 
 function StatisticModal({ showModal, setShowModal }) {
   const positions = useSelector(
-    (state) => state.session.curent_session.positions
+    (state) => state.session.curent_session? state.session.curent_session.positions : []
   );
   const fees = Array.from({ length: 25 }, (_, i) => i / 100);
   const [fee, setFee] = useState(0);

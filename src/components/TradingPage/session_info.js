@@ -30,14 +30,15 @@ import { v4 as uuidv4 } from "uuid";
 import { setPair, setTimeframe, setNewPair } from "../../redux/dataActions";
 import StatisticModal from "./modals/statModal";
 import { setMsg } from "../../redux/userActions";
+import { getDefaultSessionData } from "../../services/services";
 
 function SessionInfo() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.data.theme);
-  const sessions = useSelector((state) => state.session.sessions_list);
+  const sessions = useSelector((state) => state.session.sessions_list || [getDefaultSessionData()]);
   const user = useSelector((state) => state.user.user);
-  const currentSession = useSelector((state) => state.session.curent_session);
+  const currentSession = useSelector((state) => state.session.curent_session || getDefaultSessionData());
   const current_position = useSelector(
     (state) => state.session.current_position
   );
@@ -55,6 +56,10 @@ function SessionInfo() {
   const handleShow = () => setShow(true);
 
   const handleSave = async (name, coin_pair, timeframe, is_self_data, data, decimalPlaces) => {
+    if (!user) {
+      dispatch(setMsg('You need to Sign In to use all functionality'))
+      return
+    }
     const result = await createSession(navigate, name, coin_pair, timeframe, is_self_data, data.name, data.id, decimalPlaces);
     if (result.result) {
       dispatch(setList([]))
@@ -80,6 +85,10 @@ function SessionInfo() {
   };
 
   const handleSessionChange = async (selectedOption) => {
+    if (!user) {
+      dispatch(setMsg('You need to Sign In to use all functionality'))
+      return
+    }
     const result = await getSession(navigate, selectedOption.value);
     if (result) {
       dispatch(setList([]))
@@ -122,6 +131,9 @@ function SessionInfo() {
   }));
 
   useEffect(() => {
+    if (!user) {
+      return
+    }
     let result = countSessionStatistic(currentSession.positions);
     dispatch(setCurrentSessionPnl(sessionStat.pnl.toFixed(2)));
     setSessionStat(result);
@@ -141,6 +153,10 @@ function SessionInfo() {
   }, [current_position]);
 
   const handleConfirmDelete = async () => {
+    if (!user) {
+      dispatch(setMsg('You need to Sign In to use all functionality'))
+      return
+    }
     // Закрыть модальное окно
     setShowDeleteModal(false);
 
@@ -228,7 +244,7 @@ function SessionInfo() {
               />
             </div>
             <Button
-              disabled={user.payment_status === "default"}
+              disabled={!user || user.payment_status === "default"}
               variant="success"
               onClick={handleShow}
             >
@@ -280,7 +296,7 @@ function SessionInfo() {
           </Row>
           <hr />
           <Button
-            disabled={user.payment_status !== 'premium-plus' && user.payment_status !== 'default' && user.payment_status !== 'premium'}
+            disabled={!user || user.payment_status !== 'premium-plus' && user.payment_status !== 'default' && user.payment_status !== 'premium'}
             onClick={openStatistics}
             variant="secondary"
             style={{

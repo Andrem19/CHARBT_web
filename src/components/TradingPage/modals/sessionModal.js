@@ -262,7 +262,7 @@ export default function SessionModal({ show, handleClose, handleSave }) {
 
         <Form.Group controlId="formPersonalData" style={{ marginTop: 10 }}>
           <Form.Check
-            disabled={user.payment_status === 'defoult' || user.payment_status === 'essential'}
+            disabled={!user || user.payment_status === 'defoult' || user.payment_status === 'essential'}
             type="checkbox"
             label="Personal Data"
             checked={personalData}

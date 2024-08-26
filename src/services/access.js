@@ -16,6 +16,9 @@ export function getPaymentStatus(user) {
 }
 
 export function getAvaliblePairs(user) {
+    if (!user) {
+        return [...COIN_CRYPTO_SET, ...STOCK, ...FOREX]
+    }
     const paymentStatus = getPaymentStatus(user)
     if (paymentStatus === 'default') {
         return ['BTCUSDT']
@@ -29,6 +32,9 @@ export function getAvaliblePairs(user) {
 }
 
 export function getAvalibleTimeframes(user) {
+    if (!user) {
+        return ['1d', '1h', '30m', '5m', '1m']
+    }
     const paymentStatus = getPaymentStatus(user)
     if (paymentStatus === 'default') {
         return ['1d']

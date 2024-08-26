@@ -21,7 +21,6 @@ function Trading() {
 
 
   useEffect(() => {
-    
     const fetchUser = async () => {
       setIsLoading('start')
       await dispatch(reloadUser(navigate));
@@ -30,14 +29,17 @@ function Trading() {
     if (isLoading === 'init' && localStorage.getItem('jwt')) {
       fetchUser();
     }
+    if (!user) {
+      setIsLoading('finish')
+    }
 
   }, [isLoggedIn]);
   
-  useEffect(() => {
-    if (!user && isLoading === 'finish') {
-      navigate('/login');
-    }
-  }, [isLoading]);
+  // useEffect(() => {
+  //   if (!user && isLoading === 'finish') {
+  //     navigate('/login');
+  //   }
+  // }, [isLoading]);
 
   const containerchart = {
     backgroundColor: 'var(--bg-color)',
@@ -54,7 +56,7 @@ function Trading() {
         <span className="sr-only">Loading...</span>
       </Spinner>
     </div> :
-    isLoading === 'finish' && user ?
+    isLoading === 'finish' ?
     <div style={containerchart}>
 
       <div className='rowchart'>

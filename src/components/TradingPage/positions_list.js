@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 import { Spinner } from "react-bootstrap";
 import { convertTimestamp, biutyfyTOS } from "../../services/services";
 import ChartModal from "./modals/chartModal";
+import { setMsg } from '../../redux/userActions';
 import "./css/position_list.css";
 
 function PositionsList() {
   
-
+  const dispatch = useDispatch();
   const currentSession = useSelector((state) => state.session.curent_session);
   const timeframe = useSelector((state) => state.data.timeframe);
   const showTime = useSelector((state) => state.data.showTime);
   const isMobile = useSelector(state => state.user.isMobile);
+  const user = useSelector(state => state.user.user);
   const [showChart, setShowChart] = useState(false);
   const [positionShow, setPositionShow] = useState(null);
 
   const showChartHandler = (position) => {
+    if (!user) {
+      dispatch(setMsg('Plese Sign Up to use all functionality.'))
+      return
+    }
     setShowChart(true);
     setPositionShow(position);
   };

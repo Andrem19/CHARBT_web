@@ -15,7 +15,8 @@ import { reloadUser, setGlobalSettings, setIsMobile, setScreenSize } from '../..
 import { Spinner, Form } from 'react-bootstrap';
 import { getGSettings } from '../../api/data';
 import AvatarWithBadge from './Avatar';
-import { showNewPost } from '../../services/services';
+import { getDefaultSessionData, showNewPost } from '../../services/services';
+import { setCurrentSession } from '../../redux/sessionActions';
 
 function NavB() {
   const location = useLocation();
@@ -72,6 +73,7 @@ function NavB() {
   }, [theme]);
 
   useEffect(() => {
+    dispatch(setCurrentSession(getDefaultSessionData()))
     const fetchUser = async () => {
       await dispatch(reloadUser(navigate));
     };
@@ -227,7 +229,7 @@ function NavB() {
             {location.pathname !== '/login' && (
               <>
                 <Nav.Link onClick={handleHomeClick} style={{ textDecoration: isActive('/home') ? 'underline' : 'none', color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Home</span></Nav.Link>
-                { user && <Nav.Link onClick={handleTradingClick} style={{ textDecoration: isActive('/trading') ? 'underline' : 'none', color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Trading</span></Nav.Link> }
+                {<Nav.Link onClick={handleTradingClick} style={{ textDecoration: isActive('/trading') ? 'underline' : 'none', color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Trading</span></Nav.Link> }
                 { user && <Nav.Link onClick={handleScreenshotsPage} style={{ textDecoration: isActive('/screenshots') ? 'underline' : 'none', color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Screenshots</span></Nav.Link> }
                 <Nav.Link onClick={handlePricing} style={{ textDecoration: isActive('/pricing') ? 'underline' : 'none',  color: 'var(--navbar-text-color)', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}><span style={{ fontFamily: 'TextFont_1', fontSize: isMobile ? '1.5em' : '1em' }}>Pricing</span></Nav.Link>
                 {globalSettings && globalSettings.blogOn && <Nav.Link onClick={blog} style={{ textDecoration: isActive('/blog') ? 'underline' : 'none', color: 'var(--navbar-text-color)', position: 'relative', textAlign: isMobile ? 'center' : 'left', fontSize: isMobile ? '0.6em' : '1em' }}>

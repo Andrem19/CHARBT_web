@@ -302,14 +302,13 @@ const [showTooltip, setShowTooltip] = useState(false);
 
   //====================CHART TRADIND DATA==================
   useEffect(() => {
-    console.log(cursor, list.length, chartGlobal, chartContainerRef.current, prevCursor)
     if (!cursor || cursor == 100 || cursor === currentSession.cursor) {
       return
     }
 
     if (list.length > 0 && chartGlobal && chartContainerRef.current) {
       
-    if (list.length-3 < cursor && user.payment_status === 'default') {
+    if (list.length-3 < cursor && (user.payment_status === 'default' || !user)) {
       dispatch(setMsg('To get more data, upgrade your account to one of our subscription packages.'))
       return
     }
@@ -324,7 +323,7 @@ const [showTooltip, setShowTooltip] = useState(false);
       if (newCandles.length === 0) {
         return
       }
-      console.log('newCandles', newCandles)
+
       newCandles.forEach((item) => {
         lineSeriesRef.current.update(item);
       });
@@ -423,12 +422,13 @@ const [showTooltip, setShowTooltip] = useState(false);
     if (list.length === 0) {
       dispatch(clearMarkers())
       window.localStorage.removeItem("draw_lines")
-      const coin = user.current_session.coin_pair//localStorage.getItem("coin") || "BTCUSDT";
-      const timeframe = user.current_session.timeframe//localStorage.getItem("timeframe") || "1440";
+      const coin = user? user.current_session.coin_pair : 'BTCUSDT'//localStorage.getItem("coin") || "BTCUSDT";
+      const timeframe = user? user.current_session.timeframe : 1440//localStorage.getItem("timeframe") || "1440";
       const start_date = 0;
+
       dispatch(setPair(coin));
       dispatch(setTimeframe(TIME_CONVERT[timeframe]));
-      if (isSelfData) {
+      if (isSelfData && user) {
         dispatch(setSelfData(navigate, currentSession.selfDataId, user.current_session.cursor))
       } else {
         dispatch(loadList(coin, timeframe, start_date, 100));
