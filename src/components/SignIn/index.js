@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, reloadUser } from '../../redux/userActions';
 import Modal from '../ServicePage/modalText';
 import { getText } from '../../api/data';
+import { setMsg } from '../../redux/userActions';
 import { validateUsername, validateEmail, validatePassword } from '../../services/services';
 
 function SignInSignUpPage() {
@@ -106,8 +107,9 @@ function SignInSignUpPage() {
       setShowToast(true);
     }
     if (emailVerified) {
-      setTostBody('Your email has been successfully verified. Please log in using your credentials.')
-      setShowToast(true);
+      // setTostBody('Your email has been successfully verified. Please log in using your credentials.')
+      // setShowToast(true);
+      dispatch(setMsg('Your email has been successfully verified. Please log in using your credentials.'))
     }
   }, [errorCount, emailVerified ]);
 
