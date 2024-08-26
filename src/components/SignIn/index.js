@@ -147,6 +147,7 @@ function SignInSignUpPage() {
     
       <div className="w-100" style={{ maxWidth: '400px' }}>
         <h1>{isUserExist === null ? 'Welcome to us' : isUserExist ? 'Login' : 'Sign Up'}</h1>
+        {isUserExist === null && <span style={{ fontSize: 12, color: 'grey' }}>To login or register input your email and press Next</span>}
         {error && <Alert variant="danger">{error}</Alert>}
         {isUserExist === null ? (
           <>
