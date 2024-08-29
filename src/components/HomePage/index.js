@@ -15,7 +15,7 @@ function HomePage() {
   };
 
   const handleQRCodeClick = () => {
-    window.location.href = 'https://apknow.one/EIk2DE7gpiKC6J5';
+    window.open('https://apknow.one/EIk2DE7gpiKC6J5', '_blank');
   };
 
   return (

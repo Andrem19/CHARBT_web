@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faTwitter, faTelegram, faInstagram, faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faGem } from '@fortawesome/free-solid-svg-icons';
 
 function Footer() {
     const theme = useSelector(state => state.data.theme);
@@ -27,28 +30,28 @@ function Footer() {
 
   return (
     <MDBFooter style={{zIndex:-9999, position: 'static', fontFamily: isHomePage ? 'TextFont_1' : 'defaultFont', backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black' }} >
-      <section  className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
-        <div>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon color='secondary' fab icon='facebook-f' />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon color='secondary' fab icon='twitter' />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon color='secondary' fab icon='google' />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon color='secondary' fab icon='instagram' />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon color='secondary' fab icon='linkedin' />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon color='secondary' fab icon='github' />
-          </a>
-        </div>
-      </section>
+      <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
+      <div>
+        <a href='#' className='me-4 text-reset' target='_blank'>
+          <FontAwesomeIcon icon={faFacebookF} color='secondary' />
+        </a>
+        <a href='#' className='me-4 text-reset' target='_blank'>
+          <FontAwesomeIcon icon={faTwitter} color='secondary' />
+        </a>
+        <a href='https://t.me/char_bt' className='me-4 text-reset' target='_blank'>
+          <FontAwesomeIcon icon={faTelegram} color='secondary' />
+        </a>
+        <a href='#' className='me-4 text-reset' target='_blank'>
+          <FontAwesomeIcon icon={faInstagram} color='secondary' />
+        </a>
+        <a href='#' className='me-4 text-reset' target='_blank'>
+          <FontAwesomeIcon icon={faLinkedin} color='secondary' />
+        </a>
+        <a href='#' className='me-4 text-reset' target='_blank'>
+          <FontAwesomeIcon icon={faGithub} color='secondary' />
+        </a>
+      </div>
+    </section>
 
       <section className=''>
         <MDBContainer className='text-center text-md-start mt-5'>
@@ -68,9 +71,9 @@ function Footer() {
                 </a>
               </p>
               <p style={{fontSize: '0.7rem'}}>
-                <a href='https://apknow.one/EIk2DE7gpiKC6J5' className='text-reset'>
-                  Android
-                </a>
+              <a href='https://apknow.one/EIk2DE7gpiKC6J5' class='text-reset' target='_blank'>
+                Android
+              </a>
               </p>
             </MDBCol>
 
