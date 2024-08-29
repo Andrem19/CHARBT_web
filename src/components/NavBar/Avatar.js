@@ -11,8 +11,8 @@ const AvatarWithBadge = ({ src, badgeColor, width, height }) => {
             <div
               style={{
                 position: 'absolute',
-                bottom: -5, // Adjust this value to move the star up or down
-                right: -5, // Adjust this value to move the star left or right
+                bottom: -5,
+                right: -5,
                 color: badgeColor,
               }}
             >
