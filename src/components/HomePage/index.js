@@ -20,8 +20,9 @@ function HomePage() {
 
   return (
     <Container fluid style={{ backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: isMobile ? 'auto' : 'auto', paddingTop: '1rem' }}>
-      <h1 style={{ fontFamily: !isMobile ? 'TextFont_1' : '' }}>Historical Data Back Testing</h1>
-      <h2 style={{ fontFamily: !isMobile ? 'TextFont_1' : '' }}> Crypto, Stock, Forex</h2>
+      <h1 style={{ fontFamily: !isMobile ? 'TextFont_1' : '' }}>Historical Data Trading Simulation</h1>
+      {/* <h2 style={{ fontFamily: !isMobile ? 'TextFont_1' : '' }}> Crypto, Stock, Forex</h2> */}
+      <h3 style={{ marginRight: 200, marginLeft: 200, fontFamily: !isMobile ? 'TextFont_1' : '' }}>CharBT is a service focused exclusively on the educational process for traders. Which gives the opportunity to test your skills without risking real funds in a fully simulated environment on historical data.</h3>
       <div style={{ width: isMobile ? '100%' : '80%', height: isMobile ? 'auto' : '50%', border: '1px solid black', borderRadius: '10px', overflow: 'hidden', position: 'relative', fontFamily: 'TextFont_1', margin: isMobile ? '1rem' : '1rem 0' }}>
     <video autoPlay loop muted style={{ width: '100%', height: isMobile ? 'auto' : '100%', objectFit: isMobile ? 'contain' : 'cover' }}>
       <source src="charbt_tutorial.mp4" type="video/mp4" />
