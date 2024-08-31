@@ -230,9 +230,6 @@ function ControlPanel() {
     dispatch(setCurrentPosition(newPosition))
     }
     
-
-
-
     const openPosition = async (Buy_Sell) => {
         if (user && list.length-21 < cursor && user.payment_status !== 'default') {
           dispatch(setMsg('To get more data, upgrade your account to one of our subscription packages.'))
@@ -408,20 +405,19 @@ function ControlPanel() {
         shape: current_position.buy_sell === 'Buy' ? 'arrowDown' : 'arrowUp',
       }
       dispatch(addMarker(marker))
+
       if (user) {
         const response = await addPosition(navigate, curent_session.id, newPosition)
         if (isSelfData) {
           await setSelfCursor(navigate, curent_session.id, cursor)
         }
-        // if (response['status']) {
-        //   newPosition['id'] = response['id']
-          
-          
-        // }
-      }
-      if (!user) {
+        if (response['status']) {
+          newPosition['id'] = response['id']
+        }
+      } else {
         newPosition.id = curent_session.positions.length+1
       }
+      
       dispatch(addPositionToSession(newPosition));
       dispatch(setCurrentPosition(null))
       
