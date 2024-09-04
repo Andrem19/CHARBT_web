@@ -32,7 +32,7 @@ function Footer() {
     <MDBFooter style={{zIndex:-9999, position: 'static', fontFamily: isHomePage ? 'TextFont_1' : 'defaultFont', backgroundColor: theme === 'dark' ? 'rgb(37, 36, 36)' : 'rgb(237, 236, 236)', color: theme === 'dark' ? 'white' : 'black' }} >
       <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
       <div>
-        <a href='#' className='me-4 text-reset' target='_blank'>
+        <a href='https://www.facebook.com/profile.php?id=61565034844021' className='me-4 text-reset' target='_blank'>
           <FontAwesomeIcon icon={faFacebookF} color='secondary' />
         </a>
         <a href='#' className='me-4 text-reset' target='_blank'>
@@ -44,7 +44,7 @@ function Footer() {
         <a href='#' className='me-4 text-reset' target='_blank'>
           <FontAwesomeIcon icon={faInstagram} color='secondary' />
         </a>
-        <a href='#' className='me-4 text-reset' target='_blank'>
+        <a href='https://www.linkedin.com/company/charbt' className='me-4 text-reset' target='_blank'>
           <FontAwesomeIcon icon={faLinkedin} color='secondary' />
         </a>
         <a href='#' className='me-4 text-reset' target='_blank'>
